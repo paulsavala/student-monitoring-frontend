@@ -1,0 +1,24 @@
+    <table class="table table-hover">
+        <tr>
+            <td width="70px">
+                <a href="{{ url_for('main.user', username=problem.author.username) }}">
+                    <img src="{{ problem.author.avatar(70) }}" />
+                </a>
+            </td>
+            <td>
+                {% set user_link %}
+                    <span class="user_popup">
+                        <a href="{{ url_for('main.user', username=problem.author.username) }}">
+                            {{ problem.author.username }}
+                        </a>
+                    </span>
+                {% endset %}
+                {{ _('%(username)s said %(when)s',
+                    username=user_link, when=moment(problem.timestamp).fromNow()) }}
+                <br>
+                <span id="problem{{ problem.id }}">{{ problem.body }}</span>
+                <span id="problem{{ problem.id }}_notes">{{ problem.notes }}</span>
+                <span id="problem{{ problem.id }}_solution">{{ problem.solution }}</span>
+            </td>
+        </tr>
+    </table>

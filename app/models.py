@@ -65,7 +65,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    problems = db.relationship('Problem', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     followed = db.relationship(
@@ -109,12 +109,12 @@ class User(UserMixin, db.Model):
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
 
-    def followed_posts(self):
-        followed = Post.query.join(
-            followers, (followers.c.followed_id == Post.user_id)).filter(
+    def followed_problems(self):
+        followed = Problem.query.join(
+            followers, (followers.c.followed_id == Problem.user_id)).filter(
                 followers.c.follower_id == self.id)
-        own = Post.query.filter_by(user_id=self.id)
-        return followed.union(own).order_by(Post.timestamp.desc())
+        own = Problem.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Problem.timestamp.desc())
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
@@ -148,16 +148,18 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-class Post(SearchableMixin, db.Model):
-    __searchable__ = ['body']
+class Problem(SearchableMixin, db.Model):
+    __searchable__ = ['body', 'notes', 'solution']
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
+    body = db.Column(db.String(10000))
+    notes = db.Column(db.String(5000))
+    solution = db.Column(db.String(5000))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
 
     def __repr__(self):
-        return '<Post {}>'.format(self.body)
+        return '<Problem {}>'.format(self.body)
 
 
 class Message(db.Model):

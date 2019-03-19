@@ -5,8 +5,8 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
-from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
-from app.models import User, Post, Message, Notification
+from app.main.forms import EditProfileForm, ProblemForm, SearchForm, MessageForm
+from app.models import User, Problem, Message, Notification
 from app.translate import translate
 from app.main import bp
 
@@ -24,26 +24,26 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    form = PostForm()
+    form = ProblemForm()
     if form.validate_on_submit():
-        language = guess_language(form.post.data)
+        language = guess_language(form.problem.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
-        post = Post(body=form.post.data, author=current_user,
-                    language=language)
-        db.session.add(post)
+        problem = Problem(body=form.problem.data, notes=form.problem.notes, solution=form.problem.solution,
+                          author=current_user, language=language)
+        db.session.add(problem)
         db.session.commit()
-        flash(_('Your post is now live!'))
+        flash(_('Your problem is now live!'))
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
-    posts = current_user.followed_posts().paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.index', page=posts.next_num) \
-        if posts.has_next else None
-    prev_url = url_for('main.index', page=posts.prev_num) \
-        if posts.has_prev else None
+    problems = current_user.followed_problems().paginate(
+        page, current_app.config['PROBLEMS_PER_PAGE'], False)
+    next_url = url_for('main.index', page=problems.next_num) \
+        if problems.has_next else None
+    prev_url = url_for('main.index', page=problems.prev_num) \
+        if problems.has_prev else None
     return render_template('index.html', title=_('Home'), form=form,
-                           posts=posts.items, next_url=next_url,
+                           problems=problems.items, next_url=next_url,
                            prev_url=prev_url)
 
 
@@ -51,14 +51,14 @@ def index():
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.explore', page=posts.next_num) \
-        if posts.has_next else None
-    prev_url = url_for('main.explore', page=posts.prev_num) \
-        if posts.has_prev else None
+    problems = Problem.query.order_by(Problem.timestamp.desc()).paginate(
+        page, current_app.config['PROBLEMS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=problems.next_num) \
+        if problems.has_next else None
+    prev_url = url_for('main.explore', page=problems.prev_num) \
+        if problems.has_prev else None
     return render_template('index.html', title=_('Explore'),
-                           posts=posts.items, next_url=next_url,
+                           problems=problems.items, next_url=next_url,
                            prev_url=prev_url)
 
 
@@ -67,13 +67,13 @@ def explore():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+    problems = user.problems.order_by(Problem.timestamp.desc()).paginate(
+        page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.user', username=user.username,
-                       page=posts.next_num) if posts.has_next else None
+                       page=problems.next_num) if problems.has_next else None
     prev_url = url_for('main.user', username=user.username,
-                       page=posts.prev_num) if posts.has_prev else None
-    return render_template('user.html', user=user, posts=posts.items,
+                       page=problems.prev_num) if problems.has_prev else None
+    return render_template('user.html', user=user, problems=problems.items,
                            next_url=next_url, prev_url=prev_url)
 
 
@@ -147,13 +147,13 @@ def search():
     if not g.search_form.validate():
         return redirect(url_for('main.explore'))
     page = request.args.get('page', 1, type=int)
-    posts, total = Post.search(g.search_form.q.data, page,
-                               current_app.config['POSTS_PER_PAGE'])
+    problems, total = Problem.search(g.search_form.q.data, page,
+                               current_app.config['PROBLEMS_PER_PAGE'])
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
-        if total > page * current_app.config['POSTS_PER_PAGE'] else None
+        if total > page * current_app.config['PROBLEMS_PER_PAGE'] else None
     prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
         if page > 1 else None
-    return render_template('search.html', title=_('Search'), posts=posts,
+    return render_template('search.html', title=_('Search'), problems=problems,
                            next_url=next_url, prev_url=prev_url)
 
 
@@ -183,7 +183,7 @@ def messages():
     page = request.args.get('page', 1, type=int)
     messages = current_user.messages_received.order_by(
         Message.timestamp.desc()).paginate(
-            page, current_app.config['POSTS_PER_PAGE'], False)
+            page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.messages', page=messages.next_num) \
         if messages.has_next else None
     prev_url = url_for('main.messages', page=messages.prev_num) \

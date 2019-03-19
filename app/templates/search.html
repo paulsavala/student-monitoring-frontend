@@ -2,8 +2,8 @@
 
 {% block app_content %}
     <h1>{{ _('Search Results') }}</h1>
-    {% for post in posts %}
-        {% include '_post.html' %}
+    {% for problem in problems %}
+        {% include '_problem.html' %}
     {% endfor %}
     <nav aria-label="...">
         <ul class="pager">
