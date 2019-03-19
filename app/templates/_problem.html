@@ -18,7 +18,11 @@
                 <br>
                 <span id="problem{{ problem.id }}">{{ problem.body }}</span>
                 <span id="problem{{ problem.id }}_notes">{{ problem.notes }}</span>
+                <br>
                 <span id="problem{{ problem.id }}_solution">{{ problem.solution }}</span>
             </td>
+        </tr>
+        <tr>
+            <a href="{{ url_for('main.edit_problem') }}">{{ _('Edit problem') }}</a>
         </tr>
     </table>

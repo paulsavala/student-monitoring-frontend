@@ -24,7 +24,9 @@ class EditProfileForm(FlaskForm):
 
 
 class ProblemForm(FlaskForm):
-    problem = TextAreaField(_l('Problem'), render_kw={"placeholder": "You can type LaTeX code here"}, validators=[DataRequired()])
+    problem = TextAreaField(_l('Problem'),
+                            render_kw={"placeholder": "You can type LaTeX code or plain text here. For LaTeX, use \[...\] or $$...$$ for multiline, and \(...\) for in-line."},
+                            validators=[DataRequired()])
     notes = TextAreaField(_l('Notes'), render_kw={"placeholder": "Notes for yourself/other instructors"})
     solution = TextAreaField(_l('Solution'), render_kw={"placeholder": "Solution or notes about solving this problem"})
     submit = SubmitField(_l('Submit'))

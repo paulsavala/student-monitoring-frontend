@@ -29,7 +29,7 @@ def index():
         language = guess_language(form.problem.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
-        problem = Problem(body=form.problem.data, notes=form.problem.notes, solution=form.problem.solution,
+        problem = Problem(body=form.problem.data, notes=form.notes.data, solution=form.solution.data,
                           author=current_user, language=language)
         db.session.add(problem)
         db.session.commit()
@@ -99,6 +99,12 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
+
+
+@bp.route('/edit_problem', methods=['GET', 'POST'])
+@login_required
+def edit_problem():
+    pass
 
 
 @bp.route('/follow/<username>')
