@@ -154,12 +154,26 @@ class Problem(SearchableMixin, db.Model):
     body = db.Column(db.String(10000))
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
+    course = db.Column(db.Integer, db.ForeignKey('course.id'))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
 
     def __repr__(self):
-        return '<Problem {}>'.format(self.body)
+        return '<Problem {}>'.format(self.id)
+
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256), nullable=False)
+    subject = db.Column(db.String(256), nullable=False)
+    abbreviation = db.Column(db.String(64), nullable=False)
+    number = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.String(1024))
+    active = db.Column(db.Boolean, default=True)
+
+    def __repr__(self):
+        return '<Course {}>'.format(self.title)
 
 
 class Message(db.Model):
@@ -170,7 +184,7 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Message {}>'.format(self.body)
+        return '<Message {}>'.format(self.id)
 
 
 class Notification(db.Model):

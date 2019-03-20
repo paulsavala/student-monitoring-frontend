@@ -31,6 +31,13 @@ class ProblemForm(FlaskForm):
     solution = TextAreaField(_l('Solution'), render_kw={"placeholder": "Solution or notes about solving this problem"})
     submit = SubmitField(_l('Submit'))
 
+    def __init__(self, original_problem=None, *args, **kwargs):
+        super(FlaskForm, self).__init__(*args, **kwargs)
+        if original_problem is not None:
+            self.problem.data = original_problem.body
+            self.notes.data = original_problem.notes
+            self.solution.data = original_problem.solution
+
 
 class SearchForm(FlaskForm):
     q = StringField(_l('Search'), validators=[DataRequired()])

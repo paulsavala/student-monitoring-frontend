@@ -101,10 +101,25 @@ def edit_profile():
                            form=form)
 
 
-@bp.route('/edit_problem', methods=['GET', 'POST'])
+# todo: Only allow editing if the problem's author is the current_user
+# todo: Fix "CSRF is missing" issue
+@bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
-def edit_problem():
-    pass
+def edit_problem(problem_id):
+    problem = Problem.query.filter_by(id=problem_id).first_or_404()
+    form = ProblemForm(original_problem=problem)
+    if form.validate_on_submit():
+        problem.body = form.problem.data
+        problem.notes = form.notes.data
+        problem.solution = form.solution.data
+        db.session.commit()
+        flash(_('Your changes have been saved.'))
+        return redirect(url_for('main.index'))
+    elif request.method == 'GET':
+        form.problem.data = problem.body
+        form.notes.data = problem.notes
+        form.solution.data = problem.solution
+    return render_template('edit_problem.html', form=form)
 
 
 @bp.route('/follow/<username>')
