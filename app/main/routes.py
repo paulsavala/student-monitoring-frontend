@@ -130,10 +130,13 @@ def edit_problem(problem_id):
     return render_template('edit_problem.html', form=form)
 
 
-# todo: Only allow deleting if the problem's author is the current_user
 @bp.route('/delete_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def delete_problem(problem_id):
+    problem = Problem.query.filter_by(id=problem_id).first_or_404()
+    if int(problem.user_id) != int(current_user.get_id()):
+        flash(_('You may only delete your own problems.'))
+        return redirect(url_for('main.index'))
     Problem.query.filter_by(id=problem_id).delete()
     db.session.commit()
     flash(_('Your problem has been deleted.'))
