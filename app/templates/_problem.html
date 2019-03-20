@@ -23,8 +23,10 @@
                 <span id="problem{{ problem.id }}_solution">{{ problem.solution }}</span>
             </td>
         </tr>
+        {%  if problem.user_id|int == current_user.get_id()|int %}
         <tr>
             <a href="{{ url_for('main.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
             <a href="{{ url_for('main.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
         </tr>
+        {%  endif %}
     </table>

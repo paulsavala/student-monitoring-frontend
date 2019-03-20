@@ -103,7 +103,6 @@ def edit_profile():
 
 
 # todo: Only allow editing if the problem's author is the current_user
-# todo: Fix "CSRF is missing" issue
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def edit_problem(problem_id):
@@ -111,6 +110,9 @@ def edit_problem(problem_id):
     problem = Problem.query.filter_by(id=problem_id).first_or_404()
     form = ProblemForm()
     if form.validate_on_submit():
+        if int(problem.user_id) != int(current_user.get_id()):
+            flash(_('You may only edit your own problems.'))
+            return redirect(url_for('main.index'))
         problem.body = form.problem.data
         problem.notes = form.notes.data
         problem.solution = form.solution.data
