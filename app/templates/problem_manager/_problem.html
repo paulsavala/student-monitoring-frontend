@@ -25,8 +25,8 @@
         </tr>
         {%  if problem.user_id|int == current_user.get_id()|int %}
         <tr>
-            <a href="{{ url_for('main.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
-            <a href="{{ url_for('main.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
+            <a href="{{ url_for('problem_manager.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
+            <a href="{{ url_for('problem_manager.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
         </tr>
         {%  endif %}
     </table>
