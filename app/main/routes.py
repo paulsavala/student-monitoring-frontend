@@ -109,11 +109,12 @@ def edit_profile():
 def edit_problem(problem_id):
     courses = Course.query.order_by(Course.number.asc())
     problem = Problem.query.filter_by(id=problem_id).first_or_404()
-    form = ProblemForm(original_problem=problem, courses=courses)
+    form = ProblemForm()
     if form.validate_on_submit():
         problem.body = form.problem.data
         problem.notes = form.notes.data
         problem.solution = form.solution.data
+        problem.course = form.course.data
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.index'))
@@ -121,6 +122,9 @@ def edit_problem(problem_id):
         form.problem.data = problem.body
         form.notes.data = problem.notes
         form.solution.data = problem.solution
+
+    # Only populate the form with data after checking for a submit. Otherwise, your submit will have data overwritten.
+    form = ProblemForm(original_problem=problem, courses=courses)
     return render_template('edit_problem.html', form=form)
 
 

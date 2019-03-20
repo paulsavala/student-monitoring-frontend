@@ -16,6 +16,7 @@
                 {{ _('%(username)s said %(when)s',
                     username=user_link, when=moment(problem.timestamp).fromNow()) }}
                 <br>
+                <span id="problem{{ problem.id }}_course">({{ problem.course }})</span>
                 <span id="problem{{ problem.id }}">{{ problem.body }}</span>
                 <span id="problem{{ problem.id }}_notes">{{ problem.notes }}</span>
                 <br>
