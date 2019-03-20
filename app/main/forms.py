@@ -32,7 +32,7 @@ class ProblemForm(FlaskForm):
     submit = SubmitField(_l('Submit'))
 
     def __init__(self, original_problem=None, *args, **kwargs):
-        super(FlaskForm, self).__init__(*args, **kwargs)
+        super(ProblemForm, self).__init__(*args, **kwargs)
         if original_problem is not None:
             self.problem.data = original_problem.body
             self.notes.data = original_problem.notes

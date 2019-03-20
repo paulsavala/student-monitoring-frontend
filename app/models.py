@@ -67,6 +67,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     problems = db.relationship('Problem', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
+    admin = db.Column(db.Boolean, default=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     followed = db.relationship(
         'User', secondary=followers,
