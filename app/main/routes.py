@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
 from app.main.forms import EditProfileForm, ProblemForm, SearchForm, MessageForm
-from app.models import User, Problem, Message, Notification
+from app.models import User, Problem, Message, Notification, Course
 from app.translate import translate
 from app.main import bp
 
@@ -24,13 +24,14 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    form = ProblemForm()
+    courses = Course.query.order_by(Course.number.asc())
+    form = ProblemForm(courses=courses)
     if form.validate_on_submit():
         language = guess_language(form.problem.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
         problem = Problem(body=form.problem.data, notes=form.notes.data, solution=form.solution.data,
-                          author=current_user, language=language)
+                          author=current_user, course=form.course.data, language=language)
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))
@@ -106,8 +107,9 @@ def edit_profile():
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def edit_problem(problem_id):
+    courses = Course.query.order_by(Course.number.asc())
     problem = Problem.query.filter_by(id=problem_id).first_or_404()
-    form = ProblemForm(original_problem=problem)
+    form = ProblemForm(original_problem=problem, courses=courses)
     if form.validate_on_submit():
         problem.body = form.problem.data
         problem.notes = form.notes.data
@@ -120,6 +122,16 @@ def edit_problem(problem_id):
         form.notes.data = problem.notes
         form.solution.data = problem.solution
     return render_template('edit_problem.html', form=form)
+
+
+# todo: Only allow deleting if the problem's author is the current_user
+@bp.route('/delete_problem/<problem_id>', methods=['GET', 'POST'])
+@login_required
+def delete_problem(problem_id):
+    Problem.query.filter_by(id=problem_id).delete()
+    db.session.commit()
+    flash(_('Your problem has been deleted.'))
+    return redirect(url_for('main.index'))
 
 
 @bp.route('/follow/<username>')

@@ -22,8 +22,8 @@
                 <span id="problem{{ problem.id }}_solution">{{ problem.solution }}</span>
             </td>
         </tr>
-        {% if  %}
         <tr>
             <a href="{{ url_for('main.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
+            <a href="{{ url_for('main.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
         </tr>
     </table>
