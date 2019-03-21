@@ -47,15 +47,15 @@ def delete_problem(problem_id):
     return redirect(url_for('main.index'))
 
 
-@bp.route('/explore')
+@bp.route('/explore', methods=['GET', 'POST'])
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
     explorer_form = ProblemExplorerForm()
     problems = []
     if explorer_form.validate_on_submit():
-        problems = Problem.query.filter_by(Problem.course==int(explorer_form.course.data)).order_by(Problem.created_ts.desc()).paginate(
-            page, current_app.config['PROBLEMS_PER_PAGE'], False)
+        selected_course_ids = [int(id) for id in explorer_form.course.data]
+        problems = Problem.query.filter(Problem.course.in_(selected_course_ids)).order_by(Problem.created_ts.desc())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
 
