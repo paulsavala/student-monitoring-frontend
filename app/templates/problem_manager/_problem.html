@@ -17,10 +17,9 @@
                     username=user_link, when=moment(problem.timestamp).fromNow()) }}
                 <br>
                 <span id="problem{{ problem.id }}_course">({{ problem.course }})</span>
-                <span id="problem{{ problem.id }}">{{ problem.body }}</span>
-                <span id="problem{{ problem.id }}_notes">{{ problem.notes }}</span>
-                <br>
-                <span id="problem{{ problem.id }}_solution">{{ problem.solution }}</span>
+                <span id="problem{{ problem.id }}" class="text2jax_process">{{ problem.body }}</span>
+                <span id="problem{{ problem.id }}_notes" class="text2jax_process">{{ problem.notes }}</span>
+                <span id="problem{{ problem.id }}_solution" class="text2jax_process">{{ problem.solution }}</span>
             </td>
         </tr>
         {%  if problem.user_id|int == current_user.get_id()|int %}
