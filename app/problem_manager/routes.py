@@ -1,8 +1,8 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, current_app
 from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
-from app.problem_manager.forms import ProblemForm
+from app.problem_manager.forms import ProblemForm, ProblemExplorerForm
 from app.models import Problem, Course
 from app.problem_manager import bp
 
@@ -45,3 +45,15 @@ def delete_problem(problem_id):
     db.session.commit()
     flash(_('Your problem has been deleted.'))
     return redirect(url_for('main.index'))
+
+
+@bp.route('/explore')
+@login_required
+def explore():
+    page = request.args.get('page', 1, type=int)
+    explorer_form = ProblemExplorerForm()
+    if explorer_form.validate_on_submit():
+        problems = Problem.query.filter_by(Problem.course==int(explorer_form.course.data)).order_by(Problem.created_ts.desc()).paginate(
+            page, current_app.config['PROBLEMS_PER_PAGE'], False)
+    return render_template('problem_manager/explore.html', title=_('Explore'),
+                           explorer_form=explorer_form)

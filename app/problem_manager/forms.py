@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, SelectField
+from wtforms import SubmitField, TextAreaField, SelectField, BooleanField
 from wtforms.validators import DataRequired
 from flask_babel import _, lazy_gettext as _l
 from app.models import Course
@@ -16,9 +16,21 @@ class ProblemForm(FlaskForm):
 
     def __init__(self, original_problem=None, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
-        self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}') for c in Course.query.order_by(Course.number.asc())]
+        self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
+                                for c in Course.query.order_by(Course.number.asc())]
         if original_problem is not None:
             self.problem.data = original_problem.body
             self.notes.data = original_problem.notes
             self.solution.data = original_problem.solution
             self.course.data = original_problem.course
+
+
+class ProblemExplorerForm(FlaskForm):
+    course = SelectField(_l('Course'), coerce=int)
+    has_solution = BooleanField(_l('Has Solution'), default=False)
+    has_notes = BooleanField(_l('Has Notes'), default=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ProblemExplorerForm, self).__init__(*args, **kwargs)
+        self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
+                                for c in Course.query.order_by(Course.number.asc())]

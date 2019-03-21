@@ -49,21 +49,6 @@ def index():
                            prev_url=prev_url)
 
 
-@bp.route('/explore')
-@login_required
-def explore():
-    page = request.args.get('page', 1, type=int)
-    problems = Problem.query.order_by(Problem.timestamp.desc()).paginate(
-        page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.explore', page=problems.next_num) \
-        if problems.has_next else None
-    prev_url = url_for('main.explore', page=problems.prev_num) \
-        if problems.has_prev else None
-    return render_template('index.html', title=_('Explore'),
-                           problems=problems.items, next_url=next_url,
-                           prev_url=prev_url)
-
-
 @bp.route('/user/<username>')
 @login_required
 def user(username):

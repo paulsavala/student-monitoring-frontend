@@ -115,7 +115,7 @@ class User(UserMixin, db.Model):
             followers, (followers.c.followed_id == Problem.user_id)).filter(
                 followers.c.follower_id == self.id)
         own = Problem.query.filter_by(user_id=self.id)
-        return followed.union(own).order_by(Problem.timestamp.desc())
+        return followed.union(own).order_by(Problem.created_ts.desc())
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
@@ -156,7 +156,7 @@ class Problem(SearchableMixin, db.Model):
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
     course = db.Column(db.Integer, db.ForeignKey('course.id'))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    created_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
 
