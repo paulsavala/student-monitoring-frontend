@@ -5,6 +5,8 @@ from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm
 from app.models import Problem, Course
 from app.problem_manager import bp
+from common.utils import empty_str_to_null
+from sqlalchemy import and_
 
 
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
@@ -18,8 +20,8 @@ def edit_problem(problem_id):
             flash(_('You may only edit your own problems.'))
             return redirect(url_for('main.index'))
         problem.body = form.problem.data
-        problem.notes = form.notes.data
-        problem.solution = form.solution.data
+        problem.notes = empty_str_to_null(form.notes.data)
+        problem.solution = empty_str_to_null(form.solution.data)
         problem.course = form.course.data
         db.session.commit()
         flash(_('Your changes have been saved.'))
@@ -55,7 +57,12 @@ def explore():
     problems = []
     if explorer_form.validate_on_submit():
         selected_course_ids = [int(id) for id in explorer_form.course.data]
-        problems = Problem.query.filter(Problem.course.in_(selected_course_ids)).order_by(Problem.created_ts.desc())
+        filter_group = [Problem.course.in_(selected_course_ids)]
+        if explorer_form.has_solution.data == True:
+            filter_group.append(Problem.solution != None)
+        if explorer_form.has_notes.data == True:
+            filter_group.append(Problem.notes != None)
+        problems = Problem.query.filter(and_(*filter_group)).order_by(Problem.created_ts.desc())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
 
@@ -64,4 +71,5 @@ def explore():
 @login_required
 def load_test_data():
     from scripts import load_test_data
+    flash(_('Test data loaded'))
     return redirect(url_for('main.index'))

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-4 col-sm-4 display-table-cell v-align box" id="navigation">
+                <div class="class_selector">
+                  {% if explorer_form %}
+                    {{ wtf.quick_form(explorer_form) }}
+                    <br>
+                  {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8 display-table-cell v-align">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <div class="user-dashboard">
+                    <div class="row">
+                        <div class="problems">
+                            {% for problem in problems %}
+                                {% include 'problem_manager/_problem.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
