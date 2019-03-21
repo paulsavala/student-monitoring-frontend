@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
+    jsonify, current_app, session
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
