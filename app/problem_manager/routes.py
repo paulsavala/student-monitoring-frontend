@@ -52,8 +52,9 @@ def delete_problem(problem_id):
 def explore():
     page = request.args.get('page', 1, type=int)
     explorer_form = ProblemExplorerForm()
+    problems = []
     if explorer_form.validate_on_submit():
         problems = Problem.query.filter_by(Problem.course==int(explorer_form.course.data)).order_by(Problem.created_ts.desc()).paginate(
             page, current_app.config['PROBLEMS_PER_PAGE'], False)
     return render_template('problem_manager/explore.html', title=_('Explore'),
-                           explorer_form=explorer_form)
+                           explorer_form=explorer_form, problems=problems)

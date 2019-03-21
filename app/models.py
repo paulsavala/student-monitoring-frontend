@@ -168,7 +168,6 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256), nullable=False)
     subject = db.Column(db.String(256), nullable=False)
-    abbreviation = db.Column(db.String(64), nullable=False)
     number = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(1024))
     active = db.Column(db.Boolean, default=True)
