@@ -155,6 +155,7 @@ class Problem(SearchableMixin, db.Model):
     body = db.Column(db.String(10000))
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
+    image = db.Column(db.String(1024))
     course = db.Column(db.Integer, db.ForeignKey('course.id'))
     created_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

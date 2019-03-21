@@ -58,3 +58,10 @@ def explore():
             page, current_app.config['PROBLEMS_PER_PAGE'], False)
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
+
+
+@bp.route('/load_test_data')
+@login_required
+def load_test_data():
+    from scripts import load_test_data
+    return redirect(url_for('main.index'))
