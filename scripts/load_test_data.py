@@ -24,10 +24,10 @@ p1 = Problem(body="Compute the derivative of \(f(x)=x^2\)", notes="Introduction 
 p2 = Problem(body="Compute the integral \(\\displaystyle\\int_0^1\\frac{1}{x}dx\)", notes="A tricky definite integral", solution="DNE (or \(-\infty\)", course=1, user_id=1, language="en")
 p3 = Problem(body="Some related rates problem using an image", notes="This one has an image with it, hosted in s3", solution="It's obvious", course=1, user_id=1, language="en", image='s3://problematic-data/courses/1/problems/3/images/1.png')
 p4 = Problem(body="Some Calc II problem (with notes and solution as None)", notes=None, solution=None, course=2, user_id=1, language="en")
-p5 = Problem(body="Some other Calc II problem (with notes and solution as empty string)", notes="", solution="", course=2, user_id=1, language="en")
+p5 = Problem(body="Some other Calc II problem (with notes and solution as empty string)", notes=None, solution=None, course=2, user_id=1, language="en")
 p6 = Problem(body="Some Calc III problem (with notes and solution not supplied)", course=3, user_id=1, language="en")
-p7 = Problem(body="Some other Calc III problem", notes="", solution="", course=4, user_id=1, language="en")
-p8 = Problem(body="Some linear algegbra problem", notes="", solution="", course=4, user_id=1, language="en")
+p7 = Problem(body="Some other Calc III problem", notes=None, solution=None, course=4, user_id=1, language="en")
+p8 = Problem(body="Some linear algebra problem", notes=None, solution=None, course=4, user_id=1, language="en")
 p9 = Problem(body="Some stats problem", notes="This is for stats", solution="Compute the \(z\)-score", course=5, user_id=1, language="en")
 p10 = Problem(body="Some other stats problem", notes="Used on a midterm", solution="\[x=0.5\]", course=5, user_id=1, language="en")
 

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, TextAreaField, SelectField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired
 from flask_babel import _, lazy_gettext as _l
-from app.models import Course
+from app.models import Course, User
 
 
 class ProblemForm(FlaskForm):
@@ -26,7 +26,8 @@ class ProblemForm(FlaskForm):
 
 
 class ProblemExplorerForm(FlaskForm):
-    course = SelectMultipleField(_l('Course'), coerce=int)
+    course = SelectMultipleField(_l('Course'), coerce=int, validators=[DataRequired()])
+    author = SelectMultipleField(_l('Author'), coerce=int)
     has_solution = BooleanField(_l('Must have solution'), default=False)
     has_notes = BooleanField(_l('Must have notes'), default=False)
     submit = SubmitField(_l('Search'))
@@ -35,3 +36,4 @@ class ProblemExplorerForm(FlaskForm):
         super(ProblemExplorerForm, self).__init__(*args, **kwargs)
         self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
                                 for c in Course.query.order_by(Course.number.asc())]
+        self.author.choices = [(0, 'Any')] + [(a.id, a.username) for a in User.query]
