@@ -42,6 +42,16 @@
                             </span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ url_for('problem_manager.view_cart') }}">{{ _('Cart') }}
+                            {% set cart_problem_count = session.get('cart_problem_count', 0) %}
+                            <span id="message_count" class="badge"
+                                  style="visibility: {% if cart_problem_count > 0 %}visible
+                                                     {% else %}hidden{% endif %};">
+                                {{ cart_problem_count }}
+                            </span>
+                        </a>
+                    </li>
                     <li><a href="{{ url_for('main.user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
                     <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     {% endif %}

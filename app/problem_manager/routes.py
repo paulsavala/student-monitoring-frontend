@@ -1,4 +1,5 @@
-from flask import render_template, flash, redirect, url_for, request, current_app
+from flask import render_template, flash, redirect, url_for, request, current_app, \
+                    session
 from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
@@ -36,6 +37,7 @@ def edit_problem(problem_id):
     return render_template('problem_manager/edit_problem.html', form=form)
 
 
+# todo: Test if the int casts are really needed
 @bp.route('/delete_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def delete_problem(problem_id):
@@ -49,6 +51,7 @@ def delete_problem(problem_id):
     return redirect(url_for('main.index'))
 
 
+# todo: Test if the int casts are really needed
 @bp.route('/explore', methods=['GET', 'POST'])
 @login_required
 def explore():
@@ -69,6 +72,35 @@ def explore():
         problems = Problem.query.filter(and_(*filter_group)).order_by(Problem.created_ts.desc())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
+
+
+@bp.route('/view_cart', methods=['GET'])
+@login_required
+def view_cart():
+    problems = Problem.query.filter(Problem.id.in_(session.get('cart_problems', [])))
+    return render_template('problem_manager/cart.html', cart_problems=problems)
+
+
+@bp.route('/add_to_cart/<problem_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart(problem_id):
+    if 'cart_problems' not in session:
+        session['cart_problems'] = [problem_id]
+    elif problem_id in session['cart_problems']:
+        flash(_('This problem is already in your cart'))
+    else:
+        session['cart_problems'].append(problem_id)
+    session['cart_problem_count'] = len(session['cart_problems'])
+    return redirect(url_for('main.index'))
+
+
+@bp.route('/remove_from_cart/<problem_id>', methods=['GET', 'POST'])
+@login_required
+def remove_from_cart(problem_id):
+    if problem_id in session.get('cart_problems', []):
+        session['cart_problems'].remove(problem_id)
+    session['cart_problem_count'] = len(session['cart_problems'])
+    return redirect(url_for('main.index'))
 
 
 @bp.route('/load_test_data')
