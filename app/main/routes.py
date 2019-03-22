@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
+    jsonify, current_app, session
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
@@ -10,6 +10,7 @@ from app.problem_manager.forms import ProblemForm
 from app.models import User, Problem, Message, Notification, Course
 from app.translate import translate
 from app.main import bp
+from common.utils import empty_str_to_null
 
 
 @bp.before_app_request
@@ -31,8 +32,12 @@ def index():
         language = guess_language(form.problem.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
-        problem = Problem(body=form.problem.data, notes=form.notes.data, solution=form.solution.data,
-                          author=current_user, course=form.course.data, language=language)
+        problem = Problem(body=form.problem.data,
+                            notes=empty_str_to_null(form.notes.data),
+                            solution=empty_str_to_null(form.solution.data),
+                            author=current_user,
+                            course=form.course.data,
+                            language=language)
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))

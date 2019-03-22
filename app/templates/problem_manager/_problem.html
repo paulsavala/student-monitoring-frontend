@@ -14,18 +14,23 @@
                     </span>
                 {% endset %}
                 {{ _('%(username)s said %(when)s',
-                    username=user_link, when=moment(problem.timestamp).fromNow()) }}
+                    username=user_link, when=moment(problem.created_ts).fromNow()) }}
                 <br>
                 <span id="problem{{ problem.id }}_course">({{ problem.course }})</span>
-                <span id="problem{{ problem.id }}" class="text2jax_process">{{ problem.body }}</span>
-                <span id="problem{{ problem.id }}_notes" class="text2jax_process">{{ problem.notes }}</span>
-                <span id="problem{{ problem.id }}_solution" class="text2jax_process">{{ problem.solution }}</span>
+                <span id="problem{{ problem.id }}" class="tex2jax_process">{{ problem.body }}</span>
+                <div id="problem{{ problem.id }}_latex">{{ problem.body }}</div>
+                <span id="problem{{ problem.id }}_notes" class="tex2jax_process">{{ problem.notes }}</span>
+                <span id="problem{{ problem.id }}_solution" class="tex2jax_process">{{ problem.solution }}</span>
             </td>
         </tr>
-        {%  if problem.user_id|int == current_user.get_id()|int %}
         <tr>
+            <a href="{{ url_for('problem_manager.add_to_cart', problem_id=problem.id) }}">{{ _('Add to cart') }}</a>
+            {%  if problem.id|string in session.get('cart_problems', []) %}
+            <a href="{{ url_for('problem_manager.remove_from_cart', problem_id=problem.id) }}">{{ _('Remove from cart') }}</a>
+            {% endif %}
+            {%  if problem.user_id|int == current_user.get_id()|int %}
             <a href="{{ url_for('problem_manager.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
             <a href="{{ url_for('problem_manager.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
+            {%  endif %}
         </tr>
-        {%  endif %}
     </table>
