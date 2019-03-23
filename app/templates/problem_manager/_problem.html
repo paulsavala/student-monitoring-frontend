@@ -1,51 +1,14 @@
-    <!-- <table class="table table-hover">
-        <tr>
-            <td width="70px">
-                <a href="{{ url_for('main.user', username=problem.author.username) }}">
-                    <img src="{{ problem.author.avatar(70) }}" />
-                </a>
-            </td>
-            <td>
-                {% set user_link %}
-                    <span class="user_popup">
-                        <a href="{{ url_for('main.user', username=problem.author.username) }}">
-                            {{ problem.author.username }}
-                        </a>
-                    </span>
-                {% endset %}
-                {{ _('%(username)s said %(when)s',
-                    username=user_link, when=moment(problem.created_ts).fromNow()) }}
-                <br>
-                <span id="problem{{ problem.id }}_course">({{ problem.course }})</span>
-                <span id="problem{{ problem.id }}" class="tex2jax_process">{{ problem.body }}</span>
-                <div id="problem{{ problem.id }}_latex">{{ problem.body }}</div>
-                <span id="problem{{ problem.id }}_notes" class="tex2jax_process">{{ problem.notes }}</span>
-                <span id="problem{{ problem.id }}_solution" class="tex2jax_process">{{ problem.solution }}</span>
-            </td>
-        </tr>
-        <tr>
-            <a href="{{ url_for('problem_manager.add_to_cart', problem_id=problem.id) }}">{{ _('Add to cart') }}</a>
-            {%  if problem.id|string in session.get('cart_problems', []) %}
-            <a href="{{ url_for('problem_manager.remove_from_cart', problem_id=problem.id) }}">{{ _('Remove from cart') }}</a>
-            {% endif %}
-            {%  if problem.user_id|int == current_user.get_id()|int %}
-            <a href="{{ url_for('problem_manager.edit_problem', problem_id=problem.id) }}">{{ _('Edit problem') }}</a>
-            <a href="{{ url_for('problem_manager.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
-            {%  endif %}
-        </tr>
-    </table> -->
-
     <div class="card " id="problem{{ problem.id }}">
 			<div class="card-header">
 				<div class="d-flex justify-content-between align-items-center">
-					<div class="course-title mr-auto">{{ problem.course }} - {{ problem.course }}</div>
-					<div class="usage-count p-2">3.2k usages</div>
+					<div class="course-title mr-auto">{{ problem.course.subject }} {{ problem.course.number }} - {{ problem.course.title }}</div>
+					<div class="usage-count p-2">{{ problem.bookmarks_count }} usages</div>
 					<div class="add-to-cart"><a class="btn btn-primary btn-sm" href="{{ url_for('problem_manager.add_to_cart', problem_id=problem.id) }}">+ Cart</a></div>
 				</div>
 			</div>
       <div class="card-body tex2jax_process">
         <div class="problem-metadata" id="problem{{ problem.id }}_metadata">
-          <p><a href="{{ url_for('main.user', username=problem.author.username) }}">{{ problem.author.username }} - College, Location</a></p>
+          <p><a href="{{ url_for('main.user', user_id=problem.author.id) }}">{{ problem.author.first_name }} {{ problem.author.last_name }}  - {{ problem.author.institution.name }}, {{ problem.author.institution.state }}</a></p>
         </div>
         <p class="card-text problem">{{ problem.body }}</p>
         <div class="text-center problem-btn-group ">

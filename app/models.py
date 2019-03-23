@@ -62,13 +62,18 @@ followers = db.Table(
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
+    username = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    first_name = db.Column(db.String(128), nullable=False)
+    last_name = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    problems = db.relationship('Problem', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     admin = db.Column(db.Boolean, default=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+
+    institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
+
+    problems = db.relationship('Problem', backref='author', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -152,14 +157,16 @@ def load_user(id):
 class Problem(SearchableMixin, db.Model):
     __searchable__ = ['body', 'notes', 'solution']
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(10000))
+    body = db.Column(db.String(10000), nullable=False)
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
     image = db.Column(db.String(1024))
-    course = db.Column(db.Integer, db.ForeignKey('course.id'))
-    created_ts = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    language = db.Column(db.String(5))
+    created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    bookmarks_count = db.Column(db.Integer, default=0)
+
+    institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'), index=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
 
     def __repr__(self):
         return '<Problem {}>'.format(self.id)
@@ -167,14 +174,33 @@ class Problem(SearchableMixin, db.Model):
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(256), nullable=False)
-    subject = db.Column(db.String(256), nullable=False)
-    number = db.Column(db.String(64), nullable=False)
+    title = db.Column(db.String(256), nullable=False, index=True)
+    subject = db.Column(db.String(256), nullable=False, index=True)
+    number = db.Column(db.String(64), nullable=False, index=True)
     description = db.Column(db.String(1024))
-    active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, default=True, nullable=False)
+
+    institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'), index=True)
+
+    problems = db.relationship('Problem', backref='course', lazy=True)
 
     def __repr__(self):
         return '<Course {}>'.format(self.title)
+
+
+class Institution(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(1024), nullable=False)
+    city = db.Column(db.String(256), nullable=False)
+    state = db.Column(db.String(2), nullable=False)
+    type = db.Column(db.String(256), nullable=False) # Should be one of 'COLLEGE', 'COMPANY'
+
+    users = db.relationship('User', backref='institution', lazy='dynamic')
+    courses = db.relationship('Course', backref='institution', lazy=True)
+    problems = db.relationship('Problem', backref='institution', lazy=True)
+
+    def __repr__(self):
+        return '<Institution {}>'.format(self.name)
 
 
 class Message(db.Model):

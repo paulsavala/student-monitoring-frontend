@@ -54,16 +54,16 @@ def index():
                            prev_url=prev_url)
 
 
-@bp.route('/user/<username>')
+@bp.route('/user/<user_id>')
 @login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+def user(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
     page = request.args.get('page', 1, type=int)
     problems = user.problems.order_by(Problem.timestamp.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.user', username=user.username,
+    next_url = url_for('main.user', id=user_id,
                        page=problems.next_num) if problems.has_next else None
-    prev_url = url_for('main.user', username=user.username,
+    prev_url = url_for('main.user', id=user_id,
                        page=problems.prev_num) if problems.has_prev else None
     return render_template('user.html', user=user, problems=problems.items,
                            next_url=next_url, prev_url=prev_url)
