@@ -1,29 +1,49 @@
 {% extends 'bootstrap_base.html' %}
 
 {% block navbar %}
-    <nav class="navbar navbar-dark bg-dark static-top tex2jax_ignore">
+<!-- <nav class="navbar navbar-dark bg-dark static-top tex2jax_ignore">
+  <div class="container">
+    <a class="navbar-brand" href="#">Problematic</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav> -->
+<!-- -->
+    <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">Problematic</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
-                    <li><a href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a></li>
-                </ul>
-                {% if g.search_form %}
-                <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
-                    <div class="form-group">
-                        {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
-                    </div>
-                </form>
-                {% endif %}
-                <ul class="nav navbar-nav navbar-right">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Problematic</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                  {% if g.search_form %}
+                  <li class="nav-item">
+                  <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
+                      <div class="form-group">
+                          {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+                      </div>
+                  </form></li>
+                  {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a></li>
                     {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
                     {% else %}
-                    <li>
-                        <a href="{{ url_for('main.messages') }}">{{ _('Messages') }}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.messages') }}">{{ _('Messages') }}
                             {% set new_messages = current_user.new_messages() %}
                             <span id="message_count" class="badge"
                                   style="visibility: {% if new_messages %}visible
@@ -32,8 +52,8 @@
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('problem_manager.view_cart') }}">{{ _('Cart') }}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('problem_manager.view_cart') }}">{{ _('Cart') }}
                             {% set cart_problem_count = session.get('cart_problem_count', 0) %}
                             <span id="message_count" class="badge"
                                   style="visibility: {% if cart_problem_count > 0 %}visible
@@ -42,8 +62,8 @@
                             </span>
                         </a>
                     </li>
-                    <li><a href="{{ url_for('main.user', user_id=current_user.id) }}">{{ _('Profile') }}</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{ _('Profile') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     {% endif %}
                 </ul>
             </div>
