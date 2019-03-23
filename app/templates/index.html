@@ -3,12 +3,15 @@
 
 {% block app_content %}
     {% if form %}
+    <div class="container share-problem mt-4 mb-5">
     {{ wtf.quick_form(form) }}
-    <br>
+    </div>
     {% endif %}
+    <div class="card-columns ">
     {% for problem in problems %}
         {% include 'problem_manager/_problem.html' %}
     {% endfor %}
+    </div>
     <nav aria-label="...">
         <ul class="pager">
             <li class="previous{% if not prev_url %} disabled{% endif %}">

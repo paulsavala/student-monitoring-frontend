@@ -1,4 +1,4 @@
-    <table class="table table-hover">
+    <!-- <table class="table table-hover">
         <tr>
             <td width="70px">
                 <a href="{{ url_for('main.user', username=problem.author.username) }}">
@@ -33,4 +33,48 @@
             <a href="{{ url_for('problem_manager.delete_problem', problem_id=problem.id) }}">{{ _('Delete problem') }}</a>
             {%  endif %}
         </tr>
-    </table>
+    </table> -->
+
+    <div class="card " id="problem{{ problem.id }}">
+			<div class="card-header">
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="course-title mr-auto">{{ problem.course }} - {{ problem.course }}</div>
+					<div class="usage-count p-2">3.2k usages</div>
+					<div class="add-to-cart"><a class="btn btn-primary btn-sm" href="{{ url_for('problem_manager.add_to_cart', problem_id=problem.id) }}">+ Cart</a></div>
+				</div>
+			</div>
+      <div class="card-body tex2jax_process">
+        <div class="problem-metadata" id="problem{{ problem.id }}_metadata">
+          <p><a href="{{ url_for('main.user', username=problem.author.username) }}">{{ problem.author.username }} - College, Location</a></p>
+        </div>
+        <p class="card-text problem">{{ problem.body }}</p>
+        <div class="text-center problem-btn-group ">
+          <div class="btn-group">
+            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_latex" aria-expanded="false" aria-controls="collapseExample">
+              LaTeX
+            </button>
+            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_notes" aria-expanded="false" aria-controls="collapseExample">
+              Notes
+            </button>
+            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_solution" aria-expanded="false" aria-controls="collapseExample">
+              Solution
+            </button>
+          </div>
+        </div>
+        <div class="collapse tex2jax_ignore card-expand p-2" id="problem{{ problem.id }}_latex">
+          <p>
+            {{ problem.body }}
+          </p>
+        </div>
+        <div class="collapse card-expand p-2" id="problem{{ problem.id }}_notes">
+          <p>
+            {{ problem.notes }}
+          </p>
+        </div>
+        <div class="collapse card-expand p-2" id="problem{{ problem.id }}_solution">
+          <p>
+            {{ problem.solution }}
+          </p>
+        </div>
+      </div>
+    </div>
