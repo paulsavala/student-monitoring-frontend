@@ -3,7 +3,6 @@ from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app, session
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
-from guess_language import guess_language
 from app import db
 from app.main.forms import EditProfileForm, SearchForm, MessageForm
 from app.problem_manager.forms import ProblemForm
@@ -29,15 +28,11 @@ def index():
     courses = Course.query.order_by(Course.number.asc())
     form = ProblemForm(courses=courses)
     if form.validate_on_submit():
-        language = guess_language(form.problem.data)
-        if language == 'UNKNOWN' or len(language) > 5:
-            language = ''
         problem = Problem(body=form.problem.data,
                             notes=empty_str_to_null(form.notes.data),
                             solution=empty_str_to_null(form.solution.data),
-                            author=current_user,
-                            course=form.course.data,
-                            language=language)
+                            user_id=current_user.id,
+                            course_id=form.course.data)
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))
@@ -59,7 +54,7 @@ def index():
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     page = request.args.get('page', 1, type=int)
-    problems = user.problems.order_by(Problem.timestamp.desc()).paginate(
+    problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.user', id=user_id,
                        page=problems.next_num) if problems.has_next else None

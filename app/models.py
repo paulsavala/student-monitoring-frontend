@@ -165,7 +165,6 @@ class Problem(SearchableMixin, db.Model):
     created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
     bookmarks_count = db.Column(db.Integer, default=0)
 
-    institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'), index=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
 
@@ -198,7 +197,6 @@ class Institution(db.Model):
 
     users = db.relationship('User', backref='institution', lazy='dynamic')
     courses = db.relationship('Course', backref='institution', lazy=True)
-    problems = db.relationship('Problem', backref='institution', lazy=True)
 
     def __repr__(self):
         return '<Institution {}>'.format(self.name)

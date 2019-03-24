@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request, current_app, \
-                    session
+                    session, jsonify
 from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
@@ -74,6 +74,22 @@ def explore():
                            explorer_form=explorer_form, problems=problems)
 
 
+# ---- STAR FUNCTIONS -------
+@bp.route('/add_to_starred')
+@login_required
+def add_to_starred():
+    problem_id = int(request.args.get('problem_id').split('-')[-1])
+    print(f'problem_id: {problem_id}')
+    return jsonify(result='test')
+
+
+@bp.route('/remove_from_starred')
+@login_required
+def remove_from_starred(problem_id):
+    pass
+
+
+# ---- CART FUNCTIONS -------
 @bp.route('/view_cart', methods=['GET'])
 @login_required
 def view_cart():
@@ -103,6 +119,7 @@ def remove_from_cart(problem_id):
     return redirect(url_for('main.index'))
 
 
+# ------ TEST DATA LOADING --------
 @bp.route('/load_test_data')
 @login_required
 def load_test_data():

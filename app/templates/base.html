@@ -1,27 +1,6 @@
 {% extends 'bootstrap_base.html' %}
 
 {% block navbar %}
-<!-- <nav class="navbar navbar-dark bg-dark static-top tex2jax_ignore">
-  <div class="container">
-    <a class="navbar-brand" href="#">Problematic</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
-<!-- -->
     <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">Problematic</a>
@@ -43,7 +22,6 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.messages') }}">{{ _('Messages') }}
                             {% set new_messages = current_user.new_messages() %}
                             <span id="message_count" class="badge"
                                   style="visibility: {% if new_messages %}visible
@@ -87,7 +65,6 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.lang(g.locale) }}
     <script>
@@ -165,5 +142,17 @@
             }, 10000);
         });
         {% endif %}
+
+        // AJAX for add-to-starred and add-to-cart
+        $(document).ready(function () {
+            $("button[id^=add-to-starred]").click(function(){
+                $.ajax({
+                  url: "{{ url_for('problem_manager.add_to_starred') }}",
+                  data: {problem_id: $(this).attr("id")},
+                  type: 'GET'
+                })
+              });
+            });
     </script>
+    {{ super() }}
 {% endblock %}

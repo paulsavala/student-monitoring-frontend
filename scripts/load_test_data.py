@@ -42,57 +42,47 @@ for course in courses:
 p1 = Problem(body="Compute the derivative of \(f(x)=x^2\)",
             notes="Introduction to derivatives",
             solution="\[f'(x)=2x\]",
-            institution_id=1,
             course_id=1,
             user_id=1)
 p2 = Problem(body="Compute the integral \(\\displaystyle\\int_0^1\\frac{1}{x}dx\)",
             notes="A tricky definite integral",
             solution="DNE (or \(-\infty\))",
-            institution_id=2,
             course_id=6,
             user_id=1)
 p3 = Problem(body="Some related rates problem using an image",
             notes="This one has an image with it, hosted in s3",
             solution="It's obvious",
-            institution_id=1,
             course_id=1,
             user_id=1,
             image='s3://problematic-data/courses/1/problems/3/images/1.png')
 p4 = Problem(body="Some Calc II problem (with notes and solution as None)",
             notes=None,
             solution=None,
-            institution_id=1,
             course_id=2,
             user_id=1)
 p5 = Problem(body="Some other Calc II problem (with notes and solution as empty string)",
             notes="",
             solution="",
-            institution_id=2,
             course_id=7,
             user_id=1)
 p6 = Problem(body="Some Calc III problem (with notes and solution not supplied)",
-            institution_id=1,
             course_id=3,
             user_id=1)
 p7 = Problem(body="Some other Calc III problem",
             solution="Just pretend like it's one-dimensional and do what you would normally do",
-            institution_id=1,
             course_id=4,
             user_id=1)
 p8 = Problem(body="Some linear algebra problem", notes="Please don't let it be row reduction...",
-            institution_id=2,
             course_id=9,
             user_id=1)
 p9 = Problem(body="Some stats problem",
             notes="This is for stats",
             solution="Compute the \(z\)-score",
-            institution_id=1,
             course_id=5,
             user_id=1)
 p10 = Problem(body="Some other stats problem",
             notes="Used on a midterm",
             solution="\[x=0.5\]",
-            institution_id=1,
             course_id=5,
             user_id=2)
 
