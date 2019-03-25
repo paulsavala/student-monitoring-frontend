@@ -3,7 +3,6 @@ import re
 # Things to parse:
 # - Change single $ to \(...\)
 # - Change itemize/enumerate to ul/ol and li
-# - Change bold and italic? Also change \emph and \em
 
 class LatexParser():
     def __init__(self):
@@ -53,8 +52,8 @@ class LatexParser():
         raw_latex = re.sub(r'\\end{enumerate}', '</ol>', raw_latex)
         raw_latex = re.sub(r'\\item', '<li>', raw_latex)
 
-        # Change bold and italic
-        raw_latex = re.sub(r'\\textbf{[^}]*}', self.bold_converter, raw_latex)
-        raw_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, raw_latex)
+        # # Change bold and italic
+        # raw_latex = re.sub(r'\\textbf{[^}]*}', self.bold_converter, raw_latex)
+        # raw_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, raw_latex)
 
         return raw_latex
