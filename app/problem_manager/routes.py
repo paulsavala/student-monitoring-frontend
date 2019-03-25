@@ -79,6 +79,7 @@ def explore():
 @login_required
 def add_to_starred():
     problem_id = int(request.args.get('problem_id').split('-')[-1])
+    problem = Problem.query.filter_by(id=problem_id).first()
     print(f'starred: {problem_id}')
     return jsonify({'problem_id': problem_id})
 
@@ -104,11 +105,10 @@ def add_to_cart():
     if 'cart_problems' not in session:
         session['cart_problems'] = [problem_id]
     elif problem_id in session['cart_problems']:
-        flash(_('This problem is already in your cart'))
+        session['cart_problems'].remove(problem_id)
     else:
         session['cart_problems'].append(problem_id)
     session['cart_problem_count'] = len(session['cart_problems'])
-    print(f'added to cart: {problem_id}')
     return jsonify({'cart_count': session['cart_problem_count']})
 
 
@@ -119,6 +119,14 @@ def remove_from_cart(problem_id):
         session['cart_problems'].remove(problem_id)
     session['cart_problem_count'] = len(session['cart_problems'])
     return redirect(url_for('main.index'))
+
+
+@bp.route('/clear_cart')
+@login_required
+def clear_cart():
+    session['cart_problems'] = []
+    session['cart_problem_count'] = 0
+    return jsonify({'cart_count': session['cart_problem_count']})
 
 
 # ------ TEST DATA LOADING --------

@@ -24,8 +24,15 @@
             </td>
         </tr>
     </table>
+    <h2>Starred problems</h2>
     <div class="card-columns ">
-    {% for problem in problems %}
+    {% for problem in starred_problems %}
+        {% include 'problem_manager/_problem.html' %}
+    {% endfor %}
+    </div>
+    <h2>Your problems</h2>
+    <div class="card-columns ">
+    {% for problem in user_problems %}
         {% include 'problem_manager/_problem.html' %}
     {% endfor %}
     </div>

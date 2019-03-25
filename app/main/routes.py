@@ -54,13 +54,24 @@ def index():
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     page = request.args.get('page', 1, type=int)
-    problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
+
+    # User problems
+    user_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.user', id=user_id,
-                       page=problems.next_num) if problems.has_next else None
+                       page=problems.next_num) if user_problems.has_next else None
     prev_url = url_for('main.user', id=user_id,
-                       page=problems.prev_num) if problems.has_prev else None
-    return render_template('user.html', user=user, problems=problems.items,
+                       page=problems.prev_num) if user_problems.has_prev else None
+
+    # Starred problems
+    starred_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
+        page, current_app.config['PROBLEMS_PER_PAGE'], False)
+    next_url = url_for('main.user', id=user_id,
+                       page=problems.next_num) if starred_problems.has_next else None
+    prev_url = url_for('main.user', id=user_id,
+                       page=problems.prev_num) if starred_problems.has_prev else None
+    return render_template('user.html', user=user, user_problems=user_problems.items,
+                           starred_problems=starred_problems.items,
                            next_url=next_url, prev_url=prev_url)
 
 

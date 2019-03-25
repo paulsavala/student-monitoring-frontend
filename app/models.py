@@ -60,6 +60,13 @@ followers = db.Table(
 )
 
 
+starred = db.Table(
+    'starred',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('problem_id', db.Integer, db.ForeignKey('problem.id'))
+)
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
@@ -75,6 +82,11 @@ class User(UserMixin, db.Model):
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
 
     problems = db.relationship('Problem', backref='author', lazy='dynamic')
+    starred = db.relationship(
+        'Problem', secondary=starred,
+        primaryjoin=(starred.c.user_id == id),
+        secondaryjoin=(starred.c.problem_id == id),
+        backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
