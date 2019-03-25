@@ -32,11 +32,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('problem_manager.view_cart') }}">{{ _('Cart') }}
-                            {% set cart_problem_count = session.get('cart_problem_count', 0) %}
-                            <span id="message_count" class="badge"
-                                  style="visibility: {% if cart_problem_count > 0 %}visible
-                                                     {% else %}hidden{% endif %};">
-                                {{ cart_problem_count }}
+                            <span id="cart_count" class="badge"
+                                  style="visibility: visible">
                             </span>
                         </a>
                     </li>
@@ -126,6 +123,10 @@
             $('#message_count').text(n);
             $('#message_count').css('visibility', n ? 'visible' : 'hidden');
         }
+        function set_cart_count(n) {
+            $('#cart_count').text(n);
+            $('#cart_count').css('visibility', n ? 'visible' : 'hidden');
+        }
         {% if current_user.is_authenticated %}
         $(function() {
             var since = 0;
@@ -149,7 +150,23 @@
                 $.ajax({
                   url: "{{ url_for('problem_manager.add_to_starred') }}",
                   data: {problem_id: $(this).attr("id")},
-                  type: 'GET'
+                  type: 'GET',
+                  success: function(data){
+                    alert("Starred");
+                    }
+                })
+              });
+            });
+        $(document).ready(function () {
+            $("button[id^=add-to-cart]").click(function(){
+                $.ajax({
+                  url: "{{ url_for('problem_manager.add_to_cart') }}",
+                  data: {problem_id: $(this).attr("id")},
+                  type: 'GET',
+                  success: function(data){
+                    $('#cart_count').text(data.cart_count);
+                    $('#add-to-cart-' + $(this).attr("id")).text('- Cart');
+                    }
                 })
               });
             });

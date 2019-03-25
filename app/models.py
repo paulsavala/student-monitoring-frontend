@@ -163,7 +163,8 @@ class Problem(SearchableMixin, db.Model):
     solution = db.Column(db.String(5000))
     image = db.Column(db.String(1024))
     created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
-    bookmarks_count = db.Column(db.Integer, default=0)
+    starred_count = db.Column(db.Integer, default=0)
+    doc_count = db.Column(db.Integer, default=0)
 
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)

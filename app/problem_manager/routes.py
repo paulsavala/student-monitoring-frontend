@@ -79,8 +79,8 @@ def explore():
 @login_required
 def add_to_starred():
     problem_id = int(request.args.get('problem_id').split('-')[-1])
-    print(f'problem_id: {problem_id}')
-    return jsonify(result='test')
+    print(f'starred: {problem_id}')
+    return jsonify({'problem_id': problem_id})
 
 
 @bp.route('/remove_from_starred')
@@ -97,9 +97,10 @@ def view_cart():
     return render_template('problem_manager/cart.html', cart_problems=problems)
 
 
-@bp.route('/add_to_cart/<problem_id>', methods=['GET', 'POST'])
+@bp.route('/add_to_cart')
 @login_required
-def add_to_cart(problem_id):
+def add_to_cart():
+    problem_id = int(request.args.get('problem_id').split('-')[-1])
     if 'cart_problems' not in session:
         session['cart_problems'] = [problem_id]
     elif problem_id in session['cart_problems']:
@@ -107,7 +108,8 @@ def add_to_cart(problem_id):
     else:
         session['cart_problems'].append(problem_id)
     session['cart_problem_count'] = len(session['cart_problems'])
-    return redirect(url_for('main.index'))
+    print(f'added to cart: {problem_id}')
+    return jsonify({'cart_count': session['cart_problem_count']})
 
 
 @bp.route('/remove_from_cart/<problem_id>', methods=['GET', 'POST'])
