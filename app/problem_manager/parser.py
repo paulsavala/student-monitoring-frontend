@@ -28,7 +28,7 @@ class LatexParser():
         inside = re.search(r'(?<=\\textbf{)[^}]*(?=})', match_object.group(0))
         if inside is not None:
             return r'<b>{}</b>'.format(inside.group(0))
-        inside = re.search(r'{\\bf[^}]*}', match_object.group(0))
+        inside = re.search(r'(?<={\\bf\s)[^}]*(?=})', match_object.group(0))
         if inside is not None:
             return r'<b>{}</b>'.format(inside.group(0))
         return ''
@@ -38,12 +38,13 @@ class LatexParser():
         inside = re.search(r'(?<=\\textit{)[^}]*(?=})', match_object.group(0))
         if inside is not None:
             return r'<i>{}</i>'.format(inside.group(0))
-        inside = re.search(r'{\\it[^}]*}', match_object.group(0))
+        inside = re.search(r'(?<={\\it\s)[^}]*(?=})', match_object.group(0))
         if inside is not None:
             return r'<i>{}</i>'.format(inside.group(0))
         return ''
 
 
+    # todo: Handle escaped money signs \$ such as \$3.20
     def parse(self, raw_latex):
         # Initialize counters
         self.initialize_counters()

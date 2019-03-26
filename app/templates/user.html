@@ -24,16 +24,17 @@
             </td>
         </tr>
     </table>
-    <h2>Starred problems</h2>
-    <div class="card-columns ">
-    {% for problem in starred_problems %}
-        {% include 'problem_manager/_problem.html' %}
-    {% endfor %}
+    <a class="h3 " data-toggle="collapse" href="#starred_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Starred problems</a>
+    <div class="card-columns collapse show mb-3" id="starred_problems">
+        {% for problem in starred_problems %}
+            {% include 'problem_manager/_problem.html' %}
+        {% endfor %}
     </div>
-    <h2>Your problems</h2>
-    <div class="card-columns ">
-    {% for problem in user_problems %}
-        {% include 'problem_manager/_problem.html' %}
-    {% endfor %}
+    <br>
+    <a class="h3 " data-toggle="collapse" href="#user_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Your problems</a>
+    <div class="card-columns collapse show" id="user_problems">
+        {% for problem in user_problems %}
+            {% include 'problem_manager/_problem.html' %}
+        {% endfor %}
     </div>
 {% endblock %}
