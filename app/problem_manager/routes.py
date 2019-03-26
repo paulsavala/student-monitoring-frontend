@@ -82,7 +82,7 @@ def explore():
 @bp.route('/add_to_starred')
 @login_required
 def add_to_starred():
-    problem_id = int(request.args.get('problem_id').split('-')[-1])
+    problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter_by(id=problem_id).first()
     current_user.add_star(problem)
     print(f'starred: {problem_id}')

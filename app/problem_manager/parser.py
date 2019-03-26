@@ -52,8 +52,8 @@ class LatexParser():
         parsed_latex = re.sub(r'\\end{enumerate}', '</ol>', parsed_latex)
         parsed_latex = re.sub(r'\\item', '<li>', parsed_latex)
 
-        # # Change bold and italic
-        # parsed_latex = re.sub(r'\\textbf{[^}]*}', self.bold_converter, parsed_latex)
-        # parsed_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, parsed_latex)
+        # Change bold and italic
+        parsed_latex = re.sub(r'\\textbf{[^}]*}', self.bold_converter, parsed_latex)
+        parsed_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, parsed_latex)
 
         return parsed_latex

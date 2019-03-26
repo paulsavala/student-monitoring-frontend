@@ -154,26 +154,27 @@
         // AJAX for add-to-starred and add-to-cart
         $(document).ready(function () {
             $("button[id^=add-to-starred]").click(function(){
+              var button_id=$(this).attr("id");
                 $.ajax({
                   url: "{{ url_for('problem_manager.add_to_starred') }}",
-                  data: {problem_id: $(this).attr("id")},
+                  data: {button_id: button_id},
                   type: 'GET',
                   success: function(data){
-                    alert("Starred");
+                    $('#' + button_id).text("- Star");
                     }
                 })
               });
             });
         $(document).ready(function () {
             $("button[id^=add-to-cart]").click(function(){
-              var problem_id=$(this).attr("id");
+              var button_id=$(this).attr("id");
                 $.ajax({
                   url: "{{ url_for('problem_manager.add_to_cart') }}",
-                  data: {problem_id: problem_id},
+                  data: {button_id: button_id},
                   type: 'GET',
                   success: function(data){
                     set_cart_count(data.cart_count);
-                    $('#' + problem_id).text("- Cart");
+                    $('#' + button_id).text("- Cart");
                     }
                 })
               });

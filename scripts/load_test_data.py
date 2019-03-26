@@ -73,8 +73,26 @@ p5 = Problem(latex="Some other Calc II problem (with notes and solution as empty
             solution="",
             course_id=7,
             user_id=1)
-p6 = Problem(latex="Some Calc III problem (with notes and solution not supplied)",
-            parsed_latex=parser.parse("Some Calc III problem (with notes and solution not supplied)"),
+p6 = Problem(latex=r"""Some Calc III problem (with notes and solution not supplied) and some lists:
+                    \begin{itemize}
+                        \item Item 1
+                        \item Item 2
+                    \end{itemize}
+                    How about an enumerate?
+                    \begin{enumerate}
+                        \item Item 1
+                        \item Item 2
+                    \end{enumerate}""",
+            parsed_latex=parser.parse(r"""Some Calc III problem (with notes and solution not supplied) and some lists:
+                                \begin{itemize}
+                                    \item Item 1
+                                    \item Item 2
+                                \end{itemize}
+                                How about an enumerate?
+                                \begin{enumerate}
+                                    \item Item 1
+                                    \item Item 2
+                                \end{enumerate}"""),
             course_id=3,
             user_id=1)
 p7 = Problem(latex=r"\begin{align} f(x)&=x^2 \\ \Rightarrow f'(x)&=2x \end{align}",
@@ -100,11 +118,11 @@ p9 = Problem(latex=r"\textbf{This is bold}, {\bf as is this}",
             course_id=5,
             user_id=1)
 p10 = Problem(latex=r"\textit{This is italic} and this is not. This (\$) is a money sign.",
-            parsed_latex=parser.parse(r"\textit{This is italic} and this is not. This (\$) is a money sign."),
+            parsed_latex=parser.parse(r"\textit{This is italic} and this is not. This \$ is a money sign."),
             notes="Used on a midterm",
             solution="\[x=0.5\]",
             course_id=5,
-            user_id=2)
+            user_id=1)
 
 problems = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10]
 for problem in problems:
