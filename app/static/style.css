@@ -1,0 +1,49 @@
+.border_red {
+	border-style: solid;
+	border-color: red;
+}
+
+.border_blue {
+	border-style: solid;
+	border-color: blue;
+}
+
+.border_green {
+	border-style: solid;
+	border-color: green;
+}
+
+.border_black {
+	border-style: solid;
+	border-color: black;
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+
+.card .card-expand {
+	margin-top: 10px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(220,220,220);
+	background-color: rgb(250,250,250);
+}
+
+.jumbotron {
+	background: linear-gradient(#edf9ff, white);
+}
+
+.problem-metadata  {
+	font-size: 12px;
+	font-style: italic;
+	margin: -5 px;
+}
