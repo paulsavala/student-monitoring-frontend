@@ -9,6 +9,7 @@ from app.problem_manager.forms import ProblemForm
 from app.models import User, Problem, Message, Notification, Course
 from app.translate import translate
 from app.main import bp
+from app.problem_manager.parser import LatexParser
 from common.utils import empty_str_to_null
 
 
@@ -28,11 +29,13 @@ def index():
     courses = Course.query.order_by(Course.number.asc())
     form = ProblemForm(courses=courses)
     if form.validate_on_submit():
-        problem = Problem(body=form.problem.data,
-                            notes=empty_str_to_null(form.notes.data),
-                            solution=empty_str_to_null(form.solution.data),
-                            user_id=current_user.id,
-                            course_id=form.course.data)
+        parser = LatexParser()
+        problem = Problem(latex=form.problem.data,
+                          parsed_latex=parser.parse(form.problem.data),
+                          notes=empty_str_to_null(form.notes.data),
+                          solution=empty_str_to_null(form.solution.data),
+                          user_id=current_user.id,
+                          course_id=form.course.data)
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))
@@ -59,17 +62,17 @@ def user(user_id):
     user_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.user', id=user_id,
-                       page=problems.next_num) if user_problems.has_next else None
+                       page=user_problems.next_num) if user_problems.has_next else None
     prev_url = url_for('main.user', id=user_id,
-                       page=problems.prev_num) if user_problems.has_prev else None
+                       page=user_problems.prev_num) if user_problems.has_prev else None
 
     # Starred problems
-    starred_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
+    starred_problems = current_user.starred_problems().paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.user', id=user_id,
-                       page=problems.next_num) if starred_problems.has_next else None
+                       page=starred_problems.next_num) if starred_problems.has_next else None
     prev_url = url_for('main.user', id=user_id,
-                       page=problems.prev_num) if starred_problems.has_prev else None
+                       page=starred_problems.prev_num) if starred_problems.has_prev else None
     return render_template('user.html', user=user, user_problems=user_problems.items,
                            starred_problems=starred_problems.items,
                            next_url=next_url, prev_url=prev_url)

@@ -8,8 +8,10 @@ from app.models import Problem, Course
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
+from app.problem_manager.parser import LatexParser
 
 
+# todo: Is this else statement actually required? Won't those get filled from original_problem?
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def edit_problem(problem_id):
@@ -20,7 +22,9 @@ def edit_problem(problem_id):
         if int(problem.user_id) != int(current_user.get_id()):
             flash(_('You may only edit your own problems.'))
             return redirect(url_for('main.index'))
-        problem.body = form.problem.data
+        parser = LatexParser()
+        problem.latex = form.problem.data
+        problem.parsed_latex = parser.parse(form.problem.data)
         problem.notes = empty_str_to_null(form.notes.data)
         problem.solution = empty_str_to_null(form.solution.data)
         problem.course = form.course.data
@@ -28,7 +32,7 @@ def edit_problem(problem_id):
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.index'))
     elif request.method == 'GET':
-        form.problem.data = problem.body
+        form.problem.data = problem.latex
         form.notes.data = problem.notes
         form.solution.data = problem.solution
 
@@ -80,6 +84,7 @@ def explore():
 def add_to_starred():
     problem_id = int(request.args.get('problem_id').split('-')[-1])
     problem = Problem.query.filter_by(id=problem_id).first()
+    current_user.add_star(problem)
     print(f'starred: {problem_id}')
     return jsonify({'problem_id': problem_id})
 
@@ -87,7 +92,11 @@ def add_to_starred():
 @bp.route('/remove_from_starred')
 @login_required
 def remove_from_starred(problem_id):
-    pass
+    problem_id = int(request.args.get('problem_id').split('-')[-1])
+    problem = Problem.query.filter_by(id=problem_id).first()
+    current_user.remove_star(problem)
+    print(f'removed from starred: {problem_id}')
+    return jsonify({'problem_id': problem_id})
 
 
 # ---- CART FUNCTIONS -------

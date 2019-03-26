@@ -11,7 +11,7 @@
         <div class="problem-metadata" id="problem{{ problem.id }}_metadata">
           <p><a href="{{ url_for('main.user', user_id=problem.author.id) }}">{{ problem.author.first_name }} {{ problem.author.last_name }}  - {{ problem.author.institution.name }}, {{ problem.author.institution.state }}</a></p>
         </div>
-        <p class="card-text problem">{{ problem.body }}</p>
+        <p class="card-text problem">{{ problem.parsed_latex }}</p>
         <div class="text-center problem-btn-group ">
           <div class="btn-group">
             <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_latex" aria-expanded="false" aria-controls="collapseExample">
@@ -27,7 +27,7 @@
         </div>
         <div class="collapse tex2jax_ignore card-expand p-2" id="problem{{ problem.id }}_latex">
           <p>
-            {{ problem.body }}
+            {{ problem.latex }}
           </p>
         </div>
         <div class="collapse card-expand p-2" id="problem{{ problem.id }}_notes">
