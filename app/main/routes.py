@@ -41,7 +41,7 @@ def index():
         flash(_('Your problem is now live!'))
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
-    problems = current_user.followed_problems().paginate(
+    problems = current_user.problems.paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
     next_url = url_for('main.index', page=problems.next_num) \
         if problems.has_next else None

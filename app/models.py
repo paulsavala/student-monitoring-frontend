@@ -186,7 +186,7 @@ class Problem(SearchableMixin, db.Model):
     __searchable__ = ['body', 'notes', 'solution']
     id = db.Column(db.Integer, primary_key=True)
     latex = db.Column(db.String(10000), nullable=False)
-    parsed_latex = db.Column(db.String(10000), nullable=False)
+    parsed_latex = db.Column(db.String(10000))
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
     image = db.Column(db.String(1024))

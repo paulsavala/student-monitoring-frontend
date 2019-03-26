@@ -1,5 +1,6 @@
 from app import db
 from app.models import Problem, Course, Institution
+from app.problem_manager.parser import LatexParser
 
 
 # Truncate the course and problem tables
@@ -39,48 +40,67 @@ for course in courses:
 
 
 # Load some problems
-p1 = Problem(body="Compute the derivative of \(f(x)=x^2\)",
+parser = LatexParser()
+
+p1 = Problem(latex=r"Compute the derivative of \(f(x)=x^2\)",
+            parsed_latex=parser.parse(r"Compute the derivative of \(f(x)=x^2\)"),
             notes="Introduction to derivatives",
-            solution="\[f'(x)=2x\]",
+            solution=r"\[f'(x)=2x\]",
             course_id=1,
             user_id=1)
-p2 = Problem(body="Compute the integral \(\\displaystyle\\int_0^1\\frac{1}{x}dx\)",
+p2 = Problem(latex=r"Compute the integral $\displaystyle\int_0^1\frac{1}{x}dx$ (using dollar signs for math mode)",
+            parsed_latex=parser.parse(r"Compute the integral $\displaystyle\int_0^1\frac{1}{x}dx$ (using dollar signs for math mode)"),
             notes="A tricky definite integral",
-            solution="DNE (or \(-\infty\))",
+            solution=r"DNE (or \(-\infty\))",
             course_id=6,
             user_id=1)
-p3 = Problem(body="Some related rates problem using an image",
+p3 = Problem(latex="Some related rates problem using an image (not yet)",
+            parsed_latex=parser.parse("Some related rates problem using an image (not yet)"),
             notes="This one has an image with it, hosted in s3",
             solution="It's obvious",
             course_id=1,
             user_id=1,
             image='s3://problematic-data/courses/1/problems/3/images/1.png')
-p4 = Problem(body="Some Calc II problem (with notes and solution as None)",
+p4 = Problem(latex="Some Calc II problem (with notes and solution as None)",
+            parsed_latex=parser.parse("Some Calc II problem (with notes and solution as None)"),
             notes=None,
             solution=None,
             course_id=2,
             user_id=1)
-p5 = Problem(body="Some other Calc II problem (with notes and solution as empty string)",
+p5 = Problem(latex="Some other Calc II problem (with notes and solution as empty string)",
+            parsed_latex=parser.parse("Some other Calc II problem (with notes and solution as empty string)"),
             notes="",
             solution="",
             course_id=7,
             user_id=1)
-p6 = Problem(body="Some Calc III problem (with notes and solution not supplied)",
+p6 = Problem(latex="Some Calc III problem (with notes and solution not supplied)",
+            parsed_latex=parser.parse("Some Calc III problem (with notes and solution not supplied)"),
             course_id=3,
             user_id=1)
-p7 = Problem(body="Some other Calc III problem",
+p7 = Problem(latex=r"\begin{align} f(x)&=x^2 \\ \Rightarrow f'(x)&=2x \end{align}",
+            parsed_latex=parser.parse(r"\begin{align} f(x)&=x^2 \\ \Rightarrow f'(x)&=2x \end{align}"),
             solution="Just pretend like it's one-dimensional and do what you would normally do",
             course_id=4,
             user_id=1)
-p8 = Problem(body="Some linear algebra problem", notes="Please don't let it be row reduction...",
+p8 = Problem(latex=r"""$$ \begin{pmatrix}
+                    a & b \\
+                    c & d
+                    \end{pmatrix} $$""",
+            parsed_latex=parser.parse(r"""$$ \begin{pmatrix}
+                                a & b \\
+                                c & d
+                                \end{pmatrix} $$"""),
+            notes="Please don't let it be row reduction...",
             course_id=9,
             user_id=1)
-p9 = Problem(body="Some stats problem",
+p9 = Problem(latex=r"\textbf{This is bold}, {\bf as is this}",
+            parsed_latex=parser.parse(r"\textbf{This is bold}, {\bf as is this}"),
             notes="This is for stats",
             solution="Compute the \(z\)-score",
             course_id=5,
             user_id=1)
-p10 = Problem(body="Some other stats problem",
+p10 = Problem(latex=r"\textit{This is italic} and this is not. This (\$) is a money sign.",
+            parsed_latex=parser.parse(r"\textit{This is italic} and this is not. This (\$) is a money sign."),
             notes="Used on a midterm",
             solution="\[x=0.5\]",
             course_id=5,
