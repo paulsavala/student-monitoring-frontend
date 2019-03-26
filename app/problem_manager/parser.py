@@ -28,14 +28,20 @@ class LatexParser():
         inside = re.search(r'(?<=\\textbf{)[^}]*(?=})', match_object.group(0))
         if inside is not None:
             return r'<b>{}</b>'.format(inside.group(0))
+        inside = re.search(r'{\\bf[^}]*}', match_object.group(0))
+        if inside is not None:
+            return r'<b>{}</b>'.format(inside.group(0))
+        return ''
 
 
     def italic_converter(self, match_object):
-        print(match_object)
         inside = re.search(r'(?<=\\textit{)[^}]*(?=})', match_object.group(0))
-        print(inside)
         if inside is not None:
             return r'<i>{}</i>'.format(inside.group(0))
+        inside = re.search(r'{\\it[^}]*}', match_object.group(0))
+        if inside is not None:
+            return r'<i>{}</i>'.format(inside.group(0))
+        return ''
 
 
     def parse(self, raw_latex):
@@ -54,6 +60,8 @@ class LatexParser():
 
         # Change bold and italic
         parsed_latex = re.sub(r'\\textbf{[^}]*}', self.bold_converter, parsed_latex)
+        parsed_latex = re.sub(r'{\\bf[^}]*}', self.bold_converter, parsed_latex)
         parsed_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, parsed_latex)
+        parsed_latex = re.sub(r'{\\it[^}]*}', self.italic_converter, parsed_latex)
 
         return parsed_latex
