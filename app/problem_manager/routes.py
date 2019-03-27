@@ -78,6 +78,16 @@ def explore():
                            explorer_form=explorer_form, problems=problems)
 
 
+# todo: Remove static link to user's problems with problems user added to document
+@bp.route('/documents', methods=['GET', 'POST'])
+@login_required
+def documents():
+    page = request.args.get('page', 1, type=int)
+    problems = Problem.query.filter_by(user_id=current_user.id)
+    return render_template('problem_manager/documents.html', title=_('Documents'),
+                           problems=problems)
+
+
 # ---- STAR FUNCTIONS -------
 @bp.route('/add_to_starred')
 @login_required
