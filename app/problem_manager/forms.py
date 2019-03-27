@@ -26,7 +26,7 @@ class ProblemForm(FlaskForm):
 
 
 class ProblemExplorerForm(FlaskForm):
-    course = SelectMultipleField(_l('Course'), coerce=int, validators=[DataRequired()])
+    course = SelectMultipleField(_l('Course'), coerce=int, validators=[DataRequired()], render_kw={"size": 10})
     author = SelectMultipleField(_l('Author'), coerce=int)
     has_solution = BooleanField(_l('Must have solution'), default=False)
     has_notes = BooleanField(_l('Must have notes'), default=False)

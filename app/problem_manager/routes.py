@@ -114,43 +114,43 @@ def remove_from_starred(problem_id):
     return jsonify({'problem_id': problem_id})
 
 
-# ---- CART FUNCTIONS -------
-@bp.route('/view_cart', methods=['GET'])
+# ---- DOCUMENT FUNCTIONS -------
+@bp.route('/view_documents', methods=['GET'])
 @login_required
-def view_cart():
-    problems = Problem.query.filter(Problem.id.in_(session.get('cart_problems', [])))
-    return render_template('problem_manager/cart.html', cart_problems=problems)
+def view_documents():
+    problems = Problem.query.filter(Problem.id.in_(session.get('document_problems', [])))
+    return render_template('problem_manager/documents.html', problems=problems)
 
 
-@bp.route('/add_to_cart')
+@bp.route('/add_to_document')
 @login_required
-def add_to_cart():
-    problem_id = int(request.args.get('problem_id').split('-')[-1])
-    if 'cart_problems' not in session:
-        session['cart_problems'] = [problem_id]
-    elif problem_id in session['cart_problems']:
-        session['cart_problems'].remove(problem_id)
+def add_to_document():
+    problem_id = int(request.args.get('button_id').split('-')[-1])
+    if 'document_problems' not in session:
+        session['document_problems'] = [problem_id]
+    elif problem_id in session['document_problems']:
+        session['document_problems'].remove(problem_id)
     else:
-        session['cart_problems'].append(problem_id)
-    session['cart_problem_count'] = len(session['cart_problems'])
-    return jsonify({'cart_count': session['cart_problem_count']})
+        session['document_problems'].append(problem_id)
+    session['document_problem_count'] = len(session['document_problems'])
+    return jsonify({'document_count': session['document_problem_count']})
 
 
-@bp.route('/remove_from_cart/<problem_id>', methods=['GET', 'POST'])
+@bp.route('/remove_from_document/<problem_id>', methods=['GET', 'POST'])
 @login_required
-def remove_from_cart(problem_id):
-    if problem_id in session.get('cart_problems', []):
-        session['cart_problems'].remove(problem_id)
-    session['cart_problem_count'] = len(session['cart_problems'])
+def remove_from_document(problem_id):
+    if problem_id in session.get('document_problems', []):
+        session['document_problems'].remove(problem_id)
+    session['document_problem_count'] = len(session['document_problems'])
     return redirect(url_for('main.index'))
 
 
-@bp.route('/clear_cart')
+@bp.route('/clear_document')
 @login_required
-def clear_cart():
-    session['cart_problems'] = []
-    session['cart_problem_count'] = 0
-    return jsonify({'cart_count': session['cart_problem_count']})
+def clear_document():
+    session['document_problems'] = []
+    session['document_problem_count'] = 0
+    return jsonify({'document_count': session['document_problem_count']})
 
 
 # ------ TEST DATA LOADING --------
