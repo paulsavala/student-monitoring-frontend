@@ -37,10 +37,10 @@ class LatexParser():
     def italic_converter(self, match_object):
         inside = re.search(r'(?<=\\textit{)[^}]*(?=})', match_object.group(0))
         if inside is not None:
-            return r'<i>{}</i>'.format(inside.group(0))
+            return r'<em>{}</em>'.format(inside.group(0))
         inside = re.search(r'(?<={\\it\s)[^}]*(?=})', match_object.group(0))
         if inside is not None:
-            return r'<i>{}</i>'.format(inside.group(0))
+            return r'<em>{}</em>'.format(inside.group(0))
         return ''
 
 

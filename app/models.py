@@ -143,17 +143,14 @@ class User(UserMixin, db.Model):
     def is_starred(self, problem):
         is_starred = self.starred.filter(
             starred.c.problem_id == problem.id).count() > 0
-        print(f'is_stared: {is_starred}')
         return is_starred
 
     def add_star(self, problem):
         if not self.is_starred(problem):
-            print(f'add_star: {problem.id}')
             self.starred.append(problem)
 
     def remove_star(self, problem):
         if self.is_starred(problem):
-            print(f'remove_star: {problem.id}')
             self.starred.remove(problem)
 
     def starred_problems(self):

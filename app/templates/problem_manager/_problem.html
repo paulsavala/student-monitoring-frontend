@@ -2,8 +2,8 @@
 			<div class="card-header">
 				<div class="d-flex justify-content-between align-items-center">
 					<div class="course-title mr-auto">{{ problem.course.subject }} {{ problem.course.number }} - {{ problem.course.title }}</div>
-					<div class="usage-count p-2">{{ problem.starred_count }} stars</div>
-          <button type="button" class="btn btn-primary btn-sm " id="add-to-starred-{{ problem.id }}" href="">+ Star</button>
+					<div class="usage-count p-2">{{ problem.starred_count }} usages</div>
+          <a class="mr-2" id="add-to-starred-{{ problem.id }}" href=""><i {% if current_user.is_starred(problem) %}class="fas fa-star" style="color: gold;"{% else %}class="far fa-star" style="color: blue;"{% endif %}></i></a>
           <button type="button" class="btn btn-primary btn-sm" id="add-to-cart-{{ problem.id }}" href="">+ Cart</button>
         </div>
 			</div>

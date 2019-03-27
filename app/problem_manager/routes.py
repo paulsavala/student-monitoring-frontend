@@ -91,16 +91,19 @@ def documents():
 # ---- STAR FUNCTIONS -------
 @bp.route('/add_to_starred')
 @login_required
-def add_to_starred():
+def toggle_starred():
     problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter_by(id=problem_id).first()
-    current_user.add_star(problem)
+    if current_user.is_starred(problem):
+        current_user.remove_star(problem)
+    else:
+        current_user.add_star(problem)
     db.session.commit()
     print(f'starred: {problem_id}')
     return jsonify({'problem_id': problem_id})
 
 
-@bp.route('/remove_from_starred')
+@bp.route('/remove_from_stared')
 @login_required
 def remove_from_starred(problem_id):
     problem_id = int(request.args.get('problem_id').split('-')[-1])
