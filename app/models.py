@@ -82,11 +82,10 @@ class User(UserMixin, db.Model):
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
 
     problems = db.relationship('Problem', backref='author', lazy='dynamic')
-    starred = db.relationship(
-        'Problem', secondary=starred,
-        primaryjoin=(starred.c.user_id == id),
-        secondaryjoin=(starred.c.problem_id == id),
-        backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
+    starred = db.relationship('Problem',
+                                secondary=starred,
+                                backref='users',
+                                lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -148,12 +147,13 @@ class User(UserMixin, db.Model):
         return is_starred
 
     def add_star(self, problem):
-        print(f'add_star: {problem.id}')
         if not self.is_starred(problem):
+            print(f'add_star: {problem.id}')
             self.starred.append(problem)
 
     def remove_star(self, problem):
         if self.is_starred(problem):
+            print(f'remove_star: {problem.id}')
             self.starred.remove(problem)
 
     def starred_problems(self):
