@@ -3,7 +3,7 @@ import re
 import os
 
 
-class LatexDocument():
+class LatexDocument:
     def __init__(self, template, blocks={}, problems_latex=[]):
         self.template = template
         self.blocks = blocks
@@ -18,12 +18,11 @@ class LatexDocument():
         for block in self.blocks:
             document = re.sub(r'<<\s*{}\s*>>'.format(block), self.blocks[block], document)
 
-        wrapped_problems = [r'{\bf Problem ' + str(i) + r':}' + problem_latex
+        wrapped_problems = [r'{{\\bf Problem {0}:}} {1}'.format(i, problem_latex)
                             for i, problem_latex in enumerate(self.problems_latex)]
 
-        problem_block_latex = r'\vspace{1cm}\newline'.join(wrapped_problems)
+        problem_block_latex = r'\n\\vspace{1cm}\\newline\n\n'.join(wrapped_problems)
         document = re.sub(r'<<\s*problem_block\s*>>', problem_block_latex, document)
-
         return document
 
     def generate_latex(self):

@@ -9,6 +9,7 @@ from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
 from app.problem_manager.parser import LatexParser
+from app.problem_manager.document_generator import LatexDocument
 
 
 # todo: Is this else statement actually required? Won't those get filled from original_problem?
@@ -105,14 +106,21 @@ def remove_from_starred(problem_id):
 
 
 # ---- DOCUMENT FUNCTIONS -------
-@bp.route('/documents', methods=['GET'])
+@bp.route('/documents', methods=['GET', 'POST'])
 @login_required
 def documents():
     page = request.args.get('page', 1, type=int)
     problems = Problem.query.filter(Problem.id.in_(session.get('document_problems', [])))
     form = DocumentForm()
     if form.validate_on_submit():
-        pass
+        title = form.title.data
+        course = form.course.data
+        problems_latex = [repr(p.latex).replace("'", '') for p in problems.all()]
+        document = LatexDocument(template='simple_exam.tex', blocks={'title': title, 'course': course},
+                                 problems_latex=problems_latex)
+        latex = document.generate_latex()
+        return render_template('problem_manager/render_document.html', title=_('Document'), latex=latex)
+
     return render_template('problem_manager/documents.html', title=_('Documents'),
                            problems=problems, form=form)
 

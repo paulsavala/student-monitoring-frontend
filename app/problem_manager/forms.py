@@ -41,4 +41,5 @@ class ProblemExplorerForm(FlaskForm):
 
 class DocumentForm(FlaskForm):
     title = StringField(_l('Title'), validators=[DataRequired()])
+    course = StringField(_l('Course'), validators=[DataRequired()])
     submit = SubmitField(_l('Generate LaTeX'))
