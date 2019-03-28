@@ -2,6 +2,11 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+    {% if form %}
+      <div class="container mt-5">
+        {{ wtf.quick_form(form) }}
+      </div>
+    {% endif %}
     <div class="container list-group mt-5">
         {% for problem in problems %}
             {% include 'problem_manager/_doc_problem.html' %}

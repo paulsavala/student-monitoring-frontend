@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, SelectField, BooleanField, SelectMultipleField
+from wtforms import SubmitField, TextAreaField, SelectField, BooleanField, \
+                    SelectMultipleField, StringField
 from wtforms.validators import DataRequired
 from flask_babel import _, lazy_gettext as _l
 from app.models import Course, User, Institution
@@ -36,3 +37,8 @@ class ProblemExplorerForm(FlaskForm):
         super(ProblemExplorerForm, self).__init__(*args, **kwargs)
         self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}') for c in Course.query.order_by(Course.number.asc())]
         self.author.choices = [(0, 'All')] + [(a.id, f'{a.full_name} - {a.institution.name}') for a in User.query]
+
+
+class DocumentForm(FlaskForm):
+    title = StringField(_l('Title'), validators=[DataRequired()])
+    submit = SubmitField(_l('Generate LaTeX'))

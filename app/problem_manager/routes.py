@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
-from app.problem_manager.forms import ProblemForm, ProblemExplorerForm
+from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
 from app.models import Problem, Course
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
@@ -78,16 +78,6 @@ def explore():
                            explorer_form=explorer_form, problems=problems)
 
 
-# todo: Remove static link to user's problems with problems user added to document
-@bp.route('/documents', methods=['GET', 'POST'])
-@login_required
-def documents():
-    page = request.args.get('page', 1, type=int)
-    problems = Problem.query.filter_by(user_id=current_user.id)
-    return render_template('problem_manager/documents.html', title=_('Documents'),
-                           problems=problems)
-
-
 # ---- STAR FUNCTIONS -------
 @bp.route('/add_to_starred')
 @login_required
@@ -115,11 +105,16 @@ def remove_from_starred(problem_id):
 
 
 # ---- DOCUMENT FUNCTIONS -------
-@bp.route('/view_documents', methods=['GET'])
+@bp.route('/documents', methods=['GET'])
 @login_required
-def view_documents():
+def documents():
+    page = request.args.get('page', 1, type=int)
     problems = Problem.query.filter(Problem.id.in_(session.get('document_problems', [])))
-    return render_template('problem_manager/documents.html', problems=problems)
+    form = DocumentForm()
+    if form.validate_on_submit():
+        
+    return render_template('problem_manager/documents.html', title=_('Documents'),
+                           problems=problems, form=form)
 
 
 @bp.route('/add_to_document')
