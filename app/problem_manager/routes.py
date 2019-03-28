@@ -112,7 +112,7 @@ def documents():
     problems = Problem.query.filter(Problem.id.in_(session.get('document_problems', [])))
     form = DocumentForm()
     if form.validate_on_submit():
-        
+        pass
     return render_template('problem_manager/documents.html', title=_('Documents'),
                            problems=problems, form=form)
 
