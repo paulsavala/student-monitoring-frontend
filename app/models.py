@@ -254,11 +254,15 @@ class Document(db.Model):
 
     def add_problem(self, problem):
         if not self.has_problem(problem):
-            self.document_problems.append(problem)
+            self.problems.append(problem)
 
     def remove_problem(self, problem):
         if self.has_problem(problem):
-            self.document_problems.remove(problem)
+            self.problems.remove(problem)
+
+    def clear_document(self):
+        for problem in self.problems:
+            self.problems.remove(problem)
 
 
 class Course(db.Model):

@@ -31,14 +31,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('problem_manager.documents') }}">{{ _('Document') }}
-                          {% if session.get('document_problem_count', 0) > 0 %}
-                            <span id="document_count" class="badge"
-                                  style="visibility: visible">
-                                  {{ session['document_problem_count'] }}
-                            </span>
-                          {% endif %}
-                        </a>
+                        <a class="nav-link" href="{{ url_for('problem_manager.documents') }}">{{ _('Document') }}</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{ _('Profile') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
@@ -130,10 +123,6 @@
             $('#message_count').text(n);
             $('#message_count').css('visibility', n ? 'visible' : 'hidden');
         }
-        function set_document_count(n) {
-            $('#document_count').text(n);
-            $('#document_count').css('visibility', n ? 'visible' : 'hidden');
-        }
         {% if current_user.is_authenticated %}
         $(function() {
             var since = 0;
@@ -168,8 +157,7 @@
                   url: "{{ url_for('problem_manager.add_to_document') }}",
                   data: {button_id: button_id},
                   type: 'GET',
-                  success: function(data){
-                    set_document_count(data.document_count);
+                  success: function(){
                     $('#' + button_id).text("- Doc");
                     }
                 })

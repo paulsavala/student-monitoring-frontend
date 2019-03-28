@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
-from app.models import Problem, Course
+from app.models import Problem, Course, Document
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
@@ -17,7 +17,7 @@ from app.problem_manager.document_generator import LatexDocument
 @login_required
 def edit_problem(problem_id):
     courses = Course.query.order_by(Course.number.asc())
-    problem = Problem.query.filter_by(id=problem_id).first_or_404()
+    problem = Problem.query.filter(Problem.id == problem_id).first_or_404()
     form = ProblemForm()
     if form.validate_on_submit():
         if int(problem.user_id) != int(current_user.get_id()):
@@ -46,11 +46,11 @@ def edit_problem(problem_id):
 @bp.route('/delete_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def delete_problem(problem_id):
-    problem = Problem.query.filter_by(id=problem_id).first_or_404()
+    problem = Problem.query.filter(Problem.id == problem_id).first_or_404()
     if int(problem.user_id) != int(current_user.get_id()):
         flash(_('You may only delete your own problems.'))
         return redirect(url_for('main.index'))
-    Problem.query.filter_by(id=problem_id).delete()
+    Problem.query.filter(Problem.id == problem_id).delete()
     db.session.commit()
     flash(_('Your problem has been deleted.'))
     return redirect(url_for('main.index'))
@@ -118,14 +118,18 @@ def documents():
 @login_required
 def add_to_document():
     problem_id = int(request.args.get('button_id').split('-')[-1])
-    if 'document_problems' not in session:
-        session['document_problems'] = [problem_id]
-    elif problem_id in session['document_problems']:
-        session['document_problems'].remove(problem_id)
+    problem = Problem.query.filter(Problem.id == problem_id).first()
+    document = Document.query.filter(Document.user_id == current_user.id)
+    if document.count() > 0:
+        print('Document found')
+        document = document.first()
     else:
-        session['document_problems'].append(problem_id)
-    session['document_problem_count'] = len(session['document_problems'])
-    return jsonify({'document_count': session['document_problem_count']})
+        print('Creating new document')
+        document = Document(name='New Document')
+        db.session.add(document)
+    document.add_problem(problem)
+    db.session.commit()
+    return jsonify({})
 
 
 @bp.route('/remove_from_document/<problem_id>', methods=['GET', 'POST'])
@@ -140,9 +144,10 @@ def remove_from_document(problem_id):
 @bp.route('/clear_document')
 @login_required
 def clear_document():
-    session['document_problems'] = []
-    session['document_problem_count'] = 0
-    return jsonify({'document_count': session['document_problem_count']})
+    document = Document.query.filter(Document.user_id == current_user.id)
+    document.clear_document()
+    db.session.commit()
+    return jsonify({})
 
 
 # ------ TEST DATA LOADING --------
