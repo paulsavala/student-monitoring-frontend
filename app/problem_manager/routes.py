@@ -94,17 +94,6 @@ def toggle_starred():
     return jsonify({'problem_id': problem_id})
 
 
-@bp.route('/remove_from_stared')
-@login_required
-def remove_from_starred(problem_id):
-    problem_id = int(request.args.get('problem_id').split('-')[-1])
-    problem = Problem.query.filter_by(id=problem_id).first()
-    current_user.remove_star(problem)
-    db.session.commit()
-    print(f'removed from starred: {problem_id}')
-    return jsonify({'problem_id': problem_id})
-
-
 # ---- DOCUMENT FUNCTIONS -------
 @bp.route('/documents', methods=['GET', 'POST'])
 @login_required

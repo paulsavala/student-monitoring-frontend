@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
+from sqlalchemy import and_
 
 
 class SearchableMixin(object):
@@ -67,6 +68,13 @@ starred = db.Table(
 )
 
 
+documents = db.Table(
+    'documents',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('document_id', db.Integer, db.ForeignKey('document.id'))
+)
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
@@ -82,6 +90,7 @@ class User(UserMixin, db.Model):
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
 
     problems = db.relationship('Problem', backref='author', lazy='dynamic')
+    documents = db.relationship('Document', backref='user', lazy='dynamic')
     starred = db.relationship('Problem',
                                 secondary=starred,
                                 backref='users',
@@ -159,6 +168,20 @@ class User(UserMixin, db.Model):
                     starred.c.user_id == self.id).order_by(
                     Problem.created_ts.desc())
 
+    # ---- Document functions ----
+    def has_document(self, document):
+        has_document = self.documents.filter(
+            documents.c.document_id == document.id).count() > 0
+        return has_document
+
+    def add_document(self, document):
+        if not self.is_starred(document):
+            self.starred.append(document)
+
+    def remove_document(self, document):
+        if self.has_document(document):
+            self.starred.remove(document)
+
     # ---- Misc functions ----
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
@@ -182,6 +205,13 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+document_problems = db.Table(
+    'document_problems',
+    db.Column('document_id', db.Integer, db.ForeignKey('document.id')),
+    db.Column('problem_id', db.Integer, db.ForeignKey('problem.id')),
+)
+
+
 class Problem(SearchableMixin, db.Model):
     __searchable__ = ['body', 'notes', 'solution']
     id = db.Column(db.Integer, primary_key=True)
@@ -199,6 +229,36 @@ class Problem(SearchableMixin, db.Model):
 
     def __repr__(self):
         return '<Problem {}>'.format(self.id)
+
+
+class Document(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(512), nullable=False)
+    created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+
+    problems = db.relationship('Problem',
+                              secondary=document_problems,
+                              backref='documents',
+                              lazy='dynamic')
+
+    def __repr__(self):
+        return f'<Document {self.name} from User {self.user.username}>'
+
+    # ---- Document problem functions ----
+    def has_problem(self, problem):
+        has_problem = self.problems.filter(
+            document_problems.c.problem_id == problem.id).count() > 0
+        return has_problem
+
+    def add_problem(self, problem):
+        if not self.has_problem(problem):
+            self.document_problems.append(problem)
+
+    def remove_problem(self, problem):
+        if self.has_problem(problem):
+            self.document_problems.remove(problem)
 
 
 class Course(db.Model):
