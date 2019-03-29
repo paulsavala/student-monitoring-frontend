@@ -236,7 +236,7 @@ class Document(db.Model):
     name = db.Column(db.String(512), nullable=False)
     created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     problems = db.relationship('Problem',
                               secondary=document_problems,
