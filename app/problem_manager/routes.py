@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
-from app.models import Problem, Course, Document
+from app.models import Problem, Course, Document, User
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
@@ -99,7 +99,14 @@ def toggle_starred():
 @login_required
 def documents():
     page = request.args.get('page', 1, type=int)
-    problems = Problem.query.filter(Problem.id.in_(session.get('document_problems', [])))
+    user_documents = current_user.documents
+    if user_documents.count() > 0:
+        document = user_documents.first()
+    else:
+        print('Creating new document')
+        document = Document(name='New Document')
+        db.session.add(document)
+    problems = document.problems
     form = DocumentForm()
     if form.validate_on_submit():
         title = form.title.data
@@ -114,20 +121,22 @@ def documents():
                            problems=problems, form=form)
 
 
-@bp.route('/add_to_document')
+@bp.route('/toggle_to_document')
 @login_required
-def add_to_document():
+def toggle_to_document():
     problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter(Problem.id == problem_id).first()
-    document = Document.query.filter(Document.user_id == current_user.id)
-    if document.count() > 0:
-        print('Document found')
-        document = document.first()
+    user_documents = current_user.documents
+    if user_documents.count() > 0:
+        document = user_documents.first()
     else:
         print('Creating new document')
         document = Document(name='New Document')
         db.session.add(document)
-    document.add_problem(problem)
+    if document.has_problem(problem):
+        document.remove_problem(problem)
+    else:
+        document.add_problem(problem)
     db.session.commit()
     return jsonify({})
 

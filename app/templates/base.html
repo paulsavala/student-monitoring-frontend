@@ -154,7 +154,7 @@
                 event.preventDefault();
               var button_id=$(this).attr("id");
                 $.ajax({
-                  url: "{{ url_for('problem_manager.add_to_document') }}",
+                  url: "{{ url_for('problem_manager.toggle_to_document') }}",
                   data: {button_id: button_id},
                   type: 'GET',
                   success: function(){

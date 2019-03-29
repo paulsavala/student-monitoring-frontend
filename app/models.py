@@ -244,7 +244,7 @@ class Document(db.Model):
                               lazy='dynamic')
 
     def __repr__(self):
-        return f'<Document {self.name} from User {self.user.username}>'
+        return f'<Document {self.name}>'
 
     # ---- Document problem functions ----
     def has_problem(self, problem):
