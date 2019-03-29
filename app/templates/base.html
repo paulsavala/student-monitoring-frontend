@@ -157,8 +157,15 @@
                   url: "{{ url_for('problem_manager.toggle_to_document') }}",
                   data: {button_id: button_id},
                   type: 'GET',
-                  success: function(){
-                    $('#' + button_id).text("- Doc");
+                  dataType: 'json',
+                  success: function(response){
+                      $('#' + button_id).toggleClass("btn-primary btn-outline-primary");
+                      console.log(response);
+                      if (response[0].in_document == True) {
+                          $('#' + button_id).text("- Doc");
+                      } else {
+                          $('#' + button_id).text("+ Doc");
+                      };
                     }
                 })
               });

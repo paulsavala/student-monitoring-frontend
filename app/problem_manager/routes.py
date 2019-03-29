@@ -131,16 +131,17 @@ def toggle_to_document():
     if user_documents.count() > 0:
         document = user_documents.first()
     else:
-        print('Creating new document')
         document = Document(name='New Document', user_id=current_user.id)
         db.session.add(document)
     if document.has_problem(problem):
         document.remove_problem(problem)
+        in_document = True
     else:
         document.add_problem(problem)
         problem.starred_count += 1
+        in_document = False
     db.session.commit()
-    return jsonify({})
+    return jsonify(in_document=in_document)
 
 
 @bp.route('/clear_document')
