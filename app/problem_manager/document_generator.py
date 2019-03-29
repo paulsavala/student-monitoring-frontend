@@ -18,7 +18,7 @@ class LatexDocument:
         for block in self.blocks:
             document = re.sub(r'<<\s*{}\s*>>'.format(block), self.blocks[block], document)
 
-        wrapped_problems = [r'{{\\bf Problem {0}:}} {1}'.format(i, problem_latex)
+        wrapped_problems = [r'{{\\bf Problem {0}:}} {1}'.format(i+1, problem_latex)
                             for i, problem_latex in enumerate(self.problems_latex)]
 
         problem_block_latex = r'\n\\vspace{1cm}\\newline\n\n'.join(wrapped_problems)
