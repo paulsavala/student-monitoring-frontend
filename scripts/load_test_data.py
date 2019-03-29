@@ -1,5 +1,5 @@
 from app import db
-from app.models import Problem, Course, Institution
+from app.models import Problem, Course, Institution, Document
 from app.problem_manager.parser import LatexParser
 
 
@@ -7,6 +7,7 @@ from app.problem_manager.parser import LatexParser
 db.session.query(Problem).delete()
 db.session.query(Course).delete()
 db.session.query(Institution).delete()
+db.session.query(Document).delete()
 
 
 # Load some institutions

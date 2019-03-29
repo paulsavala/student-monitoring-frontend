@@ -89,6 +89,7 @@ def toggle_starred():
         current_user.remove_star(problem)
     else:
         current_user.add_star(problem)
+        problem.starred_count += 1
     db.session.commit()
     print(f'starred: {problem_id}')
     return jsonify({'problem_id': problem_id})
@@ -104,7 +105,7 @@ def documents():
         document = user_documents.first()
     else:
         print('Creating new document')
-        document = Document(name='New Document')
+        document = Document(name='New Document', user_id=current_user.id)
         db.session.add(document)
     problems = document.problems
     form = DocumentForm()
@@ -131,23 +132,15 @@ def toggle_to_document():
         document = user_documents.first()
     else:
         print('Creating new document')
-        document = Document(name='New Document')
+        document = Document(name='New Document', user_id=current_user.id)
         db.session.add(document)
     if document.has_problem(problem):
         document.remove_problem(problem)
     else:
         document.add_problem(problem)
+        problem.starred_count += 1
     db.session.commit()
     return jsonify({})
-
-
-@bp.route('/remove_from_document/<problem_id>', methods=['GET', 'POST'])
-@login_required
-def remove_from_document(problem_id):
-    if problem_id in session.get('document_problems', []):
-        session['document_problems'].remove(problem_id)
-    session['document_problem_count'] = len(session['document_problems'])
-    return redirect(url_for('main.index'))
 
 
 @bp.route('/clear_document')
