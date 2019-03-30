@@ -81,7 +81,7 @@ def explore():
 
 # ---- STAR FUNCTIONS -------
 # todo: Improve the "visible" handling here and for documents
-@bp.route('/add_to_starred')
+@bp.route('/toggle_starred')
 @login_required
 def toggle_starred():
     problem_id = int(request.args.get('button_id').split('-')[-1])

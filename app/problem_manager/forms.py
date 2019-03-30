@@ -17,8 +17,6 @@ class ProblemForm(FlaskForm):
 
     def __init__(self, original_problem=None, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
-        # self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
-        #                         for c in Course.query.order_by(Course.number.asc())]
         self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
                                 for c in Course.query.filter(Course.institution_id==User.institution_id).order_by(Course.number.asc())]
         if original_problem is not None:

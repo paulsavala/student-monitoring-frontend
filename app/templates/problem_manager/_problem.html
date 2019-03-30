@@ -3,7 +3,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<div class="course-title mr-auto">{{ problem.course.subject }} {{ problem.course.number }} - {{ problem.course.title }}</div>
 					<div class="usage-count p-2">{{ problem.starred_count }} usages</div>
-          <a class="mr-2" id="add-to-starred-{{ problem.id }}" href=""><i {% if current_user.is_starred(problem) %}class="fas fa-star" style="color: gold;"{% else %}class="far fa-star" style="color: blue;"{% endif %}></i></a>
+          <a class="mr-2" id="toggle-starred-{{ problem.id }}" href=""><i {% if current_user.is_starred(problem) %}class="fas fa-star" style="color: gold;"{% else %}class="far fa-star" style="color: blue;"{% endif %}></i></a>
           <button type="button" class="btn btn-primary btn-sm" id="add-to-document-{{ problem.id }}" href="">+ Doc</button>
         </div>
 			</div>

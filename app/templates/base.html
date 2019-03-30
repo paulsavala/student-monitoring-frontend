@@ -21,15 +21,15 @@
                     {% if current_user.is_anonymous %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
                     {% else %}
+                    {% set new_messages = current_user.new_messages() %}
+                    {% if new_messages %}
                     <li class="nav-item">
-                            {% set new_messages = current_user.new_messages() %}
-                            <span id="message_count" class="badge"
-                                  style="visibility: {% if new_messages %}visible
-                                                     {% else %}hidden{% endif %};">
+                            <span id="message_count" class="badge">
                                 {{ new_messages }}
                             </span>
                         </a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('problem_manager.documents') }}">{{ _('Document') }}</a>
                     </li>
@@ -142,7 +142,7 @@
 
         // AJAX for add-to-starred and add-to-document
         $(document).ready(function () {
-            $("a[id^=add-to-starred]").click(function(event){
+            $("a[id^=toggle-starred]").click(function(event){
               event.preventDefault();
               var button_id=$(this).attr("id");
                 $.ajax({
@@ -177,7 +177,8 @@
                     }
                 })
               });
-            $("#clear-document").click(function(){
+            $("#clear-document").click(function(event){
+                event.preventDefault();
                 $.ajax({
                   url: "{{ url_for('problem_manager.clear_document') }}",
                   type: 'GET'
