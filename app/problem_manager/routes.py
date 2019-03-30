@@ -80,19 +80,23 @@ def explore():
 
 
 # ---- STAR FUNCTIONS -------
+# todo: Improve the "visible" handling here and for documents
 @bp.route('/add_to_starred')
 @login_required
 def toggle_starred():
     problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter_by(id=problem_id).first()
+    visible=True
     if current_user.is_starred(problem):
         current_user.remove_star(problem)
+        if request.referrer.split('/')[-1] == str(current_user.id):
+            visible = False
     else:
         current_user.add_star(problem)
         problem.starred_count += 1
     db.session.commit()
     print(f'starred: {problem_id}')
-    return jsonify({'problem_id': problem_id})
+    return jsonify(problem_id=problem_id, visible=visible)
 
 
 # ---- DOCUMENT FUNCTIONS -------
@@ -128,6 +132,7 @@ def toggle_to_document():
     problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter(Problem.id == problem_id).first()
     user_documents = current_user.documents
+    visible = True
     if user_documents.count() > 0:
         document = user_documents.first()
     else:
@@ -135,13 +140,13 @@ def toggle_to_document():
         db.session.add(document)
     if document.has_problem(problem):
         document.remove_problem(problem)
-        in_document = True
+        if request.referrer.split('/')[-1] == 'documents':
+            visible=False
     else:
         document.add_problem(problem)
         problem.starred_count += 1
-        in_document = False
     db.session.commit()
-    return jsonify(in_document=in_document)
+    return jsonify(problem_id=problem_id, visible=visible)
 
 
 @bp.route('/clear_document')

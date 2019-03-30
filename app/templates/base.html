@@ -142,40 +142,45 @@
 
         // AJAX for add-to-starred and add-to-document
         $(document).ready(function () {
-            $("a[id^=add-to-starred]").click(function(){
+            $("a[id^=add-to-starred]").click(function(event){
+              event.preventDefault();
               var button_id=$(this).attr("id");
                 $.ajax({
                   url: "{{ url_for('problem_manager.toggle_starred') }}",
                   data: {button_id: button_id},
-                  type: 'GET'
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function(data){
+                      if (data.visible === true) {
+                        $('#problem_' + data.problem_id).show();
+                      } else {
+                        $('#problem_' + data.problem_id).hide();
+                      }
+                    }
                 })
               });
             $("button[id^=add-to-document]").click(function(event){
                 event.preventDefault();
-              var button_id=$(this).attr("id");
+                var button_id=$(this).attr("id");
                 $.ajax({
                   url: "{{ url_for('problem_manager.toggle_to_document') }}",
                   data: {button_id: button_id},
                   type: 'GET',
                   dataType: 'json',
-                  success: function(response){
+                  success: function(data){
                       $('#' + button_id).toggleClass("btn-primary btn-outline-primary");
-                      console.log(response);
-                      if (response[0].in_document == True) {
-                          $('#' + button_id).text("- Doc");
+                      if (data.visible === true) {
+                        $('#doc_problem_' + data.problem_id).show();
                       } else {
-                          $('#' + button_id).text("+ Doc");
-                      };
+                        $('#doc_problem_' + data.problem_id).hide();
+                      }
                     }
                 })
               });
             $("#clear-document").click(function(){
                 $.ajax({
                   url: "{{ url_for('problem_manager.clear_document') }}",
-                  type: 'GET',
-                  success: function(data){
-                    set_document_count(data.document_count);
-                    }
+                  type: 'GET'
                 })
               });
             });
