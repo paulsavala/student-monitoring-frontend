@@ -28,6 +28,9 @@
     .card-columns {
         column-count: 2;
     }
+		.card-columns-single {
+        column-count: 1;
+    }
 }
 
 .card .card-expand {
@@ -46,4 +49,54 @@
 	font-size: 12px;
 	font-style: italic;
 	margin: -5 px;
+}
+
+.wrapper {
+	display: flex;
+	align-items: stretch;
+}
+
+#sidebar {
+	min-width: 250px;
+	max-width: 250px;
+	min-height: 100vh;
+	background: #e5efff;
+  transition: all 0.3s;
+}
+
+#sidebar.active {
+	margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
 }
