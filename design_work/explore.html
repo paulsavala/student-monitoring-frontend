@@ -1,273 +1,97 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
+<!DOCTYPE html>
+<html>
+
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<!-- Personal CSS -->
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <title>Collapsible sidebar using Bootstrap 4</title>
 
-    <title>Problematic</title>
-  </head>
-  <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-dark bg-dark static-top tex2jax_ignore">
-      <a class="navbar-brand" href="#">Problematic</a>
-      <button class="sidebar-toggle" type="button" onclick="toggleNav()">
-        O
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="css/sidenav.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <div class="wrapper">
+        <nav id="sidebar" class="hidden">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="sidebar-header">
+                <h3>Sidebar</h3>
+            </div>
+            <ul class="list-unstyled ">
+                <li><a href="#">Item 1</a></li>
+                <li><a href="#">Item 2</a></li>
+                <li><a href="#">Item 3</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <button type="button" id="sidebarOpen" class="btn btn-info">
+                <span>Open Sidebar</span>
+            </button>
+            <div class="lorem">
+                <p>
+Neque cubilia mi gravida cubilia dapibus nisl? Lacinia nullam ipsum imperdiet fermentum, per semper eros primis montes mi. Dui adipiscing elit tincidunt odio inceptos nascetur volutpat tristique. Praesent lobortis tristique suspendisse curae; ipsum enim montes conubia lectus conubia nunc vestibulum. Lorem nec litora vestibulum fames sit tincidunt duis! Ante platea nec sit nunc vulputate dignissim potenti vel. Tempor torquent lobortis cursus phasellus adipiscing tristique, penatibus curae; velit elementum.
+</p>
+<p>
+Purus tempor sodales ultricies faucibus neque, facilisi metus proin eros imperdiet taciti. Mus blandit vestibulum penatibus torquent volutpat maecenas tempus habitant nisl aptent placerat potenti. Aptent feugiat consectetur in lorem tristique sed, vel penatibus? Tortor et ac ipsum diam semper purus. Vehicula est etiam aenean morbi laoreet pretium suspendisse blandit risus nunc montes. Facilisis quis luctus duis taciti fringilla cursus orci. Sit phasellus turpis tortor vestibulum in sagittis blandit metus penatibus suspendisse. Mauris mi ante viverra conubia nec per cum. Fermentum augue sit cum erat? Accumsan fusce iaculis at senectus venenatis?
+</p>
+<p>
+Magna mattis scelerisque in ad imperdiet varius dapibus. Porta accumsan ornare laoreet suscipit pharetra. Luctus lectus cras eleifend eu facilisis. Donec hac tortor mi libero, tincidunt nostra scelerisque id tincidunt netus fermentum. Diam vehicula cursus fames proin mauris arcu facilisis platea id id. Nunc habitant semper a felis class orci. Suspendisse elit sagittis pulvinar suspendisse rutrum tortor mus nam mauris metus. Egestas erat parturient volutpat lobortis pharetra senectus eleifend auctor lacinia.
+</p>
+<p>
+Nec faucibus cubilia mollis eu pretium dictumst adipiscing. Euismod taciti habitant natoque interdum nec nostra. Dignissim, habitant erat luctus. Odio pharetra velit magna ultrices dolor varius cursus. Semper nunc suspendisse metus malesuada augue potenti risus. Per, platea lacinia molestie! Quam proin lacus ultricies dis integer erat eget diam suspendisse metus mus montes. Ultrices sodales consectetur aenean imperdiet eget nascetur consequat per ipsum vitae integer aenean? Massa malesuada conubia elementum. Senectus blandit sollicitudin pulvinar. Habitant habitasse in curae; consequat sodales curabitur potenti mattis potenti lacinia. Litora pellentesque consectetur mollis elit cursus quam. Habitasse mauris luctus senectus class quisque neque?
+</p>
+<p>
+Pharetra ac egestas, eleifend fusce suscipit habitant? Praesent, egestas taciti lectus erat feugiat! Semper non eu nostra semper metus tellus fames sollicitudin imperdiet. Integer euismod ac at vehicula montes habitant sed? Parturient ultrices scelerisque rhoncus ipsum nisl blandit pulvinar etiam lacinia adipiscing. Tempor ac fringilla metus facilisi. Augue risus egestas ornare. Lacinia fusce in accumsan himenaeos eget, metus ante! Tristique pretium phasellus himenaeos vehicula nulla cursus. Nam, lobortis volutpat nulla turpis scelerisque.
+</p>
+<p>
+Duis ad interdum luctus. Dignissim vehicula malesuada habitant placerat curabitur non auctor velit. Dolor sagittis conubia class primis convallis sagittis neque. Duis rhoncus nostra dignissim in. Sodales erat conubia ornare nam elit mauris vehicula lorem a orci. Sociosqu ultricies nostra netus dui litora eleifend est nisi fames fringilla. Lacus aptent cras penatibus mattis proin pulvinar turpis aliquet imperdiet velit? Vel curae;, potenti et sociis facilisis lacus nisl turpis potenti. Fames quis; iaculis tempor sed pulvinar purus sed tincidunt tortor vulputate praesent sodales! Porta auctor duis convallis integer.
+</p>
+<p>
+Neque tempor accumsan consectetur per urna vestibulum metus pellentesque lorem vulputate. Sed cum nascetur tristique aliquam felis accumsan quis. Rhoncus molestie in nullam vivamus at. Phasellus tortor dui elit eleifend! Porttitor egestas risus elit elit risus varius convallis congue tempor porta elementum vulputate. Scelerisque aptent fusce porttitor duis porta aenean. Consequat laoreet mattis quis dui morbi sollicitudin habitant etiam. Etiam parturient enim id dis. Primis commodo gravida himenaeos proin justo senectus luctus auctor et ipsum cubilia. Suscipit curabitur.
+</p>
+<p>
+Enim dictumst ac phasellus turpis? Aenean cursus montes class per. Taciti ante rutrum eu risus viverra vehicula sapien laoreet nullam primis? Urna imperdiet, ad aenean fusce phasellus est penatibus fermentum dis! Volutpat amet parturient facilisis aenean, scelerisque mollis elit. Nam adipiscing laoreet egestas leo. Nunc blandit gravida suspendisse pharetra quisque suscipit amet imperdiet fames proin accumsan fermentum. Porttitor neque nunc nam metus mi. Gravida nullam diam vestibulum praesent ut class posuere malesuada. Fermentum, dui laoreet in conubia. Magna eu non egestas amet netus blandit vehicula magna porttitor lorem in dictum. Feugiat dui nostra netus dapibus sagittis posuere sapien?
+</p>
+<p>
+Sed, erat consectetur potenti. Tellus cubilia purus ligula aliquam. Sollicitudin convallis curabitur et cum habitant suspendisse diam? Laoreet elit iaculis scelerisque aptent condimentum. Class in himenaeos dapibus arcu odio cum venenatis. Diam non pretium, cum nostra egestas aptent sollicitudin. Luctus suscipit vehicula scelerisque. Sociosqu luctus nibh mus ultricies. Ipsum montes non vehicula sem. Litora dolor senectus, tempor tellus ut integer magnis varius risus fusce. Vel nulla interdum leo at.
+</p>
+<p>
+Nascetur rutrum taciti ullamcorper egestas at velit tellus est mi blandit montes. Iaculis eget turpis massa pretium in. Nec euismod eleifend varius dolor quisque. Mus, pharetra sociosqu convallis litora. Consequat consequat blandit posuere ornare semper nunc fermentum. Phasellus natoque mi lacus mi. Erat fames semper class vulputate lorem sodales pharetra ultricies venenatis leo. Conubia ad non vitae sit, gravida morbi.
+</p>
+            </div>
+        </div>
+        <div id="overlay" class="hidden"></div>
     </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container d-flex ">
-      <nav class="sidebar p-3 flex-column " id="sidebar">
-          <h3>Sidebar</h3>
-          <a class="nav-link ">Home<div class="more">Some hidden stuff</div></a>
-          <a class="nav-link ">Other<div class="more">Some hidden stuff</div></a>
-      </nav>
-    <div class="card-columns card-columns-single flex-column ">
-        <div class="card " id="problem1">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="course-title mr-auto">MATH 3320 - CALCULUS I</div>
-                    <div class="usage-count p-2">3.2k usages</div>
-                    <div class="add-to-cart"><a class="btn btn-primary btn-sm" href="#">+ Cart</a></div>
-                </div>
-            </div>
-            <div class="card-body tex2jax_process">
-                <div class="problem-metadata" id="problem1_metadata">
-                    <p><a href="#">Paul Savala - Saint Edward's University, Austin TX</a></p>
-                </div>
-                <p class="card-text problem">Compute the derivative of \(f(x)=x^2\)</p>
-                <div class="text-center problem-btn-group ">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem1_latex" aria-expanded="false" aria-controls="collapseExample">
-                            LaTeX
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem1_notes" aria-expanded="false" aria-controls="collapseExample">
-                            Notes
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem1_solution" aria-expanded="false" aria-controls="collapseExample">
-                            Solution
-                        </button>
-                    </div>
-                </div>
-                <div class="collapse tex2jax_ignore card-expand p-2" id="problem1_latex">
-                    <p>
-                    Compute the derivative of \(f(x)=x^2\)
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem1_notes">
-                    <p>
-                    I used this problem on the first day of teaching rules of derivatives.
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem1_solution">
-                    <p>
-                    \[f(x)=x^2 \Rightarrow f'(x)=2x\]
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="card " id="problem2">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="course-title mr-auto">MATH 3320 - CALCULUS I</div>
-                    <div class="usage-count p-2">2.4k usages</div>
-                    <div class="add-to-cart"><a class="btn btn-primary btn-sm" href="#">+ Cart</a></div>
-                </div>
-            </div>
-            <div class="card-body tex2jax_process">
-                <div class="problem-metadata" id="problem2_metadata">
-                    <p><a href="#">Paul Savala - Saint Edward's University, Austin TX</a></p>
-                </div>
-                <p class="card-text problem">
-                A tank of water in the shape of a cone is leaking water at a constant rate of 2ft\(^3\) per hour.
-                The base radius of the tank is 5 ft and the height of the tank is 14 ft.
-
-                    <ol>
-                        <li> At what rate is the depth of the water in the tank changing when the depth of the water is 6 ft?
-                        <li> At what rate is the radius of the top of the water in the tank changing when the depth of the water is 6 ft?
-                    </ol>
-
-                </p>
-                <div class="text-center problem-btn-group">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem2_latex" aria-expanded="false" aria-controls="collapseExample">
-                            LaTeX
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem2_notes" aria-expanded="false" aria-controls="collapseExample">
-                            Notes
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem2_solution" aria-expanded="false" aria-controls="collapseExample">
-                            Solution
-                        </button>
-                    </div>
-                </div>
-                <div class="collapse tex2jax_ignore card-expand p-2" id="problem2_latex">
-                    <p>
-                    A tank of water in the shape of a cone is leaking water at a constant rate of 2ft\(^3\) per hour.
-                The base radius of the tank is 5 ft and the height of the tank is 14 ft.
-
-                    <ol>
-                        <li> At what rate is the depth of the water in the tank changing when the depth of the water is 6 ft?
-                        <li> At what rate is the radius of the top of the water in the tank changing when the depth of the water is 6 ft?
-                    </ol>
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem2_solution">
-                    <p>
-                        Just do the normal related rates type stuff.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="card " id="problem3">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="course-title mr-auto">MATH 3321 - CALCULUS II</div>
-                    <div class="usage-count p-2">18k usages</div>
-                    <div class="add-to-cart"><a class="btn btn-primary btn-sm" href="#">+ Cart</a></div>
-                </div>
-            </div>
-            <div class="card-body tex2jax_process">
-                <div class="problem-metadata" id="problem3_metadata">
-                    <p><a href="#">Paul Savala - Saint Edward's University, Austin TX</a></p>
-                </div>
-                <p class="card-text problem">\[ \displaystyle\int_0^1 \frac{1}{x}dx \]</p>
-                <div class="text-center problem-btn-group">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem3_latex" aria-expanded="false" aria-controls="collapseExample">
-                            LaTeX
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem3_notes" aria-expanded="false" aria-controls="collapseExample">
-                            Notes
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem3_solution" aria-expanded="false" aria-controls="collapseExample">
-                            Solution
-                        </button>
-                    </div>
-                </div>
-                <div class="collapse tex2jax_ignore card-expand p-2" id="problem3_latex">
-                    <p>
-                    Compute the derivative of \(f(x)=x^2\)
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem3_notes">
-                    <p>
-                    I used this problem on the first day of teaching rules of derivatives.
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem3_solution">
-                    <p>
-                    \[f(x)=x^2 \Rightarrow f'(x)=2x\]
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="card " id="problem4">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="course-title mr-auto">MATH 4311 - ADVANCED STATS</div>
-                    <div class="usage-count p-2">3.1k usages</div>
-                    <div class="add-to-cart"><a class="btn btn-primary btn-sm" href="#">+ Cart</a></div>
-                </div>
-            </div>
-            <div class="card-body tex2jax_process">
-                <div class="problem-metadata" id="problem1_metadata">
-                    <p><a href="#">Marcos Ortiz - Colorado Mesa University, Grand Junction CO</a></p>
-                </div>
-                <p class="card-text problem">
-                An inventor has developed a new, energy-efficient lawn mower engine. He claims that the engine will run continuously for 5 hours (300 minutes) on a single gallon of regular gasoline. From his stock of 2000 engines, the inventor selects a simple random sample of 50 engines for testing. The engines run for an average of 295 minutes, with a standard deviation of 20 minutes. Test the null hypothesis that the mean run time is 300 minutes against the alternative hypothesis that the mean run time is not 300 minutes. Use a 0.05 level of significance. (Assume that run times for the population of engines are normally distributed.)
-                </p>
-                <div class="text-center problem-btn-group">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem4_latex" aria-expanded="false" aria-controls="collapseExample">
-                            LaTeX
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem4_notes" aria-expanded="false" aria-controls="collapseExample">
-                            Notes
-                        </button>
-                        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem4_solution" aria-expanded="false" aria-controls="collapseExample">
-                            Solution
-                        </button>
-                    </div>
-                </div>
-                <div class="collapse tex2jax_ignore card-expand p-2" id="problem4_latex">
-                    <p>
-                    An inventor has developed a new, energy-efficient lawn mower engine. He claims that the engine will run continuously for 5 hours (300 minutes) on a single gallon of regular gasoline. From his stock of 2000 engines, the inventor selects a simple random sample of 50 engines for testing. The engines run for an average of 295 minutes, with a standard deviation of 20 minutes. Test the null hypothesis that the mean run time is 300 minutes against the alternative hypothesis that the mean run time is not 300 minutes. Use a 0.05 level of significance. (Assume that run times for the population of engines are normally distributed.)
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem4_solution">
-                    <p>
-                        The solution to this problem takes four steps: (1) state the hypotheses, (2) formulate an analysis plan, (3) analyze sample data, and (4) interpret results. We work through those steps below:
-                        <ol>
-                            <li>State the hypotheses. The first step is to state the null hypothesis and an alternative hypothesis.
-                            Null hypothesis: \(\mu = 300\)
-                            Alternative hypothesis: \(\mu \neq 300\)
-                            Note that these hypotheses constitute a two-tailed test. The null hypothesis will be rejected if the sample mean is too big or if it is too small.
-                            <li>Formulate an analysis plan. For this analysis, the significance level is 0.05. The test method is a one-sample t-test.
-                            <li>Analyze sample data. Using sample data, we compute the standard error (SE), degrees of freedom (DF), and the t statistic test statistic (t).
-                            \(SE = s / \sqrt{n} = 20 / \sqrt{50} = 20/7.07 = 2.83 \)
-                            \( DF = n - 1 = 50 - 1 = 49 \)
-                            \( t = (x - \mu) / SE = (295 - 300)/2.83 = -1.77 \)
-                            where \(s\) is the standard deviation of the sample, \(x\) is the sample mean, \(\mu\) is the hypothesized population mean, and \(n\) is the sample size.
-                            Since we have a two-tailed test, the \(P\)-value is the probability that the \(t\) statistic having 49 degrees of freedom is less than -1.77 or greater than 1.77.
-                            We use the \(t\) Distribution Calculator to find \(P(t < -1.77) = 0.04\), and \(P(t > 1.77) = 0.04\). Thus, the P-value = 0.04 + 0.04 = 0.08.
-                            <li>Interpret results. Since the P-value (0.08) is greater than the significance level (0.05), we cannot reject the null hypothesis.
-                        </ol>
-                    </p>
-                </div>
-                <div class="collapse card-expand p-2" id="problem4_notes">
-                    <p>
-                        If you use this approach on an exam, you may also want to mention why this approach is appropriate. Specifically, the approach is appropriate because the sampling method was simple random sampling, the population was normally distributed, and the sample size was small relative to the population size (less than 5%).
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<!-- MathJax -->
-	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 
     <script>
-        /* Set the width of the side navigation to 250px */
-        function toggleNav() {
-          var sidebar = $("#sidebar");
-          if (sidebar.width() < 250) {
-              sidebar.width(250);
-          } else {
-              sidebar.width(100);
-          }
-        }
+        $(document).ready(function () {
+            $('#sidebarOpen').on('click', function () {
+                $('#sidebar').removeClass('hidden');
+                $('#overlay').removeClass('hidden');
+            });
+            $('#dismiss').on('click', function () {
+                $('#sidebar').addClass('hidden');
+                $('#overlay').addClass('hidden');
+            });
+        });
     </script>
-  </body>
+</body>
+
 </html>
