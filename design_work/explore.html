@@ -27,22 +27,36 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <div class="wrapper">
-        <nav id="sidebar" class="hidden">
+        <nav id="sidebar" class="mini flex-column pl-2 pt-2">
             <div id="dismiss">
                 <i class="fas fa-arrow-left"></i>
             </div>
-            <div class="sidebar-header">
-                <h3>Sidebar</h3>
+            <div class="row">
+                <div class="col-3">
+                    <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Course</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="institution-tab" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="false">Institution</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="instructor-tab" data-toggle="tab" href="#instructor" role="tab" aria-controls="instructor" aria-selected="false">Instructor</a>
+                      </li>
+                    </ul>
+                </div>
+                <div class="col-9 hidden" id="sidebar-content">
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">Course list goes here</div>
+                      <div class="tab-pane fade" id="institution" role="tabpanel" aria-labelledby="institution">Institution list goes here</div>
+                      <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor">Instructor list goes here</div>
+                    </div>
+                </div>
             </div>
-            <ul class="list-unstyled ">
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 2</a></li>
-                <li><a href="#">Item 3</a></li>
-            </ul>
         </nav>
         <div class="content">
-            <button type="button" id="sidebarOpen" class="btn btn-info">
-                <span>Open Sidebar</span>
+            <button type="button" id="sidebarFull" class="btn btn-info">
+                <span>Full Sidebar</span>
             </button>
             <div class="lorem">
                 <p>
@@ -82,13 +96,19 @@ Nascetur rutrum taciti ullamcorper egestas at velit tellus est mi blandit montes
 
     <script>
         $(document).ready(function () {
-            $('#sidebarOpen').on('click', function () {
-                $('#sidebar').removeClass('hidden');
+            $('#sidebarFull').on('click', function () {
+                $('#sidebar').removeClass('mini');
+                $('#sidebar').addClass('full');
+                $('#sidebar-content').removeClass('hidden');
                 $('#overlay').removeClass('hidden');
+                $('#sidebarFull').addClass('hidden');
             });
             $('#dismiss').on('click', function () {
-                $('#sidebar').addClass('hidden');
+                $('#sidebar').removeClass('full');
+                $('#sidebar').addClass('mini');
+                $('#sidebar-content').addClass('hidden');
                 $('#overlay').addClass('hidden');
+                $('#sidebarFull').removeClass('hidden');
             });
         });
     </script>
