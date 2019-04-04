@@ -2,18 +2,42 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<div class="container-fluid">
-        <div class="row mt-3">
-            <div class="col-4 " id="navigation">
-              {% if explorer_form %}
-                {{ wtf.quick_form(explorer_form) }}
-              {% endif %}
+<div class="wrapper">
+    <nav id="sidebar" class="mini flex-column pl-2 pt-2">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Course</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="institution-tab" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="false">Institution</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="instructor-tab" data-toggle="tab" href="#instructor" role="tab" aria-controls="instructor" aria-selected="false">Instructor</a>
+                  </li>
+                </ul>
             </div>
-            <div class="col-8 card-columns card-columns-single">
-                {% for problem in problems %}
-                    {% include 'problem_manager/_problem.html' %}
-                {% endfor %}
+            <div class="col-9 hidden" id="sidebar-content">
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">Course list goes here</div>
+                  <div class="tab-pane fade" id="institution" role="tabpanel" aria-labelledby="institution">Institution list goes here</div>
+                  <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor">Instructor list goes here</div>
+                </div>
             </div>
         </div>
+    </nav>
+    <div class="content">
+        <button type="button" id="sidebarFull" class="btn btn-info">
+            <span>Full Sidebar</span>
+        </button>
+        {% for problem in problems %}
+            {% include 'problem_manager/_problem.html' %}
+        {% endfor %}
     </div>
+    <div id="overlay" class="hidden"></div>
+</div>
 {% endblock %}

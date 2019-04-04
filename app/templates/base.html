@@ -198,6 +198,24 @@
                 })
               });
             });
+
+        // Functions for the sidebar on explore.html
+        $(document).ready(function () {
+            $('#sidebarFull').on('click', function () {
+                $('#sidebar').removeClass('mini');
+                $('#sidebar').addClass('full');
+                $('#sidebar-content').removeClass('hidden');
+                $('#overlay').removeClass('hidden');
+                $('#sidebarFull').addClass('hidden');
+            });
+            $('#dismiss').on('click', function () {
+                $('#sidebar').removeClass('full');
+                $('#sidebar').addClass('mini');
+                $('#sidebar-content').addClass('hidden');
+                $('#overlay').addClass('hidden');
+                $('#sidebarFull').removeClass('hidden');
+            });
+        });
     </script>
     {{ super() }}
 {% endblock %}
