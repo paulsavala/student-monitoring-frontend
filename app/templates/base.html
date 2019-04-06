@@ -201,20 +201,33 @@
 
         // Functions for the sidebar on explore.html
         $(document).ready(function () {
-            $('#sidebarFull').on('click', function () {
-                $('#sidebar').removeClass('mini');
-                $('#sidebar').addClass('full');
-                $('#sidebar-content').removeClass('hidden');
-                $('#overlay').removeClass('hidden');
-                $('#sidebarFull').addClass('hidden');
-            });
-            $('#dismiss').on('click', function () {
+          $('#toggle-sidebar').on('click', function () {
+              $('#sidebar').toggleClass('full mini');
+              $('#sidebar-content').toggleClass('hidden shown');
+              $('#overlay').toggleClass('hidden shown');
+              $('button#toggle-sidebar').toggleClass('fa-arrow-right fa-arrow-left')
+          });
+          $('.sidebar-expander').on('click', function () {
+              $('#sidebar').addClass('full');
+              $('#sidebar-content').removeClass('hidden');
+              $('#overlay').removeClass('hidden');
+              $('button#toggle-sidebar').removeClass('fa-arrow-right')
+              $('button#toggle-sidebar').addClass('fa-arrow-left')
+          });
+          $(document).mouseup(function(e)
+          {
+              var container = $('.wrapper');
+              // if the target of the click isn't the container nor a descendant of the container
+              if (!container.is(e.target) && container.has(e.target).length === 0)
+              {
                 $('#sidebar').removeClass('full');
                 $('#sidebar').addClass('mini');
                 $('#sidebar-content').addClass('hidden');
                 $('#overlay').addClass('hidden');
-                $('#sidebarFull').removeClass('hidden');
-            });
+                $('button#toggle-sidebar').removeClass('fa-arrow-left')
+                $('button#toggle-sidebar').addClass('fa-arrow-right')
+              }
+          });
         });
     </script>
     {{ super() }}

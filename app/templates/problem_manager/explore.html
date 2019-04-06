@@ -4,19 +4,19 @@
 {% block app_content %}
 <div class="wrapper">
     <nav id="sidebar" class="mini flex-column pl-2 pt-2">
-        <div id="dismiss">
-            <i class="fas fa-arrow-left"></i>
+        <div id="toggle-sidebar">
+            <button type="button" class="fas fa-arrow-right btn btn-outline-primary " id="toggle-sidebar"></button>
         </div>
         <div class="row">
             <div class="col-3">
                 <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Course</a>
+                  <li class="nav-item sidebar-expander">
+                    <a class="nav-link " id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Course</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item sidebar-expander">
                     <a class="nav-link" id="institution-tab" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="false">Institution</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item sidebar-expander">
                     <a class="nav-link" id="instructor-tab" data-toggle="tab" href="#instructor" role="tab" aria-controls="instructor" aria-selected="false">Instructor</a>
                   </li>
                 </ul>
@@ -31,9 +31,6 @@
         </div>
     </nav>
     <div class="content">
-        <button type="button" id="sidebarFull" class="btn btn-info">
-            <span>Full Sidebar</span>
-        </button>
         {% for problem in problems %}
             {% include 'problem_manager/_problem.html' %}
         {% endfor %}
