@@ -67,14 +67,15 @@ def explore():
         selected_course_ids = [int(id) for id in explorer_form.course.data]
         filter_group = [Problem.course_id.in_(selected_course_ids)]
         selected_author_ids = [int(id) for id in explorer_form.author.data]
-        print(selected_author_ids)
         if selected_author_ids != [] and (0 not in selected_author_ids):
             filter_group.append(Problem.user_id.in_(selected_author_ids))
         if explorer_form.has_solution.data == True:
             filter_group.append(Problem.solution != None)
         if explorer_form.has_notes.data == True:
             filter_group.append(Problem.notes != None)
+        print(filter_group)
         problems = Problem.query.filter(and_(*filter_group)).order_by(Problem.created_ts.desc())
+        print(problems.count())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
 

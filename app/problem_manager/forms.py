@@ -27,8 +27,9 @@ class ProblemForm(FlaskForm):
 
 
 class ProblemExplorerForm(FlaskForm):
-    course = SelectMultipleField(_l('Course'), coerce=int, validators=[DataRequired()], render_kw={"size": 10})
+    course = SelectMultipleField(_l('Course'), coerce=int, render_kw={"size": 10})
     author = SelectMultipleField(_l('Author'), coerce=int)
+    institution = SelectMultipleField(_l('Institution'), coerce=int)
     has_solution = BooleanField(_l('Must have solution'), default=False)
     has_notes = BooleanField(_l('Must have notes'), default=False)
     submit = SubmitField(_l('Search'))
@@ -37,6 +38,7 @@ class ProblemExplorerForm(FlaskForm):
         super(ProblemExplorerForm, self).__init__(*args, **kwargs)
         self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}') for c in Course.query.order_by(Course.number.asc())]
         self.author.choices = [(0, 'All')] + [(a.id, f'{a.full_name} - {a.institution.name}') for a in User.query]
+        self.institution.choices = [(0, 'All')] + [(i.id, f'{i.name} - {i.city}, {i.state}') for i in Institution.query]
 
 
 class DocumentForm(FlaskForm):

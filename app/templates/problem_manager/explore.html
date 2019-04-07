@@ -23,9 +23,24 @@
             </div>
             <div class="col-9 hidden" id="sidebar-content">
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">Course list goes here</div>
-                  <div class="tab-pane fade" id="institution" role="tabpanel" aria-labelledby="institution">Institution list goes here</div>
-                  <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor">Instructor list goes here</div>
+                  <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">
+                    <form method="POST" action="{{ url_for('problem_manager.explore') }}">
+                      <div>{{ explorer_form.course.label }}: {{ explorer_form.course }}</div>
+                      <div>{{ explorer_form.submit }}</div>
+                    </form>
+                  </div>
+                  <div class="tab-pane fade" id="institution" role="tabpanel" aria-labelledby="institution">
+                    <form method="POST" action="{{ url_for('problem_manager.explore') }}">
+                      <div>{{ explorer_form.institution.label }}: {{ explorer_form.institution }}</div>
+                      <div>{{ explorer_form.submit }}</div>
+                    </form>
+                  </div>
+                  <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor">
+                    <form method="POST" action="{{ url_for('problem_manager.explore') }}">
+                      <div>{{ explorer_form.author.label }}: {{ explorer_form.author }}</div>
+                      <div>{{ explorer_form.submit }}</div>
+                    </form>
+                  </div>
                 </div>
             </div>
         </div>
