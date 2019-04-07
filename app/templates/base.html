@@ -3,7 +3,7 @@
 {% block navbar %}
     <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Problematic</a>
+            <a class="navbar-brand h1" href="{{ url_for('main.index') }}">Problematic</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -17,6 +17,7 @@
                       </div>
                   </form></li>
                   {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a></li>
                     {% if current_user.is_anonymous %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
@@ -151,6 +152,10 @@
                   type: 'GET',
                   dataType: 'json',
                   success: function(data){
+                      $('i#star-' + button_id).toggle(
+                          function(){$(this).css({"color": "gold"});},
+                          function(){$(this).css({"color": "rgb(220,220,220)"});}
+                        });
                       if (data.visible === true) {
                         $('#problem_' + data.problem_id).show();
                       } else {
@@ -198,37 +203,6 @@
                 })
               });
             });
-
-        // Functions for the sidebar on explore.html
-        $(document).ready(function () {
-          $('#toggle-sidebar').on('click', function () {
-              $('#sidebar').toggleClass('full mini');
-              $('#sidebar-content').toggleClass('hidden shown');
-              $('#overlay').toggleClass('hidden shown');
-              $('button#toggle-sidebar').toggleClass('fa-arrow-right fa-arrow-left')
-          });
-          $('.sidebar-expander').on('click', function () {
-              $('#sidebar').addClass('full');
-              $('#sidebar-content').removeClass('hidden');
-              $('#overlay').removeClass('hidden');
-              $('button#toggle-sidebar').removeClass('fa-arrow-right')
-              $('button#toggle-sidebar').addClass('fa-arrow-left')
-          });
-          $(document).mouseup(function(e)
-          {
-              var container = $('.wrapper');
-              // if the target of the click isn't the container nor a descendant of the container
-              if (!container.is(e.target) && container.has(e.target).length === 0)
-              {
-                $('#sidebar').removeClass('full');
-                $('#sidebar').addClass('mini');
-                $('#sidebar-content').addClass('hidden');
-                $('#overlay').addClass('hidden');
-                $('button#toggle-sidebar').removeClass('fa-arrow-left')
-                $('button#toggle-sidebar').addClass('fa-arrow-right')
-              }
-          });
-        });
     </script>
     {{ super() }}
 {% endblock %}

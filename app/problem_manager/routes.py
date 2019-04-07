@@ -63,7 +63,9 @@ def explore():
     page = request.args.get('page', 1, type=int)
     explorer_form = ProblemExplorerForm()
     problems = []
+    print('Form received')
     if explorer_form.validate_on_submit():
+        print('Form validated')
         selected_course_ids = [int(id) for id in explorer_form.course.data]
         filter_group = [Problem.course_id.in_(selected_course_ids)]
         selected_author_ids = [int(id) for id in explorer_form.author.data]
