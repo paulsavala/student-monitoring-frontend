@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'macros.html' import render_pagination_bootstrap4 %}
 
 {% block app_content %}
     <table class="table table-hover">
@@ -24,16 +25,26 @@
             </td>
         </tr>
     </table>
-    <a class="h3 " data-toggle="collapse" href="#starred_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Starred problems</a>
+    <div class="container">
+        <div class="row">
+           <a class="h3 " data-toggle="collapse" href="#starred_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Starred problems</a>
+{#            {{ render_pagination_bootstrap4(starred_problems, nav_class="ml-3") }}#}
+        </div>
+    </div>
     <div class="card-columns collapse show mt-3 mb-3" id="starred_problems">
-        {% for problem in starred_problems %}
+        {% for problem in starred_problems.items %}
             {% include 'problem_manager/_problem.html' %}
         {% endfor %}
     </div>
     <br>
-    <a class="h3 " data-toggle="collapse" href="#user_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Your problems</a>
+    <div class="container">
+        <div class="row">
+           <a class="h3 " data-toggle="collapse" href="#user_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Your problems</a>
+            {{ render_pagination_bootstrap4(user_problems, nav_class="ml-3") }}
+        </div>
+    </div>
     <div class="card-columns collapse show mt-3" id="user_problems">
-        {% for problem in user_problems %}
+        {% for problem in user_problems.items %}
             {% include 'problem_manager/_problem.html' %}
         {% endfor %}
     </div>

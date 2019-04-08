@@ -20,5 +20,5 @@ class Config(object):
     LANGUAGES = ['en', 'es']
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
-    PROBLEMS_PER_PAGE = 25
+    PROBLEMS_PER_PAGE = 10
     TEMPLATE_DIR = os.path.join(basedir, 'app/latex_templates/')

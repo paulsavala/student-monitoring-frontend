@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+{% from 'macros.html' import render_pagination_bootstrap4 %}
 
 {% block app_content %}
     {% if form %}
@@ -10,9 +11,14 @@
           {{ wtf.quick_form(form, button_map={"submit": "primary"}) }}
       </div>
     {% endif %}
-    <a class="h2" data-toggle="collapse" href="#problem_list" role="button" aria-expanded="false" aria-controls="collapseExample">Your Problems</a>
+    <div class="container">
+        <div class="row">
+            <a class="h2" data-toggle="collapse" href="#problem_list" role="button" aria-expanded="false" aria-controls="collapseExample">Your Problems</a>
+            {{ render_pagination_bootstrap4(problems, nav_class="ml-3") }}
+        </div>
+    </div>
     <div class="card-columns collapse show mt-3 " id="problem_list">
-        {% for problem in problems %}
+        {% for problem in problems.items %}
             {% include 'problem_manager/_problem.html' %}
         {% endfor %}
     </div>
