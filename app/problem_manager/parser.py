@@ -44,6 +44,15 @@ class LatexParser():
         return ''
 
 
+    def space_converter(self, match_object):
+        inside = re.search(r'\\vspace{\s*(\d+)\s*cm\s*}', match_object.group(0))
+        if inside is not None:
+            return r'<div style="margin-bottom: {}cm"></div>'.format(inside.group(1))
+        inside = re.search(r'\\hspace{\s*(\d+)\s*cm\s*}', match_object.group(0))
+        if inside is not None:
+            return r'<div style="margin-right: {}cm"></div>'.format(inside.group(1))
+
+
     # todo: Handle escaped money signs \$ such as \$3.20
     def parse(self, raw_latex):
         # Initialize counters
@@ -64,5 +73,14 @@ class LatexParser():
         parsed_latex = re.sub(r'{\\bf[^}]*}', self.bold_converter, parsed_latex)
         parsed_latex = re.sub(r'\\textit{[^}]*}', self.italic_converter, parsed_latex)
         parsed_latex = re.sub(r'{\\it[^}]*}', self.italic_converter, parsed_latex)
+
+        # Strip \hspace and \vspace (they're still there in raw_latex)
+        parsed_latex = re.sub(r'\\vspace{\s*\d+\s*cm\s*}', r'<br>', parsed_latex)
+        parsed_latex = re.sub(r'\\hspace{\s*\d+\s*cm\s*}', r'<br>', parsed_latex)
+
+        # Change \\ to <br>
+        parsed_latex = re.sub(r'\\\\', r'<br>', parsed_latex)
+        # Strip \newpage
+        parsed_latex = re.sub(r'\\newpage', '', parsed_latex)
 
         return parsed_latex

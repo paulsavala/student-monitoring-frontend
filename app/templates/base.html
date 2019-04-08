@@ -152,11 +152,12 @@
                   type: 'GET',
                   dataType: 'json',
                   success: function(data){
-                      $('#star-bg-' + button_id).css("color", "gold");
-                      if (data.visible === true) {
-                        $('#problem_' + data.problem_id).show();
+                      $('#star-bg-' + data.problem_id).toggleClass("far fas");
+                      $('#star-bg-' + data.problem_id).css("color", "gold");
+                      if (data.visible === false) {
+                        $('#doc_problem_' + data.problem_id).hide();
                       } else {
-                        $('#problem_' + data.problem_id).hide();
+                        $('#doc_problem_' + data.problem_id).show();
                       }
                     }
                 })
@@ -171,10 +172,10 @@
                   dataType: 'json',
                   success: function(data){
                       $('#' + button_id).toggleClass("btn-primary btn-outline-primary");
-                      if (data.visible === true) {
-                        $('#doc_problem_' + data.problem_id).show();
-                      } else {
+                      if (data.visible === false) {
                         $('#doc_problem_' + data.problem_id).hide();
+                      } else {
+                        $('#doc_problem_' + data.problem_id).show();
                       }
                     }
                 })

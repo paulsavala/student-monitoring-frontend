@@ -89,7 +89,7 @@ def explore():
 def toggle_starred():
     problem_id = int(request.args.get('button_id').split('-')[-1])
     problem = Problem.query.filter_by(id=problem_id).first()
-    visible=True
+    visible = True
     if current_user.is_starred(problem):
         current_user.remove_star(problem)
         if request.referrer.split('/')[-1] == str(current_user.id):
