@@ -68,10 +68,10 @@ def user(user_id):
     # Starred problems
     starred_problems = current_user.starred_problems().order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.user', user_id=user_id,
-                       page=starred_problems.next_num) if starred_problems.has_next else None
-    prev_url = url_for('main.user', user_id=user_id,
-                       page=starred_problems.prev_num) if starred_problems.has_prev else None
+    # next_url = url_for('main.user', user_id=user_id,
+    #                    page=starred_problems.next_num) if starred_problems.has_next else None
+    # prev_url = url_for('main.user', user_id=user_id,
+    #                    page=starred_problems.prev_num) if starred_problems.has_prev else None
     return render_template('user.html', user=user, user_problems=user_problems,
                            starred_problems=starred_problems,
                            next_url=next_url, prev_url=prev_url)
