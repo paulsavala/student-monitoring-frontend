@@ -1,8 +1,8 @@
 FROM python:3.6-alpine
 
-RUN adduser -D microblog
+RUN adduser -D application
 
-WORKDIR /home/microblog
+WORKDIR /home/application
 
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
@@ -14,10 +14,10 @@ COPY migrations_old migrations
 COPY application.py config.py boot.sh ./
 RUN chmod a+x boot.sh
 
-ENV FLASK_APP microblog.py
+ENV FLASK_APP application.py
 
-RUN chown -R microblog:microblog ./
-USER microblog
+RUN chown -R application:application ./
+USER application
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
