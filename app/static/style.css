@@ -21,6 +21,14 @@
 	background-color: rgb(250,250,250);
 }
 
+.star-bg {
+  color: white;
+}
+
+.star-bg.gold {
+  color: gold;
+}
+
 .accordion {
   width: 100%;
   text-align: center;
