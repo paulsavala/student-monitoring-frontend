@@ -67,7 +67,8 @@ def explore():
     if explorer_form.validate_on_submit():
         print('Form validated')
         selected_topic_ids = [int(id) for id in explorer_form.topic.data]
-        filter_group = [Problem.course.topic_id.in_(selected_topic_ids)]
+        print(selected_topic_ids)
+        filter_group = [Problem.topic_id.in_(selected_topic_ids)]
         selected_author_ids = [int(id) for id in explorer_form.author.data]
         if selected_author_ids != [] and (0 not in selected_author_ids):
             filter_group.append(Problem.user_id.in_(selected_author_ids))

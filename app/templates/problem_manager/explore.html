@@ -8,13 +8,13 @@
           {{ explorer_form.hidden_tag() }}
           <div class="card">
             <div class="card-header" id="explore-header-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#course-search">
-                <h3>Course</h3>
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#topic-search">
+                <h3>Topics</h3>
               </button>
               </div>
-              <div id="course-search" class="collapse">
+              <div id="topic-search" class="collapse">
                 <div class="card-body">
-                  <div>{{ explorer_form.course }}</div>
+                  <div>{{ explorer_form.topic }}</div>
                   </div>
               </div>
             </div>
@@ -54,48 +54,4 @@
       </div>
     </div>
 </div>
-
-
-<!-- <nav id="sidebar" class="mini flex-column pl-2 pt-2">
-    <div id="toggle-sidebar">
-        <button type="button" class="fas fa-arrow-right btn btn-outline-primary " id="toggle-sidebar"></button>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
-              <li class="nav-item sidebar-expander">
-                <a class="nav-link " id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Course</a>
-              </li>
-              <li class="nav-item sidebar-expander">
-                <a class="nav-link" id="institution-tab" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="false">Institution</a>
-              </li>
-              <li class="nav-item sidebar-expander">
-                <a class="nav-link" id="instructor-tab" data-toggle="tab" href="#instructor" role="tab" aria-controls="instructor" aria-selected="false">Instructor</a>
-              </li>
-            </ul>
-        </div>
-        <div class="col-9 hidden" id="sidebar-content">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">
-                <form method="POST" action="{{ url_for('problem_manager.explore') }}">
-                  <div>{{ explorer_form.topic.label }}: {{ explorer_form.topic }}</div>
-                  <div>{{ explorer_form.submit }}</div>
-                </form>
-              </div>
-              <div class="tab-pane fade" id="institution" role="tabpanel" aria-labelledby="institution">
-                <form method="POST" action="{{ url_for('problem_manager.explore') }}">
-                  <div>{{ explorer_form.institution.label }}: {{ explorer_form.institution }}</div>
-                  <div>{{ explorer_form.submit }}</div>
-                </form>
-              </div>
-              <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor">
-                <form method="POST" action="{{ url_for('problem_manager.explore') }}">
-                  <div>{{ explorer_form.author.label }}: {{ explorer_form.author }}</div>
-                  <div>{{ explorer_form.submit }}</div>
-                </form>
-              </div>
-            </div>
-        </div>
-    </div>
-</nav> -->
 {% endblock %}

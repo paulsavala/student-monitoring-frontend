@@ -274,7 +274,7 @@ class Subject(db.Model):
     courses = db.relationship('Course', backref='subject', lazy=True)
 
     def __repr__(self):
-        return '<Topic {}>'.format(self.title)
+        return '<Subject {}>'.format(self.title)
 
 
 class Topic(db.Model):
