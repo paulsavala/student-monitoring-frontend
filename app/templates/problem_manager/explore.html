@@ -78,7 +78,7 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">
                 <form method="POST" action="{{ url_for('problem_manager.explore') }}">
-                  <div>{{ explorer_form.course.label }}: {{ explorer_form.course }}</div>
+                  <div>{{ explorer_form.topic.label }}: {{ explorer_form.topic }}</div>
                   <div>{{ explorer_form.submit }}</div>
                 </form>
               </div>

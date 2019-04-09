@@ -38,8 +38,8 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-    if not current_user.is_admin:
-        return redirect(url_for('error.not_found_error'))
+    # if not current_user.is_admin:
+    #     return redirect(url_for('error.not_found_error'))
     form = RegistrationForm()
     if form.validate_on_submit():
         full_name = f'{form.first_name.data} {form.last_name.data}'

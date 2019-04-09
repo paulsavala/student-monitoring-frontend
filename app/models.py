@@ -265,14 +265,38 @@ class Document(db.Model):
             self.problems.remove(problem)
 
 
+class Subject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256), nullable=False, index=True)
+    short_title = db.Column(db.String(16), nullable=False)
+
+    topics = db.relationship('Topic', backref='subject', lazy=True)
+    courses = db.relationship('Course', backref='subject', lazy=True)
+
+    def __repr__(self):
+        return '<Topic {}>'.format(self.title)
+
+
+class Topic(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256), nullable=False, index=True)
+
+    subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
+    courses = db.relationship('Course', backref='topic', lazy=True)
+
+    def __repr__(self):
+        return '<Topic {}>'.format(self.title)
+
+
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256), nullable=False, index=True)
-    subject = db.Column(db.String(256), nullable=False, index=True)
     number = db.Column(db.String(64), nullable=False, index=True)
     description = db.Column(db.String(1024))
     active = db.Column(db.Boolean, default=True, nullable=False)
 
+    subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'), nullable=False)
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'), index=True)
 
     problems = db.relationship('Problem', backref='course', lazy=True)

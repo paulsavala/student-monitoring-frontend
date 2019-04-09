@@ -3,7 +3,7 @@ from wtforms import SubmitField, TextAreaField, SelectField, BooleanField, \
                     SelectMultipleField, StringField
 from wtforms.validators import DataRequired
 from flask_babel import _, lazy_gettext as _l
-from app.models import Course, User, Institution
+from app.models import Course, User, Institution, Topic
 
 
 class ProblemForm(FlaskForm):
@@ -17,7 +17,7 @@ class ProblemForm(FlaskForm):
 
     def __init__(self, original_problem=None, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
-        self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}')
+        self.course.choices = [(c.id, f'{c.subject.short_title} {c.number} - {c.title}')
                                 for c in Course.query.filter(Course.institution_id==User.institution_id).order_by(Course.number.asc())]
         if original_problem is not None:
             self.problem.data = original_problem.body
@@ -27,7 +27,7 @@ class ProblemForm(FlaskForm):
 
 
 class ProblemExplorerForm(FlaskForm):
-    course = SelectMultipleField(_l('Course'), coerce=int, render_kw={"size": 10})
+    topic = SelectMultipleField(_l('Topic'), coerce=int, render_kw={"size": 10})
     author = SelectMultipleField(_l('Author'), coerce=int)
     institution = SelectMultipleField(_l('Institution'), coerce=int)
     has_solution = BooleanField(_l('Must have solution'), default=False)
@@ -36,7 +36,7 @@ class ProblemExplorerForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(ProblemExplorerForm, self).__init__(*args, **kwargs)
-        self.course.choices = [(c.id, f'{c.subject} {c.number} - {c.title}') for c in Course.query.order_by(Course.number.asc())]
+        self.topic.choices = [(t.id, f'{t.title}') for t in Topic.query]
         self.author.choices = [(0, 'All')] + [(a.id, f'{a.full_name} - {a.institution.name}') for a in User.query]
         self.institution.choices = [(0, 'All')] + [(i.id, f'{i.name} - {i.city}, {i.state}') for i in Institution.query]
 

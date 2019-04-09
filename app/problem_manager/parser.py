@@ -78,8 +78,6 @@ class LatexParser():
         parsed_latex = re.sub(r'\\vspace{\s*\d+\s*cm\s*}', r'<br>', parsed_latex)
         parsed_latex = re.sub(r'\\hspace{\s*\d+\s*cm\s*}', r'<br>', parsed_latex)
 
-        # Change \\ to <br>
-        parsed_latex = re.sub(r'\\\\', r'<br>', parsed_latex)
         # Strip \newpage
         parsed_latex = re.sub(r'\\newpage', '', parsed_latex)
 

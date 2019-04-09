@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
-from app.models import Problem, Course, Document, User
+from app.models import Problem, Course, Document, User, Topic, Subject
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
@@ -66,8 +66,8 @@ def explore():
     print('Form received')
     if explorer_form.validate_on_submit():
         print('Form validated')
-        selected_course_ids = [int(id) for id in explorer_form.course.data]
-        filter_group = [Problem.course_id.in_(selected_course_ids)]
+        selected_topic_ids = [int(id) for id in explorer_form.topic.data]
+        filter_group = [Problem.course.topic_id.in_(selected_topic_ids)]
         selected_author_ids = [int(id) for id in explorer_form.author.data]
         if selected_author_ids != [] and (0 not in selected_author_ids):
             filter_group.append(Problem.user_id.in_(selected_author_ids))

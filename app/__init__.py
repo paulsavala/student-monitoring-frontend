@@ -9,8 +9,11 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from elasticsearch import Elasticsearch
 from config import Config
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -21,6 +24,7 @@ mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
+admin = Admin()
 
 
 def create_app(config_class=Config):
@@ -34,6 +38,7 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
+    admin.init_app(app)
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
 
@@ -93,3 +98,14 @@ def get_locale():
 
 
 from app import models
+
+
+# Flask-Admin setup
+from app.models import User, Problem, Course, Institution, Topic, Subject
+
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Problem, db.session))
+admin.add_view(ModelView(Course, db.session))
+admin.add_view(ModelView(Institution, db.session))
+admin.add_view(ModelView(Topic, db.session))
+admin.add_view(ModelView(Subject, db.session))
