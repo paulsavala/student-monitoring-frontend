@@ -6,11 +6,11 @@ from flask_babel import _, get_locale
 from app import db
 from app.main.forms import EditProfileForm, SearchForm, MessageForm
 from app.problem_manager.forms import ProblemForm
-from app.models import User, Problem, Message, Notification, Course
+from app.models import User, Problem, Message, Notification, Class
 from app.translate import translate
 from app.main import bp
 from app.problem_manager.parser import LatexParser
-from common.utils import empty_str_to_null
+from common import utils
 
 
 @bp.before_app_request
@@ -26,16 +26,19 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    courses = Course.query.order_by(Course.number.asc())
-    form = ProblemForm(courses=courses)
+    classes = Class.query.order_by(Class.number.asc())
+    form = ProblemForm(classes=classes)
     if form.validate_on_submit():
         parser = LatexParser()
+        class_obj = Class.query.filter(Class.id == form.class_name.data).first_or_404()
         problem = Problem(latex=form.problem.data,
                           parsed_latex=parser.parse(form.problem.data),
-                          notes=empty_str_to_null(form.notes.data),
-                          solution=empty_str_to_null(form.solution.data),
+                          notes=utils.empty_str_to_null(form.notes.data),
+                          solution=utils.empty_str_to_null(form.solution.data),
                           user_id=current_user.id,
-                          course_id=form.course.data)
+                          course_id=class_obj.course_id,
+                          class_id=form.class_name.data,
+                          )
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))
@@ -48,7 +51,7 @@ def index():
     prev_url = url_for('main.index', page=problems.prev_num) \
         if problems.has_prev else None
     return render_template('index.html', title=_('Home'), form=form,
-                           problems=problems.items, next_url=next_url,
+                           problems=problems, next_url=next_url,
                            prev_url=prev_url)
 
 
@@ -58,23 +61,22 @@ def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     page = request.args.get('page', 1, type=int)
 
-    # User problems
     user_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.user', id=user_id,
+    next_url = url_for('main.user', user_id=user_id,
                        page=user_problems.next_num) if user_problems.has_next else None
-    prev_url = url_for('main.user', id=user_id,
+    prev_url = url_for('main.user', user_id=user_id,
                        page=user_problems.prev_num) if user_problems.has_prev else None
 
     # Starred problems
-    starred_problems = current_user.starred_problems().paginate(
+    starred_problems = current_user.starred_problems().order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.user', id=user_id,
-                       page=starred_problems.next_num) if starred_problems.has_next else None
-    prev_url = url_for('main.user', id=user_id,
-                       page=starred_problems.prev_num) if starred_problems.has_prev else None
-    return render_template('user.html', user=user, user_problems=user_problems.items,
-                           starred_problems=starred_problems.items,
+    # next_url = url_for('main.user', user_id=user_id,
+    #                    page=starred_problems.next_num) if starred_problems.has_next else None
+    # prev_url = url_for('main.user', user_id=user_id,
+    #                    page=starred_problems.prev_num) if starred_problems.has_prev else None
+    return render_template('user.html', user=user, user_problems=user_problems,
+                           starred_problems=starred_problems,
                            next_url=next_url, prev_url=prev_url)
 
 
