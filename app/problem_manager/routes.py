@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from flask_babel import _
 from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
-from app.models import Problem, Course, Document, User, Topic, Subject
+from app.models import Problem, Document, User, Subject, Course, Class
 from app.problem_manager import bp
 from common.utils import empty_str_to_null
 from sqlalchemy import and_
@@ -16,7 +16,7 @@ from app.problem_manager.document_generator import LatexDocument
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
 @login_required
 def edit_problem(problem_id):
-    courses = Course.query.order_by(Course.number.asc())
+    classes = Class.query.order_by(Class.number.asc())
     problem = Problem.query.filter(Problem.id == problem_id).first_or_404()
     form = ProblemForm()
     if form.validate_on_submit():
@@ -28,7 +28,10 @@ def edit_problem(problem_id):
         problem.parsed_latex = parser.parse(form.problem.data)
         problem.notes = empty_str_to_null(form.notes.data)
         problem.solution = empty_str_to_null(form.solution.data)
-        problem.course = form.course.data
+        problem.class_id = form.class_name.data
+        class_obj = Class.query.filter(Class.id == problem.class_id)
+        problem.course_id = class_obj.course_id
+        problem.subject_id = class_obj.subject_id
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.index'))
@@ -38,7 +41,7 @@ def edit_problem(problem_id):
         form.solution.data = problem.solution
 
     # Only populate the form with data after checking for a submit. Otherwise, your submit will have data overwritten.
-    form = ProblemForm(original_problem=problem, courses=courses)
+    form = ProblemForm(original_problem=problem, classes=classes)
     return render_template('problem_manager/edit_problem.html', form=form)
 
 
@@ -63,12 +66,9 @@ def explore():
     page = request.args.get('page', 1, type=int)
     explorer_form = ProblemExplorerForm()
     problems = []
-    print('Form received')
     if explorer_form.validate_on_submit():
-        print('Form validated')
-        selected_topic_ids = [int(id) for id in explorer_form.topic.data]
-        print(selected_topic_ids)
-        filter_group = [Problem.topic_id.in_(selected_topic_ids)]
+        selected_course_ids = [int(id) for id in explorer_form.course.data]
+        filter_group = [Problem.course_id.in_(selected_course_ids)]
         selected_author_ids = [int(id) for id in explorer_form.author.data]
         if selected_author_ids != [] and (0 not in selected_author_ids):
             filter_group.append(Problem.user_id.in_(selected_author_ids))
@@ -76,9 +76,7 @@ def explore():
             filter_group.append(Problem.solution != None)
         if explorer_form.has_notes.data == True:
             filter_group.append(Problem.notes != None)
-        print(filter_group)
         problems = Problem.query.filter(and_(*filter_group)).order_by(Problem.created_ts.desc())
-        print(problems.count())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
 
@@ -99,7 +97,6 @@ def toggle_starred():
         current_user.add_star(problem)
         problem.starred_count += 1
     db.session.commit()
-    print(f'starred: {problem_id}')
     return jsonify(problem_id=problem_id, visible=visible)
 
 
@@ -112,20 +109,18 @@ def documents():
     if user_documents.count() > 0:
         document = user_documents.first()
     else:
-        print('Creating new document')
         document = Document(name='New Document', user_id=current_user.id)
         db.session.add(document)
     problems = document.problems
     form = DocumentForm()
     if form.validate_on_submit():
         title = form.title.data
-        course = form.course.data
+        class_name = form.class_name.data
         problems_latex = [repr(p.latex).replace("'", '') for p in problems.all()]
-        document = LatexDocument(template='simple_exam.tex', blocks={'title': title, 'course': course},
+        document = LatexDocument(template='simple_exam.tex', blocks={'title': title, 'class': class_name},
                                  problems_latex=problems_latex)
         latex = document.generate_latex()
         return render_template('problem_manager/render_document.html', title=_('Document'), latex=latex)
-
     return render_template('problem_manager/documents.html', title=_('Documents'),
                            problems=problems, form=form)
 
@@ -153,13 +148,13 @@ def toggle_to_document():
     return jsonify(problem_id=problem_id, visible=visible)
 
 
-@bp.route('/clear_document')
+@bp.route('/clear_document', methods=['GET', 'POST'])
 @login_required
 def clear_document():
-    document = Document.query.filter(Document.user_id == current_user.id)
+    document = Document.query.filter(Document.user_id == current_user.id).first_or_404()
     document.clear_document()
     db.session.commit()
-    return jsonify({})
+    return redirect(url_for('problem_manager.documents'))
 
 
 # ------ TEST DATA LOADING --------

@@ -11,6 +11,7 @@
         {% for problem in problems %}
             {% include 'problem_manager/_doc_problem.html' %}
         {% endfor %}
+        <a role="button" href="{{ url_for('problem_manager.clear_document') }}" class="btn btn-outline-primary mt-1">Clear Document</a>
     </div>
     </form>
 {% endblock %}

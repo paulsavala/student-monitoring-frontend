@@ -162,7 +162,7 @@
                     }
                 })
               });
-            $("button[id^=add-to-document]").click(function(event){
+            $("button[id^=toggle-to-document]").click(function(event){
                 event.preventDefault();
                 var button_id=$(this).attr("id");
                 $.ajax({
@@ -178,13 +178,6 @@
                         $('#doc_problem_' + data.problem_id).show();
                       }
                     }
-                })
-              });
-            $("#clear-document").click(function(event){
-                event.preventDefault();
-                $.ajax({
-                  url: "{{ url_for('problem_manager.clear_document') }}",
-                  type: 'GET'
                 })
               });
             });

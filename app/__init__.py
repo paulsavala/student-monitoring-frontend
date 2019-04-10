@@ -101,11 +101,12 @@ from app import models
 
 
 # Flask-Admin setup
-from app.models import User, Problem, Course, Institution, Topic, Subject
+from app.models import User, Problem, Subject, Course, Class, Institution, Document
 
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Problem, db.session))
-admin.add_view(ModelView(Course, db.session))
 admin.add_view(ModelView(Institution, db.session))
-admin.add_view(ModelView(Topic, db.session))
+admin.add_view(ModelView(Class, db.session))
+admin.add_view(ModelView(Course, db.session))
 admin.add_view(ModelView(Subject, db.session))
+admin.add_view(ModelView(Document, db.session))

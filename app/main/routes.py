@@ -6,11 +6,11 @@ from flask_babel import _, get_locale
 from app import db
 from app.main.forms import EditProfileForm, SearchForm, MessageForm
 from app.problem_manager.forms import ProblemForm
-from app.models import User, Problem, Message, Notification, Course
+from app.models import User, Problem, Message, Notification, Class
 from app.translate import translate
 from app.main import bp
 from app.problem_manager.parser import LatexParser
-from common.utils import empty_str_to_null
+from common import utils
 
 
 @bp.before_app_request
@@ -26,16 +26,19 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    courses = Course.query.order_by(Course.number.asc())
-    form = ProblemForm(courses=courses)
+    classes = Class.query.order_by(Class.number.asc())
+    form = ProblemForm(classes=classes)
     if form.validate_on_submit():
         parser = LatexParser()
+        class_obj = Class.query.filter(Class.id == form.class_name.data).first_or_404()
         problem = Problem(latex=form.problem.data,
                           parsed_latex=parser.parse(form.problem.data),
-                          notes=empty_str_to_null(form.notes.data),
-                          solution=empty_str_to_null(form.solution.data),
+                          notes=utils.empty_str_to_null(form.notes.data),
+                          solution=utils.empty_str_to_null(form.solution.data),
                           user_id=current_user.id,
-                          course_id=form.course.data)
+                          course_id=class_obj.course_id,
+                          class_id=form.class_name.data,
+                          )
         db.session.add(problem)
         db.session.commit()
         flash(_('Your problem is now live!'))
