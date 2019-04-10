@@ -12,16 +12,13 @@ class Problem(SearchableMixin, db.Model):
     notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
     image = db.Column(db.String(1024))
-    created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     starred_count = db.Column(db.Integer, default=0)
     doc_count = db.Column(db.Integer, default=0)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     class_id = db.Column(db.Integer, db.ForeignKey('class.id'), index=True)
 
     def __repr__(self):
         return '<Problem {}>'.format(self.id)
-
-    def is_in_document(self, user, problem):
-        pass

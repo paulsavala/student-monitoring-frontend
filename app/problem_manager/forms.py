@@ -4,6 +4,7 @@ from wtforms import SubmitField, TextAreaField, SelectField, BooleanField, \
 from wtforms.validators import DataRequired
 from flask_babel import _, lazy_gettext as _l
 from app.models import User, Institution, Course, Class
+from flask_login import current_user
 
 
 class ProblemForm(FlaskForm):
@@ -18,7 +19,7 @@ class ProblemForm(FlaskForm):
     def __init__(self, original_problem=None, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
         self.class_name.choices = [(c.id, f'{c.subject.short_title} {c.number} - {c.title}')
-                                   for c in Class.query.filter(Class.institution_id==User.institution_id).order_by(Class.number.asc())]
+                                   for c in Class.query.filter(Class.institution_id==current_user.institution_id).order_by(Class.number.asc())]
         if original_problem is not None:
             self.problem.data = original_problem.body
             self.notes.data = original_problem.notes

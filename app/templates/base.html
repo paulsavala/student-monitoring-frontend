@@ -1,14 +1,14 @@
 {% extends 'bootstrap_base.html' %}
 
 {% block navbar %}
-    <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore">
-        <div class="container">
+    <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore ">
+        <div class="container ">
             <a class="navbar-brand display-1" href="{{ url_for('main.index') }}">Problematic</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto ">
                   {% if g.search_form %}
                   <li class="nav-item">
                   <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
