@@ -161,6 +161,7 @@ def clear_document():
 @bp.route('/load_test_data')
 @login_required
 def load_test_data():
-    from scripts import load_test_data
-    flash(_('Test data loaded'))
+    if current_user.admin:
+        from scripts import load_test_data
+        flash(_('Test data loaded'))
     return redirect(url_for('main.index'))

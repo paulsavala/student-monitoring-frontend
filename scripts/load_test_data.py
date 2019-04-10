@@ -1,11 +1,13 @@
 from app import db
-from app.models import Problem, Course, Institution, Document, Class, Subject
+from app.models import Subject, Course, Class, Institution, Problem, Document
 from app.problem_manager.parser import LatexParser
 
 
 # Truncate the course and problem tables
 db.session.query(Problem).delete()
+db.session.query(Course).delete()
 db.session.query(Class).delete()
+db.session.query(Subject).delete()
 db.session.query(Institution).delete()
 db.session.query(Document).delete()
 

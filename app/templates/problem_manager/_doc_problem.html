@@ -1,7 +1,7 @@
  <div class="list-group-item" id="doc_problem_{{ problem.id }}">
-      <div class="d-flex flex-row">
-          <div class="mr-3">
-              <button type="button" class="btn btn-primary btn-sm" id="add-to-document-{{ problem.id }}" href="">- Doc</button>
+      <div class="d-flex flex-row align-items-center">
+          <div class="mr-3 ">
+              <button type="button" class="btn btn-outline-primary btn-sm" id="toggle-to-document-{{ problem.id }}" href="">- Doc</button>
           </div>
           <div class="tex2jax_process">
               {{ problem.parsed_latex|safe }}
