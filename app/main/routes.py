@@ -10,7 +10,7 @@ from app.models import User, Problem, Message, Notification, Class
 from app.translate import translate
 from app.main import bp
 from app.problem_manager.parser import LatexParser
-from common import utils
+from app.utils import utils
 
 
 @bp.before_app_request

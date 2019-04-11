@@ -6,7 +6,7 @@ from app import db
 from app.problem_manager.forms import ProblemForm, ProblemExplorerForm, DocumentForm
 from app.models import Problem, Document, User, Subject, Course, Class
 from app.problem_manager import bp
-from common.utils import empty_str_to_null
+from app.utils import utils
 from sqlalchemy import and_
 from app.problem_manager.parser import LatexParser
 from app.problem_manager.document_generator import LatexDocument
@@ -26,8 +26,8 @@ def edit_problem(problem_id):
         parser = LatexParser()
         problem.latex = form.problem.data
         problem.parsed_latex = parser.parse(form.problem.data)
-        problem.notes = empty_str_to_null(form.notes.data)
-        problem.solution = empty_str_to_null(form.solution.data)
+        problem.notes = utils.empty_str_to_null(form.notes.data)
+        problem.solution = utils.empty_str_to_null(form.solution.data)
         problem.class_id = form.class_name.data
         class_obj = Class.query.filter(Class.id == problem.class_id)
         problem.course_id = class_obj.course_id
@@ -162,6 +162,6 @@ def clear_document():
 @login_required
 def load_test_data():
     if current_user.admin:
-        from scripts import load_test_data
+        from utils import load_test_data
         flash(_('Test data loaded'))
     return redirect(url_for('main.index'))
