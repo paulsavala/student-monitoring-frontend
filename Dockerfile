@@ -10,7 +10,7 @@ RUN venv/bin/pip install -r requirements.txt
 RUN venv/bin/pip install gunicorn pymysql
 
 COPY app app
-COPY migrations_old migrations
+COPY migrations migrations
 COPY application.py config.py boot.sh ./
 RUN chmod a+x boot.sh
 
