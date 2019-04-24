@@ -26,10 +26,12 @@ class Document(db.Model):
 
     def add_problem(self, problem):
         if not self.has_problem(problem):
+            print(f'Problem {problem.id} added to document')
             self.problems.append(problem)
 
     def remove_problem(self, problem):
         if self.has_problem(problem):
+            print(f'Problem {problem.id} removed from document')
             self.problems.remove(problem)
 
     def clear_document(self):

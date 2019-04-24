@@ -127,6 +127,14 @@ class User(UserMixin, db.Model):
         if self.has_document(document):
             self.starred.remove(document)
 
+    def is_in_document(self, problem, document=None):
+        if document is None:
+            for doc in self.documents:
+                if doc.problems.filter(problem.id in [problem.id for problem in doc.problems]).count() > 0:
+                    print(f'problem.id: {problem.id} is in document')
+                    return True
+        return False
+
     # ---- Misc functions ----
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()

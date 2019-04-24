@@ -7,7 +7,7 @@
               <i id="star-bg-{{ problem.id }}" {% if current_user.is_starred(problem) %}class="fas fa-star " style="color: gold"{% else %}class="far fa-star " style="color: blue"{% endif %}>
               </i>
           </a>
-          <button type="button" class="btn btn-primary btn-sm" id="toggle-to-document-{{ problem.id }}" href="">+ Doc</button>
+          <button type="button" {% if current_user.is_in_document(problem) %}class="btn btn-outline-primary btn-sm"{% else %}class="btn btn-primary btn-sm"{% endif %} id="toggle-to-document-{{ problem.id }}" href="">{% if current_user.is_in_document(problem) %}- Doc{% else %}+ Doc{% endif %}</button>
         </div>
 			</div>
       <div class="card-body tex2jax_process">

@@ -28,6 +28,7 @@ class ProblemForm(FlaskForm):
 
 
 class ProblemExplorerForm(FlaskForm):
+    search = StringField(_l('Search'), render_kw={"placeholder": "(Optional) Search terms"})
     course = SelectMultipleField(_l('Course'), coerce=int)
     author = SelectMultipleField(_l('Author'), coerce=int)
     institution = SelectMultipleField(_l('Institution'), coerce=int)

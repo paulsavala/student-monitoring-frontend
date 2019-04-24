@@ -172,6 +172,9 @@
                   dataType: 'json',
                   success: function(data){
                       $('#' + button_id).toggleClass("btn-primary btn-outline-primary");
+                      var text = $('#' + button_id).text();
+                        $('#' + button_id).text(
+                            text == "+ Doc" ? "- Doc" : "+ Doc");
                       if (data.visible === false) {
                         $('#doc_problem_' + data.problem_id).hide();
                       } else {
@@ -181,9 +184,6 @@
                 })
               });
             });
-
-        // Functions for working with documents
-        $(document).ready(function () {
             $("button[id^=btn-up]").click(function(){
                 $.ajax({
                   url: "{{ url_for('problem_manager.clear_document') }}",
@@ -193,7 +193,6 @@
                     }
                 })
               });
-            });
     </script>
     {{ super() }}
 {% endblock %}

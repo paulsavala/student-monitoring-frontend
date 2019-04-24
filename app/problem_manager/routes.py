@@ -140,7 +140,7 @@ def toggle_to_document():
     if document.has_problem(problem):
         document.remove_problem(problem)
         if request.referrer.split('/')[-1] == 'documents':
-            visible=False
+            visible = False
     else:
         document.add_problem(problem)
         problem.starred_count += 1
@@ -162,6 +162,6 @@ def clear_document():
 @login_required
 def load_test_data():
     if current_user.admin:
-        from utils import load_test_data
+        from app.utils import load_test_data
         flash(_('Test data loaded'))
     return redirect(url_for('main.index'))
