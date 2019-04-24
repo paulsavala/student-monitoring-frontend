@@ -67,8 +67,10 @@ def explore():
     explorer_form = ProblemExplorerForm()
     problems = []
     if explorer_form.validate_on_submit():
+        filter_group = []
         selected_course_ids = [int(id) for id in explorer_form.course.data]
-        filter_group = [Problem.course_id.in_(selected_course_ids)]
+        if selected_course_ids != []:
+            filter_group.append(Problem.course_id.in_(selected_course_ids))
         selected_author_ids = [int(id) for id in explorer_form.author.data]
         if selected_author_ids != [] and (0 not in selected_author_ids):
             filter_group.append(Problem.user_id.in_(selected_author_ids))
@@ -76,6 +78,7 @@ def explore():
             filter_group.append(Problem.solution != None)
         if explorer_form.has_notes.data == True:
             filter_group.append(Problem.notes != None)
+        print(filter_group)
         problems = Problem.query.filter(and_(*filter_group)).order_by(Problem.created_ts.desc())
     return render_template('problem_manager/explore.html', title=_('Explore'),
                            explorer_form=explorer_form, problems=problems)
