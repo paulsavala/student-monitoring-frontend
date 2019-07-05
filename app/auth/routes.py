@@ -36,7 +36,7 @@ def logout():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
-    # if not current_user.admin:
+    # if current_user.is_authenticated and not current_user.admin:
     #     flash(_('Currently in closed beta'))
     #     return redirect(url_for('main.index'))
     form = RegistrationForm()

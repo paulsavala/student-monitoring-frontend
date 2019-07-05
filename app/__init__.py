@@ -1,17 +1,17 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-from flask import Flask, request, current_app, redirect, url_for
+from flask import Flask, request, current_app, redirect, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
+from flask_admin import Admin, AdminIndexView
+from flask_admin.menu import MenuLink
+from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
-from flask_admin import Admin, AdminIndexView, expose
-from flask_admin.menu import MenuLink
-from flask_admin.contrib.sqla import ModelView
 from elasticsearch import Elasticsearch
 from config import Config
 
@@ -92,14 +92,9 @@ def create_app(config_class=Config):
 
     return app
 
-
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
-
-
-from app import models
-
 
 # Flask-Admin setup
 from app.models import User, Problem, Subject, Course, Class, Institution, Document
