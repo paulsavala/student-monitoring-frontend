@@ -4,12 +4,13 @@ import os
 from flask import Flask, request, current_app, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView, expose
+from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from elasticsearch import Elasticsearch
 from config import Config
@@ -26,7 +27,6 @@ moment = Moment()
 babel = Babel()
 admin = Admin()
 
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -39,6 +39,7 @@ def create_app(config_class=Config):
     moment.init_app(app)
     babel.init_app(app)
     admin.init_app(app)
+
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
 
@@ -103,10 +104,15 @@ from app import models
 # Flask-Admin setup
 from app.models import User, Problem, Subject, Course, Class, Institution, Document
 
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Problem, db.session))
-admin.add_view(ModelView(Institution, db.session))
-admin.add_view(ModelView(Class, db.session))
-admin.add_view(ModelView(Course, db.session))
-admin.add_view(ModelView(Subject, db.session))
-admin.add_view(ModelView(Document, db.session))
+class RestrictedView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+admin.add_view(RestrictedView(User, db.session))
+admin.add_view(RestrictedView(Problem, db.session))
+admin.add_view(RestrictedView(Institution, db.session))
+admin.add_view(RestrictedView(Class, db.session))
+admin.add_view(RestrictedView(Course, db.session))
+admin.add_view(RestrictedView(Subject, db.session))
+admin.add_view(RestrictedView(Document, db.session))
+admin.add_link(MenuLink(name='Public Website', category='', url='/'))

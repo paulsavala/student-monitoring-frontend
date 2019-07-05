@@ -29,7 +29,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     title = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
-    admin = db.Column(db.Boolean, default=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
@@ -136,6 +136,9 @@ class User(UserMixin, db.Model):
         return False
 
     # ---- Misc functions ----
+    def is_admin(self):
+        return self.admin
+
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
