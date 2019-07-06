@@ -100,6 +100,8 @@ def get_locale():
 from app.models import User, Problem, Subject, Course, Class, Institution, Document
 
 class RestrictedView(ModelView):
+    column_exclude_list=('password_hash',)
+
     def is_accessible(self):
         return current_user.is_authenticated
 

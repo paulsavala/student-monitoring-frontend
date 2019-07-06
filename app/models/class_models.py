@@ -11,7 +11,7 @@ class Subject(db.Model):
     classes = db.relationship('Class', backref='subject', lazy='dynamic')
 
     def __repr__(self):
-        return '<Subject {}>'.format(self.title)
+        return f'<Subject {self.id}: {self.title}>'
 
 
 # Calculus I, Linear Algebra, etc (independent of the institution)
@@ -25,7 +25,7 @@ class Course(db.Model):
     problems = db.relationship('Problem', backref='course', lazy='dynamic')
 
     def __repr__(self):
-        return '<Course {}>'.format(self.title)
+        return f'<Course {self.id}: {self.title}>'
 
 
 # "MATH123 Single-variable Calculus" (specific instance of a course at an institution)
@@ -43,4 +43,4 @@ class Class(db.Model):
     problems = db.relationship('Problem', backref='class', lazy='dynamic')
 
     def __repr__(self):
-        return '<Class {}>'.format(self.title)
+        return f'<Class {self.id}: {self.title}>'

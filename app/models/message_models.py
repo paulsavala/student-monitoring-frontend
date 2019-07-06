@@ -12,7 +12,7 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Message {}>'.format(self.id)
+        return f'<Message {self.id}>'
 
 
 class Notification(db.Model):

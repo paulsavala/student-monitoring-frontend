@@ -21,4 +21,4 @@ class Problem(SearchableMixin, db.Model):
     class_id = db.Column(db.Integer, db.ForeignKey('class.id'), index=True)
 
     def __repr__(self):
-        return '<Problem {}>'.format(self.id)
+        return f'<Problem {self.id}>'

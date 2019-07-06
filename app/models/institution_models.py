@@ -12,4 +12,4 @@ class Institution(db.Model):
     classes = db.relationship('Class', backref='institution', lazy='dynamic')
 
     def __repr__(self):
-        return '<Institution {}>'.format(self.name)
+        return f'<Institution {self.id}: {self.name}>'

@@ -16,7 +16,7 @@ class Document(db.Model):
                               lazy='dynamic')
 
     def __repr__(self):
-        return f'<Document {self.name}>'
+        return f'<Document {self.id}: {self.name}>'
 
     # ---- Document problem functions ----
     def has_problem(self, problem):

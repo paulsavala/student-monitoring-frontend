@@ -26,11 +26,11 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(128), nullable=False)
     full_name = db.Column(db.String(256))
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
     title = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
     admin = db.Column(db.Boolean, default=False, nullable=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    password_hash = db.Column(db.String(128), nullable=False)
 
     institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
 
