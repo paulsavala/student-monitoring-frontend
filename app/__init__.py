@@ -103,7 +103,7 @@ class RestrictedView(ModelView):
     column_exclude_list=('password_hash',)
 
     def is_accessible(self):
-        return current_user.is_authenticated
+        return current_user.is_authenticated and current_user.is_admin()
 
 admin.add_view(RestrictedView(User, db.session))
 admin.add_view(RestrictedView(Problem, db.session))
