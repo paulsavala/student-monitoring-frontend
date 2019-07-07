@@ -40,8 +40,8 @@ def create_app(config_class=Config):
     babel.init_app(app)
     admin.init_app(app)
 
-    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
-        if app.config['ELASTICSEARCH_URL'] else None
+    app.elasticsearch = Elasticsearch([app.config.get('ELASTICSEARCH_URL')]) \
+        if app.config.get('ELASTICSEARCH_URL') else None
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
@@ -56,7 +56,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     if not app.debug and not app.testing:
-        if app.config['MAIL_SERVER']:
+        if app.config.get('MAIL_SERVER'):
             auth = None
             if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
                 auth = (app.config['MAIL_USERNAME'],
@@ -72,7 +72,7 @@ def create_app(config_class=Config):
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
 
-        if app.config['LOG_TO_STDOUT']:
+        if app.config.get('LOG_TO_STDOUT'):
             stream_handler = logging.StreamHandler()
             stream_handler.setLevel(logging.INFO)
             app.logger.addHandler(stream_handler)

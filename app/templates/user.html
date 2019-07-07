@@ -8,6 +8,7 @@
             <td width="128px"><img src="{{ user.avatar(128) }}"></td>
             <td>
                 <h1>{{ user.full_name }}</h1>
+                {% if user.title %}<p>{{ user.title }} at {{ user.institution.name }}</p>{% endif %}
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}
                 <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('LLL') }}</p>

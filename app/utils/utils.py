@@ -20,4 +20,5 @@ def read_from_s3(bucket, key, as_dict=False, ignore_missing=False):
             print(f'Error accessing {bucket}/{key}')
             raise
         else:
-            print(f'{bucket}/{key} does not exist, ignoring')
+            print(f'{bucket}/{key} does not exist, returning None')
+            return None
