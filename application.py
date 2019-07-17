@@ -7,8 +7,9 @@ import json
 import os
 
 def set_env_variables():
-    # Avoid setting variables twice while in debug
-    if os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
+    # Only set environment variables when APP_ENV is set
+    if os.environ.get('APP_ENV'):
+        print(f"APP_ENV = {os.environ.get("APP_ENV", "dev")}")
         env_variables = read_from_s3(bucket=f'problematic-{os.environ.get("APP_ENV", "dev")}-us-east-1',
                                      key=f'configuration/{os.environ.get("APP_ENV", "dev")}-env-variables.json',
                                      as_dict=True)
@@ -23,7 +24,10 @@ def set_env_variables():
         if db_creds is not None:
             db_conn_str = f'{db_creds["connection"]}://{db_creds["username"]}:{db_creds["password"]}@{db_creds["host"]}:{db_creds["port"]}/{db_creds["database"]}'
             os.environ['DATABASE_URL'] = db_conn_str
-            print("Set os.environ['DATABASE_URL']")
+            print(f"Set os.environ['DATABASE_URL'] to {os.environ['DATABASE_URL']}")
+    else:
+        print("APP_ENV environment variable not set, defaulting to dev")
+        print("Environment variables will NOT be set")
 
 set_env_variables()
 
