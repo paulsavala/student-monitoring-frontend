@@ -9,7 +9,7 @@ import os
 def set_env_variables():
     # Only set environment variables when APP_ENV is set
     if os.environ.get('APP_ENV'):
-        print(f"APP_ENV = {os.environ.get("APP_ENV", "dev")}")
+        print(f"APP_ENV = {os.environ.get('APP_ENV', 'dev')}")
         env_variables = read_from_s3(bucket=f'problematic-{os.environ.get("APP_ENV", "dev")}-us-east-1',
                                      key=f'configuration/{os.environ.get("APP_ENV", "dev")}-env-variables.json',
                                      as_dict=True)
