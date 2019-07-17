@@ -13,7 +13,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from elasticsearch import Elasticsearch
-from config import Config
+from config import DevConfig, ProdConfig
 
 
 db = SQLAlchemy()
@@ -27,7 +27,11 @@ moment = Moment()
 babel = Babel()
 admin = Admin()
 
-def create_app(config_class=Config):
+def create_app():
+    if os.environ.get("APP_ENV") == "prod":
+        config_class = ProdConfig
+    else:
+        config_class = DevConfig
     app = Flask(__name__)
     app.config.from_object(config_class)
 
