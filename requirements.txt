@@ -29,7 +29,6 @@ Jinja2==2.10
 jmespath==0.9.4
 Mako==1.0.7
 MarkupSafe==1.0
-psycopg2==2.8.3
 pyasn1==0.4.5
 PyJWT==1.5.3
 python-dateutil==2.6.1

@@ -13,7 +13,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from elasticsearch import Elasticsearch
-from app.utils.utils import read_from_s3
+from config import DevConfig, ProdConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -28,8 +28,7 @@ admin = Admin()
 
 def create_app():
     print('Creating app...')
-
-    from config import DevConfig, ProdConfig
+    print(os.environ['DATABASE_URL'])
 
     if os.environ.get("APP_ENV") == "prod":
         config_class = ProdConfig

@@ -22,4 +22,4 @@ class DevConfig(GenericConfig):
         'sqlite:///' + os.path.join(basedir, 'app.db')
 
 class ProdConfig(GenericConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
