@@ -15,8 +15,6 @@ COPY application.py config.py boot.sh ./
 RUN chmod a+x boot.sh
 
 ENV FLASK_APP application.py
-ENV FLASK_DEBUG false
-ENV FLASK_ENV production
 ENV APP_ENV prod
 
 RUN chown -R application:application ./
