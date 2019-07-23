@@ -21,4 +21,5 @@ RUN chown -R application:application ./
 USER application
 
 EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+RUN ./boot.sh
+
