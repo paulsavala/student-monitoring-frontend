@@ -4,6 +4,8 @@ RUN useradd -ms /bin/bash application
 
 WORKDIR /home/application
 
+RUN "echo $DATABASE_URL"
+
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
 RUN venv/bin/pip install --upgrade pip
@@ -21,6 +23,5 @@ ENV APP_ENV prod
 RUN chown -R application:application ./
 USER application
 
-RUN "echo $DATABASE_URL"
 RUN ./boot.sh
 
