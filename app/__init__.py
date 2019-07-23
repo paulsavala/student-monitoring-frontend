@@ -29,8 +29,6 @@ admin = Admin()
 def create_app():
     print('Creating app...')
 
-    set_env_variables()
-
     from config import DevConfig, ProdConfig
 
     if os.environ.get("APP_ENV") == "prod":
@@ -105,24 +103,6 @@ def create_app():
         print('app created')
 
     return app
-
-def set_env_variables():
-    print('Setting environment variables...')
-    env_variables = read_from_s3(bucket=f'problematic-{os.environ.get("APP_ENV", "dev")}-us-east-1',
-                                 key=f'configuration/{os.environ.get("APP_ENV", "dev")}-env-variables.json',
-                                 as_dict=True)
-
-    for k, v in env_variables.items():
-        os.environ[k.upper()] = v
-        print(f"Set os.environ['{k.upper()}']")
-
-    db_creds = read_from_s3(bucket=f'problematic-{os.environ.get("APP_ENV", "dev")}-us-east-1',
-                            key=f'credentials/{os.environ.get("APP_ENV", "dev")}-database.json',
-                            as_dict=True, ignore_missing=True)
-    if db_creds is not None:
-        db_conn_str = f'{db_creds["connection"]}://{db_creds["username"]}:{db_creds["password"]}@{db_creds["host"]}:{db_creds["port"]}/{db_creds["database"]}'
-        os.environ['DATABASE_URL'] = db_conn_str
-        print(f"Set os.environ['DATABASE_URL']")
 
 
 @babel.localeselector
