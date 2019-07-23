@@ -21,6 +21,6 @@ ENV APP_ENV prod
 RUN chown -R application:application ./
 USER application
 
-EXPOSE 5000
+ECHO "$DATABASE_URL"
 RUN ./boot.sh
 
