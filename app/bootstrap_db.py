@@ -7,6 +7,21 @@ import os
 with current_app.app_context():
     current_app.logger.info('Bootstrapping database...')
 
+    # Truncate the course and problem tables
+    db.session.query(Course).delete()
+    db.session.query(Class).delete()
+    db.session.query(Subject).delete()
+    db.session.query(Institution).delete()
+
+    # Load some institutions
+    st_edwards = Institution(name="Saint Edward's University", city="Austin", state="TX", type="COLLEGE")
+    colorado_mesa = Institution(name="Colorado Mesa University", city="Grand Junction", state="CO", type="COLLEGE")
+
+    institutions = [st_edwards, colorado_mesa]
+    for college in institutions:
+        db.session.add(college)
+        current_app.logger.info(f'Created {college.name}')
+
     # Create the initial admin user if necessary
     admin_user = User.query.filter_by(admin=True).first()
 
@@ -28,27 +43,10 @@ with current_app.app_context():
 
         db.session.add(st_edwards)
         db.session.add(admin_user)
-        db.session.commit()
 
         current_app.logger.info('Admin user created')
     else:
         current_app.logger.info('Admin user already exists')
-
-    # Truncate the course and problem tables
-    db.session.query(Course).delete()
-    db.session.query(Class).delete()
-    db.session.query(Subject).delete()
-    db.session.query(Institution).delete()
-
-    # Load some institutions
-    st_edwards = Institution(name="Saint Edward's University", city="Austin", state="TX", type="COLLEGE")
-    colorado_mesa = Institution(name="Colorado Mesa University", city="Grand Junction", state="CO", type="COLLEGE")
-
-    institutions = [st_edwards, colorado_mesa]
-    for college in institutions:
-        db.session.add(college)
-        current_app.logger.info(f'Created {college.name}')
-
 
     # Load some subjects
     math = Subject(title='Mathematics', short_title='MATH')
