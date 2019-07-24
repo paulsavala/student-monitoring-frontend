@@ -1,3 +1,5 @@
 build:
   docker:
     web: Dockerfile
+run:
+  web: source venv/bin/activate && flask db upgrade && exec gunicorn application:app
