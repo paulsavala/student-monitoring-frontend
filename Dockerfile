@@ -19,4 +19,5 @@ ENV FLASK_APP application.py
 ENV APP_ENV prod
 
 RUN chown -R application:application ./
-USER application
+
+ENTRYPOINT ["/bin/bash ./boot.sh"]
