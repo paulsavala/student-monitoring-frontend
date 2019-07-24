@@ -20,6 +20,3 @@ ENV APP_ENV prod
 
 RUN chown -R application:application ./
 USER application
-
-CMD source venv/bin/activate && flask db upgrade && exec gunicorn -b :5000 --access-logfile - --error-logfile - application:app
-
