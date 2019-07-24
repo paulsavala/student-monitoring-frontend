@@ -6,18 +6,6 @@ import os
 app = create_app()
 cli.register(app)
 
-def test_db():
-    print('Testing db connection...')
-    with app.app_context():
-        try:
-            db.session.query("1").from_statement("SELECT 1").all()
-            print('DB connection succeeded')
-            return True
-        except Exception as e:
-            print('DB connection failed')
-            print(e)
-            return False
-
 def create_first_user():
     with app.app_context():
         from app.models import User, Problem, Subject, Course, Class, Institution, Document
@@ -48,8 +36,8 @@ def create_first_user():
         else:
             app.logger.info('Admin user already exists')
 
-if test_db():
-    create_first_user()
+
+create_first_user()
 
 
 @app.shell_context_processor
