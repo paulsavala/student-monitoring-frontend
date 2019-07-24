@@ -37,10 +37,10 @@ def create_app():
     app.config.from_object(config_class)
 
     db.init_app(app)
-    from app.models import User, Problem, Subject, Course, Class, Institution, Document
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
+    # from app.models import User, Problem, Subject, Course, Class, Institution, Document
+    # with app.app_context():
+    #     db.create_all()
+    #     db.session.commit()
 
     migrate.init_app(app, db)
     login.init_app(app)
