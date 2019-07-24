@@ -10,3 +10,5 @@ def make_shell_context():
 
 
 cli.register(app)
+
+from app import bootstrap_db
