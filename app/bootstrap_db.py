@@ -1,6 +1,6 @@
 from flask import current_app
 from app import db
-from app.models import Subject, Course, Class, Institution, User
+from app.models import Subject, Course, Class, Institution, User, Problem, Document
 
 import os
 
@@ -8,6 +8,8 @@ with current_app.app_context():
     current_app.logger.info('Bootstrapping database...')
 
     # Truncate the course and problem tables
+    db.session.query(Document).delete()
+    db.session.query(Problem).delete()
     db.session.query(Course).delete()
     db.session.query(Class).delete()
     db.session.query(Subject).delete()
