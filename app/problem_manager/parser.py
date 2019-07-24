@@ -83,4 +83,7 @@ class LatexParser():
         # Strip \newpage
         parsed_latex = re.sub(r'\\newpage', '', parsed_latex)
 
+        # Change empty lines to <br />
+        parsed_latex = re.sub(r'^\s*$', '<br />', parsed_latex)
+
         return parsed_latex
