@@ -20,4 +20,4 @@ ENV APP_ENV prod
 
 RUN chown -R application:application ./
 
-ENTRYPOINT ["/bin/bash ./boot.sh"]
+CMD ["/bin/bash ./boot.sh"]
