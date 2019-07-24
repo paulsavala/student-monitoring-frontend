@@ -47,10 +47,12 @@ class LatexParser():
     def space_converter(self, match_object):
         inside = re.search(r'\\vspace{\s*(\d+)\s*cm\s*}', match_object.group(0))
         if inside is not None:
-            return r'<div style="margin-bottom: {}cm"></div>'.format(inside.group(1))
+            # return r'<div style="margin-bottom: {}cm"></div>'.format(inside.group(1))
+            return '<br />'
         inside = re.search(r'\\hspace{\s*(\d+)\s*cm\s*}', match_object.group(0))
         if inside is not None:
-            return r'<div style="margin-right: {}cm"></div>'.format(inside.group(1))
+            # return r'<div style="margin-right: {}cm"></div>'.format(inside.group(1))
+            return '<br />'
 
 
     # todo: Handle escaped money signs \$ such as \$3.20
