@@ -4,7 +4,6 @@ from app.models import User, Problem, Message, Notification, Subject, Course, In
 import os
 
 app = create_app()
-cli.register(app)
 
 def create_first_user():
     with app.app_context():
@@ -44,3 +43,6 @@ create_first_user()
 def make_shell_context():
     return {'db': db, 'User': User, 'Problem': Problem, 'Message': Message, 'Notification': Notification,
             'Course': Course, 'Class': Class, 'Institution': Institution, 'Document': Document}
+
+
+cli.register(app)

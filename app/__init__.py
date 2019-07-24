@@ -28,7 +28,6 @@ admin = Admin()
 
 def create_app():
     print('Creating app...')
-    print(os.environ['DATABASE_URL'])
 
     if os.environ.get("APP_ENV") == "prod":
         config_class = ProdConfig
