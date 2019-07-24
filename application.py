@@ -36,7 +36,7 @@ def create_first_user():
             app.logger.info('Admin user already exists')
 
 
-create_first_user()
+# create_first_user()
 
 
 @app.shell_context_processor
