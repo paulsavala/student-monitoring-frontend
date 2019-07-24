@@ -33,8 +33,8 @@ def index():
         class_obj = Class.query.filter(Class.id == form.class_name.data).first_or_404()
         problem = Problem(latex=form.problem.data,
                           parsed_latex=parser.parse(form.problem.data),
-                          notes=utils.empty_str_to_null(form.notes.data),
-                          solution=utils.empty_str_to_null(form.solution.data),
+                          notes=parser.parse(form.notes.data),
+                          solution=parser.parse(form.solution.data),
                           user_id=current_user.id,
                           course_id=class_obj.course_id,
                           class_id=form.class_name.data,

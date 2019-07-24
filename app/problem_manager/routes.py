@@ -158,13 +158,3 @@ def clear_document():
     document.clear_document()
     db.session.commit()
     return redirect(url_for('problem_manager.documents'))
-
-
-# ------ TEST DATA LOADING --------
-@bp.route('/load_test_data')
-@login_required
-def load_test_data():
-    if current_user.admin:
-        from app.utils import load_test_data
-        flash(_('Test data loaded'))
-    return redirect(url_for('main.index'))

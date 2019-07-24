@@ -28,8 +28,6 @@ with current_app.app_context():
     if admin_user is None and os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
         current_app.logger.info('Creating initial admin user')
 
-        st_edwards = Institution(name="Saint Edward's University", city="Austin", state="TX", type="COLLEGE")
-
         admin_user = User(
             username = os.environ['ADMIN_USERNAME'],
             email = os.environ['ADMIN_EMAIL'],
