@@ -91,7 +91,9 @@ def reset_password(token):
 
 @bp.route('/bootstrap_db', methods=['GET', 'POST'])
 def bootstrap_db():
-    if current_user.is_authenticated and current_user.is_admin():
+    admin_user = User.query.filter_by(admin=True).first()
+
+    if admin_user is None or (current_user.is_authenticated and current_user.is_admin()):
         from app import bootstrap_db
         flash(_('Database bootstrapped successfully'))
     return redirect(url_for('main.index'))
