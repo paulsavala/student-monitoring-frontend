@@ -83,7 +83,7 @@ class LatexParser():
 
         # Change carriage return, double backslash, and empty lines to <br>, <br> and <br><br>, respectively
         parsed_latex = re.sub(r'\r', r'<br>', parsed_latex)
-        parsed_latex = re.sub(r'\\\\(?=[\\\s+\n])', r'<br>', parsed_latex)
+        parsed_latex = re.sub(r'\\\\(?=[\\\s+\n\r])', r'<br>', parsed_latex)
         parsed_latex = re.sub(r'^\s*$', r'<br><br>', parsed_latex)
 
         if parsed_latex.strip() == '':
