@@ -82,9 +82,9 @@ class LatexParser():
         parsed_latex = re.sub(r'\\newpage', '', parsed_latex)
 
         # Change carriage return, double backslash, and empty lines to <br>, <br> and <br><br>, respectively
+        parsed_latex = re.sub(r'\\\\\r', r'<br>', parsed_latex)
+        parsed_latex = re.sub(r'\\\\(?=[\\\n\s+$])', r'<br>', parsed_latex)
         parsed_latex = re.sub(r'\r', r'<br>', parsed_latex)
-        parsed_latex = re.sub(r'\\\\(?=[\\\n\r\s+])', r'<br>', parsed_latex)
-        parsed_latex = re.sub(r'\\\\$', r'<br>', parsed_latex) # This one is for double backslash at the end of a line (_not_ followed by spaces_
         parsed_latex = re.sub(r'^\s*$', r'<br><br>', parsed_latex)
 
         if parsed_latex.strip() == '':
