@@ -27,8 +27,7 @@ with current_app.app_context():
     # Create the initial admin user if necessary
     admin_user = User.query.filter_by(admin=True).first()
 
-    # if admin_user is None and os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
-    if admin_user is None:
+    if admin_user is None and os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
         current_app.logger.info('Creating initial admin user')
 
         admin_user = User(
