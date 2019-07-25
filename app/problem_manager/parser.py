@@ -81,8 +81,10 @@ class LatexParser():
         # Strip \newpage
         parsed_latex = re.sub(r'\\newpage', '', parsed_latex)
 
-        # Change carriage return and empty lines to <br> and <br><br>, respectively
+        # Change carriage return, double backslash, and empty lines to <br>, <br> and <br><br>, respectively
         parsed_latex = re.sub(r'\r', r'<br>', parsed_latex)
+        parsed_latex = re.sub(r'\\\\(?=[\\\s+])', r'<br>', parsed_latex)
         parsed_latex = re.sub(r'^\s*$', r'<br><br>', parsed_latex)
+
 
         return parsed_latex
