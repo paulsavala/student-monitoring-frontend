@@ -10,7 +10,7 @@ class GenericConfig(object):
     TEMPLATE_DIR = os.path.join(basedir, 'app/latex_templates/')
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
+    MAIL_USE_TLS = bool(os.environ.get('MAIL_USE_TLS'))
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
