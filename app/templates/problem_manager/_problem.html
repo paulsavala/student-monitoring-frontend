@@ -12,7 +12,13 @@
 			</div>
       <div class="card-body tex2jax_process">
         <div class="problem-metadata" id="problem{{ problem.id }}_metadata">
-          <p><a href="{{ url_for('main.user', user_id=problem.author.id) }}">{{ problem.author.first_name }} {{ problem.author.last_name }}  - {{ problem.author.institution.name }}, {{ problem.author.institution.state }}</a></p>
+            <p>
+          <a href="{{ url_for('main.user', user_id=problem.author.id) }}">{{ problem.author.first_name }} {{ problem.author.last_name }}  - {{ problem.author.institution.name }}, {{ problem.author.institution.state }}</a>
+                {% if problem.user_id == current_user.id %}
+                <a class="float-right far fa-trash-alt ml-2" style="color:INDIANRED" title="Delete problem" href={{ url_for('problem_manager.delete_problem', problem_id=problem.id) }}></a>
+                <a class="float-right far fa-edit" style="color: CORNFLOWERBLUE" title="Edit problem" href={{ url_for('problem_manager.edit_problem', problem_id=problem.id) }}></a>
+                {% endif %}
+            </p>
         </div>
         <p class="card-text problem">{{ problem.parsed_latex|safe }}</p>
         <div class="text-center problem-btn-group ">
@@ -20,10 +26,10 @@
             <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_latex" aria-expanded="false" aria-controls="collapseExample">
               LaTeX
             </button>
-            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_notes" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" {% if problem.solution is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_notes"{% endif %} aria-expanded="false" aria-controls="collapseExample">
               Notes
             </button>
-            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_solution" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-outline-primary {% if problem.solution is none %}disabled{% endif %}" type="button" {% if problem.solution is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_solution"{% endif %} aria-expanded="false" aria-controls="collapseExample">
               Solution
             </button>
           </div>

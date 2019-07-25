@@ -10,9 +10,12 @@ class Problem(SearchableMixin, db.Model):
     latex = db.Column(db.String(10000), nullable=False)
     parsed_latex = db.Column(db.String(10000))
     notes = db.Column(db.String(5000))
+    parsed_notes = db.Column(db.String(5000))
     solution = db.Column(db.String(5000))
+    parsed_solution = db.Column(db.String(5000))
     image = db.Column(db.String(1024))
     created_ts = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    edited_ts = db.Column(db.DateTime)
     starred_count = db.Column(db.Integer, default=0)
     doc_count = db.Column(db.Integer, default=0)
 
@@ -22,3 +25,4 @@ class Problem(SearchableMixin, db.Model):
 
     def __repr__(self):
         return f'<Problem {self.id}>'
+

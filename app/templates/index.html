@@ -13,13 +13,26 @@
     {% endif %}
     <div class="container">
         <div class="row">
-            <a class="h2" data-toggle="collapse" href="#problem_list" role="button" aria-expanded="false" aria-controls="collapseExample">Your Problems</a>
-            {{ render_pagination_bootstrap4(problems, nav_class="ml-3") }}
+            <a class="h2" data-toggle="collapse" href="#user_problem_list" role="button" aria-expanded="false" aria-controls="collapseExample">Your Problems</a>
+            {{ render_pagination_bootstrap4(user_problems, nav_class="ml-3") }}
         </div>
     </div>
-    <div class="card-columns collapse show mt-3 " id="problem_list">
-        {% for problem in problems.items %}
+    <div class="card-columns collapse show mt-3 " id="user_problem_list">
+        {% for problem in user_problems.items %}
             {% include 'problem_manager/_problem.html' %}
         {% endfor %}
     </div>
+    {%  if other_problems.items|length > 0 %}
+    <div class="container mt-5">
+        <div class="row">
+            <a class="h2" data-toggle="collapse" href="#other_problem_list" role="button" aria-expanded="false" aria-controls="collapseExample">Problems from other users</a>
+            {{ render_pagination_bootstrap4(other_problems, nav_class="ml-3") }}
+        </div>
+    </div>
+    <div class="card-columns collapse show mt-3 " id="other_problem_list">
+        {% for problem in other_problems.items %}
+            {% include 'problem_manager/_problem.html' %}
+        {% endfor %}
+    </div>
+    {% endif %}
 {% endblock %}

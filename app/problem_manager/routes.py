@@ -11,6 +11,8 @@ from sqlalchemy import and_
 from app.problem_manager.parser import LatexParser
 from app.problem_manager.document_generator import LatexDocument
 
+from datetime import datetime
+
 
 # todo: Is this else statement actually required? Won't those get filled from original_problem?
 @bp.route('/edit_problem/<problem_id>', methods=['GET', 'POST'])
@@ -29,7 +31,8 @@ def edit_problem(problem_id):
         problem.notes = utils.empty_str_to_null(form.notes.data)
         problem.solution = utils.empty_str_to_null(form.solution.data)
         problem.class_id = form.class_name.data
-        class_obj = Class.query.filter(Class.id == problem.class_id)
+        problem.edited_ts = datetime.now()
+        class_obj = Class.query.filter(Class.id == problem.class_id).first()
         problem.course_id = class_obj.course_id
         problem.subject_id = class_obj.subject_id
         db.session.commit()

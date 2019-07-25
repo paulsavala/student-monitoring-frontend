@@ -86,5 +86,7 @@ class LatexParser():
         parsed_latex = re.sub(r'\\\\(?=[\\\s+\n])', r'<br>', parsed_latex)
         parsed_latex = re.sub(r'^\s*$', r'<br><br>', parsed_latex)
 
-
-        return parsed_latex
+        if parsed_latex.strip() == '':
+            return None
+        else:
+            return parsed_latex.strip()

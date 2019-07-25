@@ -31,8 +31,10 @@ def create_app():
 
     if os.environ.get("APP_ENV") == "prod":
         config_class = ProdConfig
+        print('PROD environment')
     else:
         config_class = DevConfig
+        print('DEV environment')
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -93,7 +95,7 @@ def create_app():
             app.logger.addHandler(file_handler)
 
         app.logger.setLevel(logging.INFO)
-        print('app created')
+    print('app created')
 
     return app
 

@@ -31,10 +31,12 @@ def index():
     if form.validate_on_submit():
         parser = LatexParser()
         class_obj = Class.query.filter(Class.id == form.class_name.data).first_or_404()
-        problem = Problem(latex=form.problem.data,
+        problem = Problem(latex=utils.empty_str_to_null(form.problem.data),
                           parsed_latex=parser.parse(form.problem.data),
-                          notes=parser.parse(form.notes.data),
-                          solution=parser.parse(form.solution.data),
+                          notes=utils.empty_str_to_null(form.notes.data),
+                          parsed_notes=parser.parse(form.notes.data),
+                          solution=utils.empty_str_to_null(form.solution.data),
+                          parsed_solution=parser.parse(form.solution.data),
                           user_id=current_user.id,
                           course_id=class_obj.course_id,
                           class_id=form.class_name.data,
@@ -44,15 +46,27 @@ def index():
         flash(_('Your problem is now live!'))
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
-    problems = current_user.problems.order_by(Problem.created_ts.desc()).paginate(
+    user_problems = current_user.problems.order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.index', page=problems.next_num) \
-        if problems.has_next else None
-    prev_url = url_for('main.index', page=problems.prev_num) \
-        if problems.has_prev else None
-    return render_template('index.html', title=_('Home'), form=form,
-                           problems=problems, next_url=next_url,
-                           prev_url=prev_url)
+    user_next_url = url_for('main.index', page=user_problems.next_num) \
+        if user_problems.has_next else None
+    user_prev_url = url_for('main.index', page=user_problems.prev_num) \
+        if user_problems.has_prev else None
+
+    other_problems = Problem.query.filter(Problem.user_id != current_user.id).order_by(Problem.created_ts.desc()).paginate(
+        page, current_app.config['PROBLEMS_PER_PAGE'], False)
+    other_next_url = url_for('main.index', page=other_problems.next_num) \
+        if user_problems.has_next else None
+    other_prev_url = url_for('main.index', page=other_problems.prev_num) \
+        if user_problems.has_prev else None
+    return render_template('index.html', title=_('Home'),
+                           form=form,
+                           user_problems=user_problems,
+                           user_next_url=user_next_url,
+                           user_prev_url=user_prev_url,
+                           other_problems=other_problems,
+                           other_next_url=other_next_url,
+                           other_prev_url=other_prev_url)
 
 
 @bp.route('/user/<user_id>')

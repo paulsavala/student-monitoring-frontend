@@ -27,7 +27,8 @@ with current_app.app_context():
     # Create the initial admin user if necessary
     admin_user = User.query.filter_by(admin=True).first()
 
-    if admin_user is None and os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
+    # if admin_user is None and os.environ.get('WERKZEUG_RUN_MAIN', 'false') == 'false':
+    if admin_user is None:
         current_app.logger.info('Creating initial admin user')
 
         admin_user = User(
@@ -46,7 +47,7 @@ with current_app.app_context():
 
         current_app.logger.info('Admin user created')
     else:
-        current_app.logger.info('Admin user already exists')
+        current_app.logger.info(f'Admin user already exists with username {admin_user.username}')
 
     # Load some subjects
     math = Subject(title='Mathematics', short_title='MATH')
@@ -57,7 +58,6 @@ with current_app.app_context():
     for subject in subjects:
         db.session.add(subject)
         current_app.logger.info(f'Created {subject.title}')
-
 
     # Load some courses
     calc1 = Course(title='Calculus I', subject_id=1)  # 1

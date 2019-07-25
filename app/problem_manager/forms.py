@@ -21,10 +21,10 @@ class ProblemForm(FlaskForm):
         self.class_name.choices = [(c.id, f'{c.subject.short_title} {c.number} - {c.title}')
                                    for c in Class.query.filter(Class.institution_id==current_user.institution_id).order_by(Class.number.asc())]
         if original_problem is not None:
-            self.problem.data = original_problem.body
+            self.problem.data = original_problem.latex
             self.notes.data = original_problem.notes
             self.solution.data = original_problem.solution
-            self.class_name.data = original_problem.class_name
+            self.class_name.data = original_problem.class_id
 
 
 class ProblemExplorerForm(FlaskForm):

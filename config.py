@@ -21,5 +21,13 @@ class DevConfig(GenericConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
 
+    os.environ['ADMIN_USERNAME'] = 'admin_dev'
+    os.environ['ADMIN_EMAIL'] = 'problematic.web@gmail.com'
+    os.environ['ADMIN_FIRST_NAME'] = 'Admin'
+    os.environ['ADMIN_LAST_NAME'] = 'Admin'
+    os.environ['ADMIN_FULL_NAME'] = 'Admin'
+    os.environ['ADMIN_INSTITUTION_ID'] = '1'
+    os.environ['ADMIN_PASSWORD'] = 'admin_dev_314159'
+
 class ProdConfig(GenericConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
