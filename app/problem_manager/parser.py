@@ -90,6 +90,10 @@ class LatexParser():
         # Handle escaped special characters (which should be printed literally, without the backslash)
         parsed_latex = re.sub(r'\\(?=[\&\%\$\#\_\{\}])', '', parsed_latex)
 
+        # Handle quotes (forward and backticks)
+        parsed_latex = re.sub(r'``', '"', parsed_latex)
+        parsed_latex = re.sub(r"''", '"', parsed_latex)
+
         if parsed_latex.strip() == '':
             return None
         else:
