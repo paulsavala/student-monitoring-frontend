@@ -77,21 +77,26 @@ def user(user_id):
 
     user_problems = user.problems.filter_by(user_id=user_id).order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    next_url = url_for('main.user', user_id=user_id,
+    user_next_url = url_for('main.user', user_id=user_id,
                        page=user_problems.next_num) if user_problems.has_next else None
-    prev_url = url_for('main.user', user_id=user_id,
+    user_prev_url = url_for('main.user', user_id=user_id,
                        page=user_problems.prev_num) if user_problems.has_prev else None
 
     # Starred problems
     starred_problems = current_user.starred_problems().order_by(Problem.created_ts.desc()).paginate(
         page, current_app.config['PROBLEMS_PER_PAGE'], False)
-    # next_url = url_for('main.user', user_id=user_id,
-    #                    page=starred_problems.next_num) if starred_problems.has_next else None
-    # prev_url = url_for('main.user', user_id=user_id,
-    #                    page=starred_problems.prev_num) if starred_problems.has_prev else None
-    return render_template('user.html', user=user, user_problems=user_problems,
+    starred_next_url = url_for('main.user', user_id=user_id,
+                       page=starred_problems.next_num) if starred_problems.has_next else None
+    starred_prev_url = url_for('main.user', user_id=user_id,
+                       page=starred_problems.prev_num) if starred_problems.has_prev else None
+    return render_template('user.html',
+                           user=user,
+                           user_problems=user_problems,
+                           user_next_url=user_next_url,
+                           user_prev_url=user_prev_url,
                            starred_problems=starred_problems,
-                           next_url=next_url, prev_url=prev_url)
+                           starred_next_url=starred_next_url,
+                           starred_prev_url=starred_prev_url)
 
 
 @bp.route('/user/<username>/popup')

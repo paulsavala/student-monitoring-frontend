@@ -194,6 +194,11 @@
                     }
                 })
               });
+
+        // Enable all popovers
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
     </script>
     {{ super() }}
 {% endblock %}

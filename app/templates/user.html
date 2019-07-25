@@ -8,12 +8,16 @@
             <td width="128px"><img src="{{ user.avatar(128) }}"></td>
             <td>
                 <h1>{{ user.full_name }}</h1>
-                {% if user.title %}<p>{{ user.title }} at {{ user.institution.name }}</p>{% endif %}
-                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-                {% if user.last_seen %}
-                <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('LLL') }}</p>
-                {% endif %}
-                <p>{{ _('%(count)d followers', count=user.followers.count()) }}, {{ _('%(count)d following', count=user.followed.count()) }}</p>
+                {% if user.title %}<p class="lead">{{ user.title }} at {{ user.institution.name }}</p>{% endif %}
+                {% if user.about_me %}<p class="text-muted">{{ user.about_me }}</p>{% endif %}
+                <p>
+                    <button class="btn btn-outline-primary" data-toggle="popover" title="Your followers" data-html="true"
+                            data-content="{% for user in user.followers %} <a href={{ url_for('main.user', user_id=user.id) }}>{{ user.full_name }} - {{ user.institution.name }}</a>{% endfor %}">
+                    {{ _('%(count)d followers', count=user.followers.count()) }}</button>
+                    <button class="btn btn-outline-primary" data-toggle="popover" title="Users you follow" data-html="true"
+                            data-content="{% for user in user.followed %} <a href={{ url_for('main.user', user_id=user.id) }}>{{ user.full_name }} - {{ user.institution.name }}</a>{% endfor %}">
+                    {{ _('%(count)d following', count=user.followed.count()) }}</button>
+                </p>
                 {% if user == current_user %}
                 <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
                 {% elif not current_user.is_following(user) %}
@@ -30,7 +34,7 @@
     <div class="container">
         <div class="row">
            <a class="h3 " data-toggle="collapse" href="#starred_problems" role="button" aria-expanded="false" aria-controls="collapseExample">Starred problems</a>
-{#            {{ render_pagination_bootstrap4(starred_problems, nav_class="ml-3") }}#}
+            {{ render_pagination_bootstrap4(starred_problems, nav_class="ml-3") }}
         </div>
     </div>
     <div class="card-columns collapse show mt-3 mb-3" id="starred_problems">
