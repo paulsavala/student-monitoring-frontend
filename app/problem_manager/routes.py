@@ -29,7 +29,9 @@ def edit_problem(problem_id):
         problem.latex = form.problem.data
         problem.parsed_latex = parser.parse(form.problem.data)
         problem.notes = utils.empty_str_to_null(form.notes.data)
+        problem.parsed_notes = parser.parse(form.notes.data)
         problem.solution = utils.empty_str_to_null(form.solution.data)
+        problem.parsed_solution = parser.parse(form.solution.data)
         problem.class_id = form.class_name.data
         problem.edited_ts = datetime.now()
         class_obj = Class.query.filter(Class.id == problem.class_id).first()
