@@ -26,10 +26,10 @@
             <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#problem{{ problem.id }}_latex" aria-expanded="false" aria-controls="collapseExample">
               LaTeX
             </button>
-            <button class="btn btn-outline-primary {% if problem.notes is none %}disabled{% endif %}" type="button" {% if problem.solution is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_notes"{% endif %} aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-outline-primary {% if problem.parsed_notes is none %}disabled{% endif %}" type="button" {% if problem.parsed_notes is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_notes"{% endif %} aria-expanded="false" aria-controls="collapseExample">
               Notes
             </button>
-            <button class="btn btn-outline-primary {% if problem.solution is none %}disabled{% endif %}" type="button" {% if problem.solution is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_solution"{% endif %} aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-outline-primary {% if problem.parsed_solution is none %}disabled{% endif %}" type="button" {% if problem.solution is not none %}data-toggle="collapse" data-target="#problem{{ problem.id }}_solution"{% endif %} aria-expanded="false" aria-controls="collapseExample">
               Solution
             </button>
           </div>
@@ -41,12 +41,12 @@
         </div>
         <div class="collapse card-expand p-2" id="problem{{ problem.id }}_notes">
           <p>
-            {{ problem.notes }}
+            {{ problem.parsed_notes }}
           </p>
         </div>
         <div class="collapse card-expand p-2" id="problem{{ problem.id }}_solution">
           <p>
-            {{ problem.solution }}
+            {{ problem.parsed_solution }}
           </p>
         </div>
       </div>

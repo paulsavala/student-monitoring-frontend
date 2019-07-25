@@ -11,8 +11,8 @@ class ProblemForm(FlaskForm):
     problem = TextAreaField(_l('Problem'),
                             render_kw={"placeholder": "You can type LaTeX code or plain text here. For LaTeX, use \[...\] or $$...$$ for multiline, and $...$ for in-line."},
                             validators=[DataRequired()])
-    notes = TextAreaField(_l('Notes'), render_kw={"placeholder": "Notes for yourself/other instructors"})
-    solution = TextAreaField(_l('Solution'), render_kw={"placeholder": "Solution or notes about solving this problem"})
+    notes = TextAreaField(_l('Notes'), render_kw={"placeholder": "(Optional) Notes for yourself/other instructors"})
+    solution = TextAreaField(_l('Solution'), render_kw={"placeholder": "(Optional) Solution or notes about solving this problem"})
     class_name = SelectField(_l('Class'), coerce=int)
     submit = SubmitField(_l('Submit'))
 
