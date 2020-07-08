@@ -2,12 +2,11 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class GenericConfig(object):
+
+class GenericConfig:
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY') or 'fj432f(#2rjcL%29j#26Pji3#$j09'
-    ADMINS = ['problematic.web@gmail.com']
+    ADMINS = ['psavala@stedwards.edu']
     LANGUAGES = ['en', 'es']
-    PROBLEMS_PER_PAGE = 10
-    TEMPLATE_DIR = os.path.join(basedir, 'app/latex_templates/')
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
     MAIL_USE_TLS = bool(os.environ.get('MAIL_USE_TLS'))
@@ -16,18 +15,21 @@ class GenericConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     # ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    DEBUG = True
 
-class DevConfig(GenericConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
 
-    # os.environ['ADMIN_USERNAME'] = 'admin_dev'
-    # os.environ['ADMIN_EMAIL'] = 'problematic.web@gmail.com'
-    # os.environ['ADMIN_FIRST_NAME'] = 'Admin'
-    # os.environ['ADMIN_LAST_NAME'] = 'Admin'
-    # os.environ['ADMIN_FULL_NAME'] = 'Admin'
-    # os.environ['ADMIN_INSTITUTION_ID'] = '1'
-    # os.environ['ADMIN_PASSWORD'] = 'admin_dev_314159'
+class StEdwardsConfig(GenericConfig):
+    # id in schools database table
+    school_id = 1
 
-class ProdConfig(GenericConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    # Connect to the database
+    # todo: Remove after getting RDS online
+    db_file = '../student_monitoring/app.db'
+
+    # URL for the LMS
+    lms_url = 'https://stedwards.instructure.com/'
+
+    # URL for the student monitoring LMS API
+    api_url = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
+
+    semester = 'Spring 2020'

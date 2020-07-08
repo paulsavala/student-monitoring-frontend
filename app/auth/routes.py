@@ -1,99 +1,83 @@
-from flask import render_template, redirect, url_for, flash, request
-from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, current_user
-from flask_babel import _
 from app import db
-from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm, \
-    ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User
-from app.auth.email import send_password_reset_email
+from app.auth.forms import RegisterForm
+from app.models import Instructor
+from app.models import Department
+from app.main import bp
+from app.auth.google_login import google_login_request_uri, process_google_login_callback
+
+from flask import render_template, redirect, flash, url_for, current_app
+from flask_login import login_required, login_user, logout_user, current_user
+from flask_babel import _
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@bp.route('/login')
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash(_('Invalid username or password'))
-            return redirect(url_for('auth.login'))
-        login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('main.index')
-        return redirect(next_page)
-    return render_template('auth/login.html', title=_('Sign In'), form=form)
+    request_uri = google_login_request_uri()
+    return redirect(request_uri)
 
 
-@bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('main.index'))
+@bp.route('/login/callback')
+def callback():
+    callback_result = process_google_login_callback()
+    if callback is None:
+        flash('Verify your Google email address before proceeding')
+        return redirect(url_for('about'))
+
+    user_id = callback_result['user_id']
+    email = callback_result['email']
+
+    # Check if instructor already exists in the db. If not, save to db redirect to complete registration.
+    instructor = Instructor.query.filter(id=user_id).first()
+    if instructor is None:
+        if instructor.email in current_app.config.ADMINS:
+            is_admin = True
+        else:
+            is_admin = False
+        instructor = Instructor(id=user_id, email=email, registered=False, is_admin=is_admin)
+        db.session.add(instructor)
+        db.session.commit()
+        login_user(instructor)
+        return redirect(url_for('register'))
+
+    # Login user
+    login_user(instructor)
+    flash(_('You are now logged in'))
+
+    # Send back to homepage
+    return redirect(url_for('index'))
 
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if not current_user.is_authenticated or not current_user.is_admin():
-        flash(_('Currently in closed beta'))
-        return redirect(url_for('auth.login'))
-    form = RegistrationForm()
+    try:
+        instructor = Instructor.query.filter(id=current_user.id).one()
+    except Exception as e:
+        return redirect(url_for('main.index'))
+
+    form = RegisterForm()
+    # If they just submitted the form, then update and save their data
     if form.validate_on_submit():
-        full_name = f'{form.first_name.data} {form.last_name.data}'
-        full_name = full_name.strip()
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    full_name=full_name,
-                    institution_id=form.institution.data,)
-        user.set_password(form.password.data)
-        db.session.add(user)
+        # Fill in remaining data and save to db
+        instructor.first_name = form.first_name.data
+        instructor.last_name = form.last_name.data
+        instructor.department_id = form.department.data
+        instructor.api_token = form.api_token.data
+        instructor.registered = True
+
+        db.session.add(instructor)
         db.session.commit()
-        flash(_('Congratulations, you are now a registered user!'))
-        return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', title=_('Register'),
-                           form=form)
+
+        return redirect(url_for('index'))
+    # Otherwise, ask for the remaining info
+    else:
+        # Set the departments from the db
+        departments = Department.query.all()
+        form.department.choices = [(row.id, row.long_name) for row in departments]
+        return render_template('forms/register.html', form=form)
 
 
-@bp.route('/reset_password_request', methods=['GET', 'POST'])
-def reset_password_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            send_password_reset_email(user)
-        flash(
-            _('Check your email for the instructions to reset your password'))
-        return redirect(url_for('auth.login'))
-    return render_template('auth/reset_password_request.html',
-                           title=_('Reset Password'), form=form)
-
-
-@bp.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    user = User.verify_reset_password_token(token)
-    if not user:
-        return redirect(url_for('main.index'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        user.set_password(form.password.data)
-        db.session.commit()
-        flash(_('Your password has been reset.'))
-        return redirect(url_for('auth.login'))
-    return render_template('auth/reset_password.html', form=form)
-
-@bp.route('/bootstrap_db', methods=['GET', 'POST'])
-def bootstrap_db():
-    admin_user = User.query.filter_by(admin=True).first()
-
-    if admin_user is None or (current_user.is_authenticated and current_user.is_admin()):
-        from app import bootstrap_db
-        flash(_('Database bootstrapped successfully'))
-    return redirect(url_for('main.index'))
+@bp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))

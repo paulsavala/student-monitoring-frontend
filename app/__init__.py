@@ -1,19 +1,18 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-from flask import Flask, request, current_app, redirect, url_for
+from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
-from flask_admin import Admin, AdminIndexView
+from flask_admin import Admin
 from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
-from elasticsearch import Elasticsearch
-from config import DevConfig, ProdConfig
+from config import StEdwardsConfig as config_class
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -26,15 +25,10 @@ moment = Moment()
 babel = Babel()
 admin = Admin()
 
+
 def create_app():
     print('Creating app...')
 
-    if os.environ.get("APP_ENV") == "prod":
-        config_class = ProdConfig
-        print('PROD environment')
-    else:
-        config_class = DevConfig
-        print('DEV environment')
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -47,17 +41,14 @@ def create_app():
     babel.init_app(app)
     admin.init_app(app)
 
-    app.elasticsearch = Elasticsearch([app.config.get('ELASTICSEARCH_URL')]) \
-        if app.config.get('ELASTICSEARCH_URL') else None
-
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    from app.problem_manager import bp as problem_manager_bp
-    app.register_blueprint(problem_manager_bp)
+    from app.monitoring import bp as monitoring_bp
+    app.register_blueprint(monitoring_bp, url_prefix='/monitoring')
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -104,20 +95,20 @@ def create_app():
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
+
 # Flask-Admin setup
-from app.models import User, Problem, Subject, Course, Class, Institution, Document
+from app.models import School, CollegeOf, Department, Course, CourseInstance, Instructor
+
 
 class RestrictedView(ModelView):
-    column_exclude_list=('password_hash',)
-
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin()
 
-admin.add_view(RestrictedView(User, db.session))
-admin.add_view(RestrictedView(Problem, db.session))
-admin.add_view(RestrictedView(Institution, db.session))
-admin.add_view(RestrictedView(Class, db.session))
+
+admin.add_view(RestrictedView(School, db.session))
+admin.add_view(RestrictedView(CollegeOf, db.session))
+admin.add_view(RestrictedView(Department, db.session))
 admin.add_view(RestrictedView(Course, db.session))
-admin.add_view(RestrictedView(Subject, db.session))
-admin.add_view(RestrictedView(Document, db.session))
+admin.add_view(RestrictedView(CourseInstance, db.session))
+admin.add_view(RestrictedView(Instructor, db.session))
 admin.add_link(MenuLink(name='Public Website', category='', url='/'))

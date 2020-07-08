@@ -1,7 +1,7 @@
-from app.models.user_models import User
-from app.models.class_models import Subject, Course, Class
-from app.models.institution_models import Institution
-from app.models.problem_models import Problem
-from app.models.document_models import Document
-from app.models.message_models import Message, Notification
-from app.models.base_models import documents, document_problems, starred
+# Allows easy access to all models through `from app.models import ...`
+from app.models.school_model import School
+from app.models.college_of_models import CollegeOf
+from app.models.department_models import Department
+from app.models.course_models import Course
+from app.models.course_instance_models import CourseInstance
+from app.models.instructor_models import Instructor
