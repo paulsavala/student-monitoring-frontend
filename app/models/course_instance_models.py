@@ -11,6 +11,7 @@ class CourseInstance(db.Model):
     # Parents
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructor.id'))
+    department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
 
     def __repr__(self):
         return '<Course Instance {}>'.format(self.lms_id)

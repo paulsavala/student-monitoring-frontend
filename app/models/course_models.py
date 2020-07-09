@@ -11,7 +11,7 @@ class Course(db.Model):
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
 
     # Children
-    course_instances = db.relationship('CouseInstance')
+    course_instances = db.relationship('CourseInstance')
 
     def __repr__(self):
         return '<Course {}>'.format(self.lms_id)
