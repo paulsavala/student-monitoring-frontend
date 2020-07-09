@@ -3,9 +3,9 @@ from app import db
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    department = db.Column(db.String(64), index=True)
-    number = db.Column(db.Integer(), index=True)
-    section = db.Column(db.String(16), index=True, unique=True)
+    name = db.Column(db.String(128))
+    department = db.Column(db.Integer, index=True)
+    number = db.Column(db.Integer, index=True)
 
     # Parents
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))

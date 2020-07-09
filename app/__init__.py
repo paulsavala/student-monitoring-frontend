@@ -12,6 +12,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from flask_talisman import Talisman
 from config import StEdwardsConfig as config_class
 
 db = SQLAlchemy()
@@ -24,6 +25,7 @@ bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
 admin = Admin()
+talisman = Talisman()
 
 
 def create_app():
@@ -40,15 +42,16 @@ def create_app():
     moment.init_app(app)
     babel.init_app(app)
     admin.init_app(app)
+    # talisman.init_app(app)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
     from app.auth import bp as auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp)
 
     from app.monitoring import bp as monitoring_bp
-    app.register_blueprint(monitoring_bp, url_prefix='/monitoring')
+    app.register_blueprint(monitoring_bp)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -97,7 +100,7 @@ def get_locale():
 
 
 # Flask-Admin setup
-from app.models import School, CollegeOf, Department, Course, CourseInstance, Instructor
+from app.models import Schools, CollegeOf, Departments, Course, CourseInstance, Instructor
 
 
 class RestrictedView(ModelView):
@@ -105,9 +108,9 @@ class RestrictedView(ModelView):
         return current_user.is_authenticated and current_user.is_admin()
 
 
-admin.add_view(RestrictedView(School, db.session))
+admin.add_view(RestrictedView(Schools, db.session))
 admin.add_view(RestrictedView(CollegeOf, db.session))
-admin.add_view(RestrictedView(Department, db.session))
+admin.add_view(RestrictedView(Departments, db.session))
 admin.add_view(RestrictedView(Course, db.session))
 admin.add_view(RestrictedView(CourseInstance, db.session))
 admin.add_view(RestrictedView(Instructor, db.session))

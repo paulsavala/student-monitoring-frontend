@@ -66,8 +66,6 @@ def process_google_login_callback():
     if userinfo_response.json().get("email_verified"):
         user_id = userinfo_response.json()["sub"]
         email = userinfo_response.json()["email"]
-        profile_pic = userinfo_response.json()["picture"]
-        name = userinfo_response.json()["given_name"]
-        return {'user_id': user_id, 'email': email, 'profile_pic': profile_pic, 'name': name}
+        return {'user_id': user_id, 'email': email}
     else:
         return None

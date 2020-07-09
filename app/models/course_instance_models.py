@@ -3,10 +3,10 @@ from app import db
 
 class CourseInstance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lms_id = db.Column(db.String(128), index=True, unique=True)
+    lms_id = db.Column(db.String(1024), index=True, unique=True)
     season = db.Column(db.String(64))
     year = db.Column(db.Integer())
-    section = db.Column(db.Integer())
+    section = db.Column(db.String(64))
 
     # Parents
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))

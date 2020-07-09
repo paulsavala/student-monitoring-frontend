@@ -3,40 +3,16 @@
 {% block navbar %}
     <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore ">
         <div class="container ">
-            <a class="navbar-brand display-1" href="{{ url_for('main.index') }}">Problematic</a>
+            <a class="navbar-brand display-1" href="{{ url_for('main.index') }}">Student Monitoring</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarResponsive">
                 <ul class="navbar-nav ml-auto ">
-                  {% if g.search_form %}
-                  <li class="nav-item">
-                  <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
-                      <div class="form-group">
-                          {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
-                      </div>
-                  </form></li>
-                  {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('problem_manager.explore') }}">{{ _('Explore') }}</a></li>
-                    {% if current_user.is_authenticated %}
-                    {% set new_messages = current_user.new_messages() %}
-                    {% if new_messages %}
-                    <li class="nav-item">
-                            <span id="message_count" class="badge">
-                                {{ new_messages }}
-                            </span>
-                        </a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('problem_manager.documents') }}">{{ _('Document') }}</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{ _('Profile') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+{#                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>#}
                     {% if current_user.is_authenticated and current_user.is_admin() %}
                       <li class="nav-item"><a class="nav-link" href="/admin">{{ _('Admin') }}</a></li>
-                    {% endif %}
                     {% endif %}
                 </ul>
             </div>
@@ -120,84 +96,6 @@
                     }
                 }
             );
-        });
-        function set_message_count(n) {
-            $('#message_count').text(n);
-            $('#message_count').css('visibility', n ? 'visible' : 'hidden');
-        }
-        {% if current_user.is_authenticated %}
-        $(function() {
-            var since = 0;
-            setInterval(function() {
-                $.ajax('{{ url_for('main.notifications') }}?since=' + since).done(
-                    function(notifications) {
-                        for (var i = 0; i < notifications.length; i++) {
-                            if (notifications[i].name == 'unread_message_count')
-                                set_message_count(notifications[i].data);
-                            since = notifications[i].timestamp;
-                        }
-                    }
-                );
-            }, 10000);
-        });
-        {% endif %}
-
-        // AJAX for add-to-starred and add-to-document
-        $(document).ready(function () {
-            $("a[id^=toggle-starred]").click(function(event){
-              event.preventDefault();
-              var button_id=$(this).attr("id");
-                $.ajax({
-                  url: "{{ url_for('problem_manager.toggle_starred') }}",
-                  data: {button_id: button_id},
-                  type: 'GET',
-                  dataType: 'json',
-                  success: function(data){
-                      $('#star-bg-' + data.problem_id).toggleClass("far fas");
-                      $('#star-bg-' + data.problem_id).css("color", "gold");
-                      if (data.visible === false) {
-                        $('#doc_problem_' + data.problem_id).hide();
-                      } else {
-                        $('#doc_problem_' + data.problem_id).show();
-                      }
-                    }
-                })
-              });
-            $("button[id^=toggle-to-document]").click(function(event){
-                event.preventDefault();
-                var button_id=$(this).attr("id");
-                $.ajax({
-                  url: "{{ url_for('problem_manager.toggle_to_document') }}",
-                  data: {button_id: button_id},
-                  type: 'GET',
-                  dataType: 'json',
-                  success: function(data){
-                      $('#' + button_id).toggleClass("btn-primary btn-outline-primary");
-                      var text = $('#' + button_id).text();
-                        $('#' + button_id).text(
-                            text == "+ Doc" ? "- Doc" : "+ Doc");
-                      if (data.visible === false) {
-                        $('#doc_problem_' + data.problem_id).hide();
-                      } else {
-                        $('#doc_problem_' + data.problem_id).show();
-                      }
-                    }
-                })
-              });
-            });
-            $("button[id^=btn-up]").click(function(){
-                $.ajax({
-                  url: "{{ url_for('problem_manager.clear_document') }}",
-                  type: 'GET',
-                  success: function(data){
-                    set_document_count(data.document_count);
-                    }
-                })
-              });
-
-        // Enable all popovers
-        $(document).ready(function(){
-            $('[data-toggle="popover"]').popover();
         });
     </script>
     {{ super() }}

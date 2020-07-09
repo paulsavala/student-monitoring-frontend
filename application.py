@@ -1,15 +1,16 @@
 from app import create_app, cli, db
-from app.models import School, CollegeOf, Department, Course, CourseInstance, Instructor
+from app.models import Schools, CollegeOf, Departments, Course, CourseInstance, Instructor
 
 app = create_app()
+app.ssl_context = 'adhoc'
 
 
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db,
-            'School': School,
+            'School': Schools,
             'CollegeOf': CollegeOf,
-            'Department': Department,
+            'Department': Departments,
             'Course': Course,
             'CourseInstance': CourseInstance,
             'Instructor': Instructor}

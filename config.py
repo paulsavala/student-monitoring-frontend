@@ -1,9 +1,11 @@
 import os
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class GenericConfig:
+
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY') or 'fj432f(#2rjcL%29j#26Pji3#$j09'
     ADMINS = ['psavala@stedwards.edu']
     LANGUAGES = ['en', 'es']
@@ -13,23 +15,24 @@ class GenericConfig:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
-    # ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     DEBUG = True
+    TESTING = False
+
+    DB_RELATIVE_DIR = os.path.join(basedir, '../student_monitoring/app.db')
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite://' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/paulsavala/Coding/Projects/student_monitoring/app.db'
 
 
 class StEdwardsConfig(GenericConfig):
     # id in schools database table
-    school_id = 1
-
-    # Connect to the database
-    # todo: Remove after getting RDS online
-    db_file = '../student_monitoring/app.db'
+    SCHOOL_ID = 1
 
     # URL for the LMS
-    lms_url = 'https://stedwards.instructure.com/'
+    LMS_URL = 'https://stedwards.instructure.com/'
 
     # URL for the student monitoring LMS API
-    api_url = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
+    API_URL = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
 
-    semester = 'Spring 2020'
+    SEMESTER = 'Spring 2020'
+
+    # DEBUG = False

@@ -4,7 +4,7 @@ from app import db
 class CollegeOf(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     long_name = db.Column(db.String(128))
-    short_name = db.Column(db.String(16), unique=True)
+    short_name = db.Column(db.String(16))
 
     # Parents
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'))

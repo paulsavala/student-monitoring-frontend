@@ -1,4 +1,4 @@
-from app import db
+from app import db, login
 
 
 class Instructor(db.Model):
@@ -19,3 +19,7 @@ class Instructor(db.Model):
 
     def __repr__(self):
         return '<Instructor {}>'.format(self.email)
+
+    @login.user_loader
+    def load_user(id):
+        return Instructor.query.get(int(id))
