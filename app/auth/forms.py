@@ -1,14 +1,13 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
-from wtforms.validators import DataRequired, InputRequired, Length
+from wtforms.validators import DataRequired, Length
 
 
-class RegisterForm(Form):
+class RegisterFlaskForm(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired(), Length(min=1, max=50)])
     last_name = StringField('Last name', validators=[DataRequired(), Length(min=1, max=50)])
     department = SelectField(
         'Department',
-        validators=[InputRequired()],
         # choices are added dynamically based on departments in database
         coerce=int
     )

@@ -1,6 +1,6 @@
 from app import db
-from app.auth.forms import RegisterForm
-from app.models import Instructor
+from app.auth.forms import RegisterFlaskForm
+from app.models import Instructors
 from app.models import Departments
 from app.auth import bp
 from app.auth.google_login import google_login_request_uri, process_google_login_callback
@@ -20,59 +20,60 @@ def login():
 def callback():
     callback_result = process_google_login_callback()
     if callback is None:
-        flash('Verify your Google email address before proceeding')
+        flash(_('Verify your Google email address before proceeding'))
         return redirect(url_for('main.about'))
 
-    user_id = callback_result['user_id']
     email = callback_result['email']
 
     # Check if instructor already exists in the db. If not, save to db redirect to complete registration.
-    instructor = Instructor.query.get(user_id).first()
+    instructor = Instructors.query.filter_by(email=email).first()
     if instructor is None:
-        if instructor.email in current_app.config.ADMINS:
+        if email in current_app.config['ADMINS']:
             is_admin = True
         else:
             is_admin = False
-        instructor = Instructor(id=user_id, email=email, registered=False, is_admin=is_admin)
+        instructor = Instructors(email=email,
+                                 is_registered=False,
+                                 is_admin=is_admin,
+                                 school_id=current_app.config['SCHOOL_ID'])
         db.session.add(instructor)
         db.session.commit()
+
+        # Grab the user from the db so that it can be logged in
+        instructor = Instructors.query.filter_by(email=email).one()
         login_user(instructor)
+
         return redirect(url_for('auth.register'))
-
-    # Login user
-    login_user(instructor)
-    flash(_('You are now logged in'))
-
-    # Send back to homepage
-    return redirect(url_for('main.index'))
-
-
-@bp.route('/register', methods=['GET', 'POST'])
-def register():
-    try:
-        instructor = Instructor.query.filter(id=current_user.id).one()
-    except Exception as e:
+    else:
+        login_user(instructor)
         return redirect(url_for('main.index'))
 
-    form = RegisterForm()
+
+@login_required
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterFlaskForm()
+    # Set the departments from the db
+    # Note that this must occur before form.validate_on_submit, otherwise validation will fail for empty choices
+    departments = Departments.query.all()
+    form.department.choices = [(row.id, row.long_name) for row in departments]
     # If they just submitted the form, then update and save their data
     if form.validate_on_submit():
         # Fill in remaining data and save to db
+        instructor = Instructors.query.filter_by(email=current_user.email).one()
+
+        print(form.department.data)
         instructor.first_name = form.first_name.data
         instructor.last_name = form.last_name.data
         instructor.department_id = form.department.data
         instructor.api_token = form.api_token.data
-        instructor.registered = True
+        instructor.is_registered = True
 
-        db.session.add(instructor)
         db.session.commit()
 
         return redirect(url_for('main.index'))
     # Otherwise, ask for the remaining info
     else:
-        # Set the departments from the db
-        departments = Departments.query.all()
-        form.department.choices = [(row.id, row.long_name) for row in departments]
         return render_template('auth/register.html', form=form)
 
 

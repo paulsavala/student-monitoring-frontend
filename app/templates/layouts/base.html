@@ -10,8 +10,8 @@
             <div class="collapse navbar-collapse " id="navbarResponsive">
                 <ul class="navbar-nav ml-auto ">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
-{#                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>#}
-                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                    {% if current_user.is_authenticated and current_user.is_admin %}
                       <li class="nav-item"><a class="nav-link" href="/admin">{{ _('Admin') }}</a></li>
                     {% endif %}
                 </ul>
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container tex2jax_ignore">
+    <div class="container ">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}

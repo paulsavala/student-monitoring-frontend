@@ -100,18 +100,18 @@ def get_locale():
 
 
 # Flask-Admin setup
-from app.models import Schools, CollegeOf, Departments, Course, CourseInstance, Instructor
+from app.models import Schools, CollegeOf, Departments, Courses, CourseInstances, Instructors
 
 
 class RestrictedView(ModelView):
     def is_accessible(self):
-        return current_user.is_authenticated and current_user.is_admin()
+        return current_user.is_authenticated and current_user.is_admin
 
 
 admin.add_view(RestrictedView(Schools, db.session))
 admin.add_view(RestrictedView(CollegeOf, db.session))
 admin.add_view(RestrictedView(Departments, db.session))
-admin.add_view(RestrictedView(Course, db.session))
-admin.add_view(RestrictedView(CourseInstance, db.session))
-admin.add_view(RestrictedView(Instructor, db.session))
+admin.add_view(RestrictedView(Courses, db.session))
+admin.add_view(RestrictedView(CourseInstances, db.session))
+admin.add_view(RestrictedView(Instructors, db.session))
 admin.add_link(MenuLink(name='Public Website', category='', url='/'))

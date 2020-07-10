@@ -1,5 +1,5 @@
 from app import create_app, cli, db
-from app.models import Schools, CollegeOf, Departments, Course, CourseInstance, Instructor
+from app.models import Schools, CollegeOf, Departments, Courses, CourseInstances, Instructors
 
 app = create_app()
 app.ssl_context = 'adhoc'
@@ -11,9 +11,9 @@ def make_shell_context():
             'School': Schools,
             'CollegeOf': CollegeOf,
             'Department': Departments,
-            'Course': Course,
-            'CourseInstance': CourseInstance,
-            'Instructor': Instructor}
+            'Course': Courses,
+            'CourseInstance': CourseInstances,
+            'Instructor': Instructors}
 
 
 cli.register(app)

@@ -5,7 +5,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class GenericConfig:
-
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY') or 'fj432f(#2rjcL%29j#26Pji3#$j09'
     ADMINS = ['psavala@stedwards.edu']
     LANGUAGES = ['en', 'es']
