@@ -11,5 +11,5 @@ class RegisterFlaskForm(FlaskForm):
         # choices are added dynamically based on departments in database
         coerce=int
     )
-    api_token = StringField('API Token', validators=[DataRequired(), Length(min=6, max=100)])
+    lms_token = StringField('API Token', validators=[DataRequired(), Length(min=6, max=100)])
     submit = SubmitField('Register')

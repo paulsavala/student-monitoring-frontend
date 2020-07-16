@@ -14,7 +14,7 @@ from app.auth.decorators import registration_required
 def index():
     # Get all courses for this instructor from the LMS
     get_instructor_url = current_app.config['API_URL'] + '/get_instructor'
-    api_dict = {'api_url': current_app.config['LMS_URL'], 'api_token': current_user.api_token}
+    api_dict = {'api_url': current_app.config['LMS_URL'], 'api_token': current_user.lms_token}
     instructor_resp = requests.post(get_instructor_url,
                                     params={'lms': 'canvas'},
                                     data=json.dumps(api_dict)).json()

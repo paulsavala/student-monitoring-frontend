@@ -17,9 +17,7 @@ class GenericConfig:
     DEBUG = True
     TESTING = False
 
-    DB_RELATIVE_DIR = os.path.join(basedir, '../student_monitoring/app.db')
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite://' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/paulsavala/Coding/Projects/student_monitoring/app.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite://' + os.path.join(basedir, 'app.db')
 
 
 class StEdwardsConfig(GenericConfig):
@@ -30,8 +28,6 @@ class StEdwardsConfig(GenericConfig):
     LMS_URL = 'https://stedwards.instructure.com/'
 
     # URL for the student monitoring LMS API
-    API_URL = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
+    # API_URL = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
 
     SEMESTER = 'Spring 2020'
-
-    # DEBUG = False

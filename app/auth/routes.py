@@ -66,7 +66,7 @@ def register():
         instructor.first_name = form.first_name.data
         instructor.last_name = form.last_name.data
         instructor.department_id = form.department.data
-        instructor.api_token = form.api_token.data
+        instructor.lms_token = form.lms_token.data
         instructor.is_registered = True
 
         db.session.commit()
