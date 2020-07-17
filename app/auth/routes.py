@@ -4,10 +4,14 @@ from app.models import Instructors
 from app.models import Departments
 from app.auth import bp
 from app.auth.google_login import google_login_request_uri, process_google_login_callback
+from app.utils.api import resource_url
 
 from flask import render_template, redirect, flash, url_for, current_app
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_babel import _
+
+import requests
+import json
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -32,6 +36,8 @@ def callback():
             is_admin = True
         else:
             is_admin = False
+
+        # Add the instructor to the db
         instructor = Instructors(email=email,
                                  is_registered=False,
                                  is_admin=is_admin,
@@ -62,7 +68,12 @@ def register():
         # Fill in remaining data and save to db
         instructor = Instructors.query.filter_by(email=current_user.email).one()
 
-        print(form.department.data)
+        # Try to fetch the instructor from the LMS, otherwise raise an error
+        get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
+        data = {'lms_token': current_user.lms_token}
+        instructor_resp = requests.post(get_instructor_url, data=json.dumps(data)).json()
+        instructor.lms_id = instructor_resp['lms_id']
+
         instructor.first_name = form.first_name.data
         instructor.last_name = form.last_name.data
         instructor.department_id = form.department.data
