@@ -71,11 +71,17 @@ def register():
         # Fill in remaining data and save to db
         instructor = Instructors.query.filter_by(email=current_user.email).one()
 
-        # Try to fetch the instructor from the LMS, otherwise raise an error
+        # Try to fetch the instructor from the LMS using the provided api token, otherwise raise an error
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
-        data = {'lms_token': current_user.lms_token}
+        data = {'lms_token': form.lms_token.data}
+        print(data)
         instructor_resp = requests.post(get_instructor_url, data=json.dumps(data)).json()
         print(instructor_resp)
+        # Send them back if it fails
+        if 'lms_id' not in instructor_resp:
+            flash(_('Your API Token is incorrect, please try again'))
+            return redirect(url_for('auth.register'))
+        
         instructor.lms_id = instructor_resp['lms_id']
 
         instructor.first_name = form.first_name.data
