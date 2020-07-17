@@ -19,12 +19,14 @@ def index():
     instructor_resp = requests.post(get_instructor_url,
                                     params={'lms': 'canvas'},
                                     data=json.dumps(api_dict)).json()
+    print(instructor_resp)
 
     get_courses_url = resource_url(current_app.config['API_URL'], 'get_courses_by_instructor')
     course_dict = {'semester': current_app.config['SEMESTER'], 'instructor_lms_id': instructor_resp['lms_id']}
     courses_resp = requests.post(get_courses_url,
                                  params={'lms': 'canvas'},
                                  data=json.dumps(api_dict.update(course_dict))).json()
+    print(courses_resp)
 
     # todo: Show currently registered courses and allow to add new courses from LMS/remove current courses
     return render_template('main/index.html', courses=courses_resp)
