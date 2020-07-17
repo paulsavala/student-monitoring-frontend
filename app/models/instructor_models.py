@@ -8,6 +8,7 @@ class Instructors(db.Model, UserMixin):
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     email = db.Column(db.String(128), index=True, unique=True)
+    lms_id = db.Column(db.String(1024))
     lms_token = db.Column(db.String(256), index=True, unique=True)
     is_admin = db.Column(db.Boolean, index=True, default=False)
     is_registered = db.Column(db.Boolean, default=False)
