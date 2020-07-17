@@ -94,6 +94,7 @@ def register():
                            auto_email=False,
                            instructor_id=current_user.id) for c in courses_resp]
         for course in courses:
+            print(f'Adding {len(courses)} courses to db for instructor {current_user.id}')
             db.session.add(course)
 
         # Finish filling in remaining info in db on instructor

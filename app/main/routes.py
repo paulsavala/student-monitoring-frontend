@@ -30,7 +30,7 @@ def index():
             data = {'lms_token': current_user.lms_token,
                     'semester': current_app.config['SEMESTER'],
                     'instructor_lms_id': current_user.lms_id}
-            courses = requests.post(get_courses_url, json=data).json()
+            courses_resp = requests.post(get_courses_url, json=data).json()
 
             # Check to see if they're already in the db
 
@@ -38,7 +38,7 @@ def index():
 
             # ...and remove any that are in the db but not returned from the LMS
     # Show the courses listed for this instructor in the db
-    else:
+    elif courses:
         # Recreate the form with the courses included
         courses_dict = [{'lms_id': c['lms_id'],
                          'short_name': c['short_name'],
