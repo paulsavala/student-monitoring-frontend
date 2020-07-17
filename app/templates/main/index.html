@@ -23,9 +23,9 @@
     {% for c in form.courses %}
         {{ c.hidden_tag() }}
         <tr>
-          <td>{{ c.is_monitored() }}</td>
-          <td>{{ c.short_name() }}</td>
-          <td>{{ c.auto_email() }}</td>
+          <td>{{ wtf.render_field(c.is_monitored) }}</td>
+          <td>{{ wtf.render_field(c.short_name) }}</td>
+          <td>{{ wtf.render_field(c.auto_email) }}</td>
         </tr>
     {% endfor %}
     </tbody>

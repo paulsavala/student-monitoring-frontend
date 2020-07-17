@@ -3,6 +3,7 @@ import requests
 from flask import render_template, current_app
 from flask_login import current_user, login_required
 
+from app import db
 from app.main import bp
 from app.auth.decorators import registration_required
 from app.monitoring.forms import EditCoursesFlaskForm
@@ -33,10 +34,32 @@ def index():
             courses_resp = requests.post(get_courses_url, json=data).json()
 
             # Check to see if they're already in the db
+            db_course_lms_ids = set([c.lms_id for c in courses])
+            lms_course_lms_ids = set([c['lms_id'] for c in courses_resp])
+
+            new_course_ids = lms_course_lms_ids.difference(db_course_lms_ids)
+            new_courses = [c for c in courses_resp if c['lms_id'] in new_course_ids]
+            old_course_ids = db_course_lms_ids.difference(lms_course_lms_ids)
+            old_courses = [c for c in courses_resp if c.lms_id in old_course_ids]
 
             # Add any that are not...
+            courses_to_add = ([Courses(lms_id=c['lms_id'],
+                                       season=current_app.config['SEASON'],
+                                       year=current_app.config['YEAR'],
+                                       short_name=c['short_name'],
+                                       long_name=c['long_name'],
+                                       is_monitored=False,
+                                       auto_email=False,
+                                       instructor_id=current_user.id) for c in new_courses])
+            for c in courses_to_add:
+                db.session.add(c)
 
             # ...and remove any that are in the db but not returned from the LMS
+            courses_to_remove = ([Courses.query.filter_by(id=c.id) for c in old_courses])
+            for c in courses_to_remove:
+                db.session.remove(c)
+
+            # todo: Still need to craft the form for the view
     # Show the courses listed for this instructor in the db
     elif courses:
         # Recreate the form with the courses included
