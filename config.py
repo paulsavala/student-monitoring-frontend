@@ -25,9 +25,6 @@ class StEdwardsConfig(GenericConfig):
     SCHOOL_ID = 1
 
     # URL for the LMS
-    LMS_URL = 'https://stedwards.instructure.com/'
-
-    # URL for the student monitoring LMS API
-    # API_URL = 'https://ve9e8bak70.execute-api.us-east-1.amazonaws.com/default'
+    API_URL = 'https://student-monitoring-lms-api.herokuapp.com/v1.0'
 
     SEMESTER = 'Spring 2020'
