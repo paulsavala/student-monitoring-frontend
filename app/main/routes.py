@@ -44,6 +44,7 @@ def index():
                          'short_name': c.short_name,
                          'is_monitored': c.is_monitored,
                          'auto_email': c.auto_email} for c in courses]
+        print(courses_dict)
         form = EditCoursesFlaskForm(courses=courses_dict)
 
     return render_template('main/index.html', form=form)

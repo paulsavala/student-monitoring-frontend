@@ -9,6 +9,7 @@
 <h1>Welcome</h1>
 
 {% if form %}
+    {{ form.hidden_tag() }}
     <h2>Courses</h2>
     <table class="table table-hover">
       <thead>
@@ -20,15 +21,16 @@
       </thead>
     <tbody>
     {% for c in form.courses %}
+        {{ c.hidden_tag() }}
         <tr>
-          <td>{{ c.is_monitored }}</td>
-          <td>{{ c.short_name.label }}</td>
-          <td>{{ c.auto_email }}</td>
+          <td>{{ c.is_monitored() }}</td>
+          <td>{{ c.short_name() }}</td>
+          <td>{{ c.auto_email() }}</td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
-    {{ form.submit_changes }} {{ form.refresh_courses }}
+    {{ form.submit_changes() }} {{ form.refresh_courses() }}
 {% endif %}
 
 </div>
