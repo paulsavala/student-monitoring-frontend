@@ -20,8 +20,7 @@ def index():
             'semester': current_app.config['SEMESTER'],
             'instructor_lms_id': current_user.lms_id}
     print(data)
-    courses_resp = requests.post(get_courses_url,
-                                 json=data).json()
+    courses_resp = requests.post(get_courses_url, json=data).json()
     print(courses_resp)
 
     # Get courses which are currently being monitored
