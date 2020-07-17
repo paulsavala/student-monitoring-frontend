@@ -50,6 +50,9 @@ def callback():
         login_user(instructor)
 
         return redirect(url_for('auth.register'))
+    elif not instructor.is_registered:
+        login_user(instructor)
+        return redirect(url_for('auth.register'))
     else:
         login_user(instructor)
         return redirect(url_for('main.index'))
