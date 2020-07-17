@@ -21,7 +21,7 @@ def index():
             'instructor_lms_id': current_user.lms_id}
     print(data)
     courses_resp = requests.post(get_courses_url,
-                                 data=json.dumps(data)).json()
+                                 json=data).json()
     print(courses_resp)
 
     # Get courses which are currently being monitored
