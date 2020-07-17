@@ -4,15 +4,16 @@ from app import db
 class Courses(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128))
-    department_short_name = db.Column(db.String(16), index=True)
-    number = db.Column(db.Integer, index=True)
+    lms_id = db.Column(db.String(1024))
+    season = db.Column(db.String(64))
+    year = db.Column(db.Integer)
+    short_name = db.Column(db.String(64))
+    long_name = db.Column(db.String(256))
+    is_monitored = db.Column(db.Boolean, default=False)
+    auto_email = db.Column(db.Boolean, default=False)
 
     # Parents
-    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
-
-    # Children
-    course_instances = db.relationship('CourseInstances', backref='course', lazy='dynamic')
+    instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
 
     def __repr__(self):
-        return '<Course {}>'.format(self.lms_id)
+        return '<Course {}>'.format(self.short_name)

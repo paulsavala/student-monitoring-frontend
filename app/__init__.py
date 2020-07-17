@@ -100,7 +100,7 @@ def get_locale():
 
 
 # Flask-Admin setup
-from app.models import Schools, CollegeOf, Departments, Courses, CourseInstances, Instructors
+from app.models import Schools, CollegeOf, Departments, Courses, Instructors
 
 
 class RestrictedView(ModelView):
@@ -112,6 +112,5 @@ admin.add_view(RestrictedView(Schools, db.session))
 admin.add_view(RestrictedView(CollegeOf, db.session))
 admin.add_view(RestrictedView(Departments, db.session))
 admin.add_view(RestrictedView(Courses, db.session))
-admin.add_view(RestrictedView(CourseInstances, db.session))
 admin.add_view(RestrictedView(Instructors, db.session))
 admin.add_link(MenuLink(name='Public Website', category='', url='/'))

@@ -1,7 +1,6 @@
 from app import db
 from app.auth.forms import RegisterFlaskForm
-from app.models import Instructors
-from app.models import Departments
+from app.models import Instructors, Departments, CourseInstances, Courses
 from app.auth import bp
 from app.auth.google_login import google_login_request_uri, process_google_login_callback
 from app.utils.api import resource_url
@@ -74,14 +73,31 @@ def register():
         # Try to fetch the instructor from the LMS using the provided api token, otherwise raise an error
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
         data = {'lms_token': form.lms_token.data}
-        print(data)
         instructor_resp = requests.post(get_instructor_url, json=data).json()
-        print(instructor_resp)
         # Send them back if it fails
         if 'lms_id' not in instructor_resp:
             flash(_('Your API Token is incorrect, please try again'))
             return redirect(url_for('auth.register'))
 
+        # Get all current courses from LMS
+        get_courses_url = resource_url(current_app.config['API_URL'], 'get_courses_by_instructor')
+        data = {'lms_token': form.lms_token.data,
+                'semester': current_app.config['SEMESTER'],
+                'instructor_lms_id': instructor_resp['lms_id']}
+        courses_resp = requests.post(get_courses_url, json=data).json()
+        # Save these courses to the db
+        courses = [Courses(lms_id=c['lms_id'],
+                           season=current_app.config['SEASON'],
+                           year=current_app.config['YEAR'],
+                           short_name=c['short_name'],
+                           long_name=c['long_name'],
+                           is_monitored=False,
+                           auto_email=False,
+                           instructor_id=current_user.id) for c in courses_resp]
+        for course in courses:
+            db.session.add(course)
+
+        # Finish filling in remaining info in db on instructor
         instructor.lms_id = instructor_resp['lms_id']
 
         instructor.first_name = form.first_name.data

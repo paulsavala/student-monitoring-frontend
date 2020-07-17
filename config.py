@@ -27,4 +27,6 @@ class StEdwardsConfig(GenericConfig):
     # URL for the LMS
     API_URL = 'https://student-monitoring-lms-api.herokuapp.com/v1.0'
 
-    SEMESTER = 'Spring 2020'
+    SEASON = 'Spring'
+    YEAR = 2020
+    SEMESTER = f'{SEASON} {YEAR}'
