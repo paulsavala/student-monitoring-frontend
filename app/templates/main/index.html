@@ -22,12 +22,13 @@
     {% for c in form.courses %}
         <tr>
           <td>{{ c.is_monitored }}</td>
-          <td>{{ c.short_name }}</td>
+          <td>{{ c.short_name.label }}</td>
           <td>{{ c.auto_email }}</td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
+    {{ form.submit_changes }} {{ form.refresh_courses }}
 {% endif %}
 
 </div>
