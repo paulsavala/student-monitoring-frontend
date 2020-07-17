@@ -13,8 +13,6 @@ class Departments(db.Model):
 
     # Children
     instructor = db.relationship('Instructors', backref='department', lazy='dynamic')
-    course = db.relationship('Courses', backref='department', lazy='dynamic')
-    course_instance = db.relationship('CourseInstances', backref='department', lazy='dynamic')
 
     def __repr__(self):
         return '<Department {}>'.format(self.long_name)
