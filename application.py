@@ -1,5 +1,5 @@
 from app import create_app, cli, db
-from app.models import Schools, CollegeOf, Departments, Courses, CourseInstances, Instructors
+from app.models import Schools, CollegeOf, Departments, Courses, Instructors
 
 app = create_app()
 
