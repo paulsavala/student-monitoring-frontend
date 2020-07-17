@@ -14,16 +14,14 @@ from app.models import CourseInstances
 @login_required
 @registration_required
 def index():
-    # API token
-    api_dict = {'lms_token': current_user.lms_token}
-
     # Get all courses for this instructor from the LMS)
     get_courses_url = resource_url(current_app.config['API_URL'], 'get_courses_by_instructor')
-    data = {'semester': current_app.config['SEMESTER'],
+    data = {'lms_token': current_user.lms_token,
+            'semester': current_app.config['SEMESTER'],
             'instructor_lms_id': current_user.lms_id}
+    print(data)
     courses_resp = requests.post(get_courses_url,
-                                 params={'lms': 'canvas'},
-                                 data=json.dumps(api_dict.update(data))).json()
+                                 data=json.dumps(data)).json()
     print(courses_resp)
 
     # Get courses which are currently being monitored
