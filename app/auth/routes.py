@@ -72,6 +72,7 @@ def register():
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
         data = {'lms_token': current_user.lms_token}
         instructor_resp = requests.post(get_instructor_url, data=json.dumps(data)).json()
+        print(instructor_resp)
         instructor.lms_id = instructor_resp['lms_id']
 
         instructor.first_name = form.first_name.data
