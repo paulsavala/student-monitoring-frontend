@@ -40,10 +40,10 @@ def index():
     # Show the courses listed for this instructor in the db
     elif courses:
         # Recreate the form with the courses included
-        courses_dict = [{'lms_id': c['lms_id'],
-                         'short_name': c['short_name'],
-                         'is_monitored': c['is_monitored'],
-                         'auto_email': c['auto_email']} for c in courses]
+        courses_dict = [{'lms_id': c.lms_id,
+                         'short_name': c.short_name,
+                         'is_monitored': c.is_monitored,
+                         'auto_email': c.auto_email} for c in courses]
         form = EditCoursesFlaskForm(courses=courses_dict)
 
     return render_template('main/index.html', form=form)
