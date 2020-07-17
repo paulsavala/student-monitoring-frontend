@@ -47,6 +47,7 @@ MarkupSafe==1.1.1
 oauthlib==3.1.0
 paramiko==2.7.1
 pathspec==0.5.9
+psycopg2-binary==2.8.5
 pycparser==2.20
 PyNaCl==1.4.0
 pyOpenSSL==19.1.0
