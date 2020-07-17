@@ -18,7 +18,7 @@ class Instructors(db.Model, UserMixin):
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
 
     # Children
-    course_instances = db.relationship('CourseInstances', backref='instructor', lazy='dynamic')
+    coursess = db.relationship('Courses', backref='instructor', lazy='dynamic')
 
     def __repr__(self):
         return '<Instructor {}>'.format(self.email)
