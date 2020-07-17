@@ -1,6 +1,6 @@
 from app import db
 from app.auth.forms import RegisterFlaskForm
-from app.models import Instructors, Departments, CourseInstances, Courses
+from app.models import Instructors, Departments, Courses
 from app.auth import bp
 from app.auth.google_login import google_login_request_uri, process_google_login_callback
 from app.utils.api import resource_url
@@ -10,7 +10,6 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask_babel import _
 
 import requests
-import json
 
 
 @bp.route('/login', methods=['GET', 'POST'])
