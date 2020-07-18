@@ -43,33 +43,34 @@
 
             <h2>Courses</h2>
             <form action="" method="post">
-                {{ form.hidden_tag() }}
+                <div class="table-response">
             <table class="table table-hover">
               <thead>
-                <tr>
-                  <th scope="col">Monitored</th>
-                  <th scope="col">Course</th>
-                  <th scope="col">Section</th>
+                <tr class="d-flex">
+                  <th scope="col" class="col-2 text-center">Monitored</th>
+                  <th scope="col" class="col-7">Course</th>
+                  <th scope="col" class="col-3 text-center">Auto email</th>
                 </tr>
               </thead>
             <tbody>
-                <tr>
-                  <th scope="row"><input type="checkbox" class="form-check-input" id="exampleCheck1"></th>
-                  <td>MATH 3439</td>
-                  <td>1</td>
+                <tr class="d-flex">
+                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
+                  <td class="col-7">MATH 3439</td>
+                  <td class="col-3 text-center">1</td>
                 </tr>
-                <tr>
-                  <th scope="row"><input type="checkbox" class="form-check-input" id="exampleCheck1"></th>
-                  <td>MATH 3320</td>
-                  <td>1</td>
+                <tr class="d-flex">
+                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
+                  <td class="col-7">MATH 3320</td>
+                  <td class="col-3 text-center">1</td>
                 </tr>
-                <tr>
-                  <th scope="row"><input type="checkbox" class="form-check-input" id="exampleCheck1"></th>
-                  <td>MATH 3320</td>
-                  <td>2</td>
+                <tr class="d-flex">
+                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
+                  <td class="col-7">MATH 3320</td>
+                  <td class="col-3 text-center">2</td>
                 </tr>
             </tbody>
             </table>
+                    </div>
             </form>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import requests
 
-from flask import render_template, current_app
+from flask import render_template, current_app, url_for
 from flask_login import current_user, login_required
 
 from app import db
@@ -19,7 +19,7 @@ def index():
     courses = Courses.query.filter_by(instructor_id=current_user.id).all()
     # If they don't have any saved courses, just send them back
     if not courses:
-        render_template('main/index.html')
+        render_template(url_for('main.index'))
 
     form = edit_courses_flask_form_builder([c.short_name for c in courses])
 
@@ -27,8 +27,10 @@ def index():
         # If submit button was clicked
         if form.submit_changes.data:
             # Submit changes to db
-            pass
+            print('Changes submitted')
+            render_template(url_for('main.index'))
         if form.refresh_courses.data:
+            print('Refresh courses')
             # If "refresh courses" button was clicked
             # Get all courses for this instructor from the LMS)
             get_courses_url = resource_url(current_app.config['API_URL'], 'get_courses_by_instructor')
@@ -55,19 +57,24 @@ def index():
                                        is_monitored=False,
                                        auto_email=False,
                                        instructor_id=current_user.id) for c in new_courses])
+            print('Adding to db...')
+            print([c.short_name for c in courses_to_add])
             for c in courses_to_add:
                 db.session.add(c)
 
             # ...and remove any that are in the db but not returned from the LMS
             courses_to_remove = ([Courses.query.filter_by(id=c.id) for c in old_courses])
+            print('Deleting from db...')
+            print([c.short_name for c in courses_to_remove])
             for c in courses_to_remove:
                 db.session.remove(c)
-    # If they didn't submit, fill in the appropriate values for monitored and auto email
-    else:
-        for i, c in enumerate(courses):
-            getattr(form, f'is_monitored_{i}').default = c.is_monitored
-            getattr(form, f'auto_email_{i}').default = c.auto_email
-    return render_template('main/index.html', form=form)
+
+    # Fill in the appropriate values for monitored and auto email
+    for i, c in enumerate(courses):
+        getattr(form, f'is_monitored_{i}').default = c.is_monitored
+        getattr(form, f'auto_email_{i}').default = c.auto_email
+
+    return render_template(url_for('main.index'), form=form)
 
 
 @bp.route('/about')
