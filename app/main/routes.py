@@ -21,7 +21,6 @@ def index():
     if not courses:
         render_template('main/index.html')
 
-    print(courses)
     form = edit_courses_flask_form_builder([c.short_name for c in courses])
 
     if form.validate_on_submit():
@@ -63,9 +62,11 @@ def index():
             courses_to_remove = ([Courses.query.filter_by(id=c.id) for c in old_courses])
             for c in courses_to_remove:
                 db.session.remove(c)
-
-            # todo: Still need to craft the form for the view
-    print('Rendering template...')
+    # If they didn't submit, fill in the appropriate values for monitored and auto email
+    else:
+        for i, c in enumerate(courses):
+            form.getattr(f'is_monitored_{i}').default = c.is_monitored
+            form.getattr(f'auto_email_{i}').default = c.auto_email
     return render_template('main/index.html', form=form)
 
 
