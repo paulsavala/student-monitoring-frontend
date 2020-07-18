@@ -20,6 +20,7 @@ def edit_courses_flask_form_builder(courses):
         pass
 
     for i, course in enumerate(courses):
+        print(f'Creating course {i} forms')
         setattr(ClassesFlaskForm, f'is_monitored_course_{i}', BooleanField(label='Is monitored'))
         setattr(ClassesFlaskForm, f'auto_email_course_{i}', BooleanField(label='Auto email'))
         setattr(ClassesFlaskForm, f'short_name_course_{i}', StringField(label='Short name',
@@ -29,6 +30,7 @@ def edit_courses_flask_form_builder(courses):
                         f'auto_email_course_{i}': getattr(ClassesFlaskForm, f'auto_email_course_{i}'),
                         f'short_name_course_{i}': getattr(ClassesFlaskForm, f'short_name_course_{i}')})
 
+    print('Returning course form')
     return ClassesFlaskForm()
 
 

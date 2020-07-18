@@ -65,7 +65,7 @@ def index():
                 db.session.remove(c)
 
             # todo: Still need to craft the form for the view
-
+    print('Rendering template...')
     return render_template('main/index.html', form=form)
 
 
