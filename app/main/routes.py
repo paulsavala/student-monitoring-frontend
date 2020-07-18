@@ -6,12 +6,12 @@ from flask_login import current_user, login_required
 from app import db
 from app.main import bp
 from app.auth.decorators import registration_required
-from app.monitoring.forms import EditCoursesFlaskForm, edit_courses_flask_form_builder
+from app.monitoring.forms import edit_courses_flask_form_builder
 from app.models import Courses
 from app.utils.api import resource_url
 
 
-@bp.route('/')
+@bp.route('/', methods=['GET', 'POST'])
 @login_required
 @registration_required
 def index():
