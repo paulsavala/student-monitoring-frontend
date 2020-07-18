@@ -26,13 +26,27 @@ def index():
     if form.validate_on_submit():
         # If submit button was clicked
         if form.submit_changes.data:
-            # Submit changes to db
             print('Changes submitted')
-            render_template('main/index.html')
+            # Grab the values from the submitted form, compare to db, determine if we need to commit to db
+            commit = False
+            for i, c in enumerate(courses):
+                form_is_monitored = getattr(form, f'is_monitored_{i}').data
+                form_auto_email = getattr(form, f'auto_email_{i}').data
+                if form_is_monitored != c.is_monitored:
+                    c.is_monitored = form_is_monitored
+                    commit = True
+                if form_auto_email != c.auto_email:
+                    c.auto_email = form_auto_email
+                    commit = True
+            if commit:
+                db.session.commit()
+        # Get courses again (to reflect changes)
+        courses = Courses.query.filter_by(instructor_id=current_user.id).all()
+        form.num_courses = len(courses)
+        # If the refresh button courses was clicked, talk to the API to get the courses from the LMs
         if form.refresh_courses.data:
             print('Refresh courses')
-            # If "refresh courses" button was clicked
-            # Get all courses for this instructor from the LMS)
+            # Get all courses for this instructor from the LMS
             get_courses_url = resource_url(current_app.config['API_URL'], 'get_courses_by_instructor')
             data = {'lms_token': current_user.lms_token,
                     'semester': current_app.config['SEMESTER'],
@@ -41,11 +55,7 @@ def index():
 
             # Check to see if they're already in the db
             db_course_lms_ids = set([str(c.lms_id) for c in courses])
-            print('In db...')
-            print(db_course_lms_ids)
             lms_course_lms_ids = set([str(c['lms_id']) for c in courses_resp])
-            print('In LMS...')
-            print(lms_course_lms_ids)
 
             new_course_ids = lms_course_lms_ids - db_course_lms_ids
             new_courses = [c for c in courses_resp if c['lms_id'] in new_course_ids]
@@ -61,15 +71,13 @@ def index():
                                        is_monitored=False,
                                        auto_email=False,
                                        instructor_id=current_user.id) for c in new_courses])
-            print('Adding to db...')
-            print([c.short_name for c in courses_to_add])
+            print(f'Adding to db: {[c.short_name for c in courses_to_add]}')
             for c in courses_to_add:
                 db.session.add(c)
 
             # ...and remove any that are in the db but not returned from the LMS
             courses_to_remove = ([Courses.query.filter_by(id=c.id) for c in old_courses])
-            print('Deleting from db...')
-            print([c.short_name for c in courses_to_remove])
+            print(f'Deleting from db: {[c.short_name for c in courses_to_remove]}')
             for c in courses_to_remove:
                 db.session.remove(c)
 
