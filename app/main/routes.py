@@ -1,6 +1,6 @@
 import requests
 
-from flask import render_template, current_app, url_for
+from flask import render_template, current_app
 from flask_login import current_user, login_required
 
 from app import db
@@ -19,7 +19,7 @@ def index():
     courses = Courses.query.filter_by(instructor_id=current_user.id).all()
     # If they don't have any saved courses, just send them back
     if not courses:
-        render_template(url_for('main.index'))
+        render_template('main/index.html')
 
     form = edit_courses_flask_form_builder([c.short_name for c in courses])
 
@@ -28,7 +28,7 @@ def index():
         if form.submit_changes.data:
             # Submit changes to db
             print('Changes submitted')
-            render_template(url_for('main.index'))
+            render_template('main/index.html')
         if form.refresh_courses.data:
             print('Refresh courses')
             # If "refresh courses" button was clicked
@@ -74,7 +74,7 @@ def index():
         getattr(form, f'is_monitored_{i}').default = c.is_monitored
         getattr(form, f'auto_email_{i}').default = c.auto_email
 
-    return render_template(url_for('main.index'), form=form)
+    return render_template('main/index.html', form=form)
 
 
 @bp.route('/about')
