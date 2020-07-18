@@ -46,7 +46,7 @@ def index():
             new_course_ids = lms_course_lms_ids.difference(db_course_lms_ids)
             new_courses = [c for c in courses_resp if c['lms_id'] in new_course_ids]
             old_course_ids = db_course_lms_ids.difference(lms_course_lms_ids)
-            old_courses = [c for c in courses_resp if c.lms_id in old_course_ids]
+            old_courses = [c for c in courses_resp if c['lms_id'] in old_course_ids]
 
             # Add any that are not...
             courses_to_add = ([Courses(lms_id=c['lms_id'],
