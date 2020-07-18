@@ -65,8 +65,8 @@ def index():
     # If they didn't submit, fill in the appropriate values for monitored and auto email
     else:
         for i, c in enumerate(courses):
-            form.getattr(f'is_monitored_{i}').default = c.is_monitored
-            form.getattr(f'auto_email_{i}').default = c.auto_email
+            getattr(form, f'is_monitored_{i}').default = c.is_monitored
+            getattr(form, f'auto_email_{i}').default = c.auto_email
     return render_template('main/index.html', form=form)
 
 
