@@ -20,11 +20,14 @@
         </tr>
       </thead>
     <tbody>
-    {% for c in form.courses %}
+    {% for i in range(4) %}
+        {% set is_monitored = "is_monitored_%s"|format(i) %}
+        {% set short_name = "short_name_%s"|format(i) %}
+        {% set auto_email = "auto_email_%s"|format(i) %}
         <tr>
-        {% for r in c %}
-          <td>{{ r() }}</td>
-        {% endfor %}
+            <td>{{ form[is_monitored]() }}</td>
+            <td>{{ form[short_name]() }}</td>
+            <td>{{ form[auto_email]() }}</td>
         </tr>
 
     {% endfor %}

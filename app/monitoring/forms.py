@@ -16,7 +16,7 @@ class EditCoursesFlaskForm(FlaskForm):
 
 def edit_courses_flask_form_builder(course_list):
     class ClassesFlaskForm(EditCoursesFlaskForm):
-        courses = []
+        pass
 
     for i, course in enumerate(course_list):
         setattr(ClassesFlaskForm, f'is_monitored_{i}', BooleanField(label='Is monitored'))
@@ -24,9 +24,6 @@ def edit_courses_flask_form_builder(course_list):
                                                                  default=course,
                                                                  render_kw={'readonly': True}))
         setattr(ClassesFlaskForm, f'auto_email_{i}', BooleanField(label='Auto email'))
-        ClassesFlaskForm.courses.append([getattr(ClassesFlaskForm, f'is_monitored_{i}')(),
-                                         getattr(ClassesFlaskForm, f'short_name_{i}')(),
-                                         getattr(ClassesFlaskForm, f'auto_email_{i}')()])
 
     return ClassesFlaskForm()
 
