@@ -41,11 +41,15 @@ def index():
 
             # Check to see if they're already in the db
             db_course_lms_ids = set([c.lms_id for c in courses])
+            print('In db...')
+            print(db_course_lms_ids)
             lms_course_lms_ids = set([c['lms_id'] for c in courses_resp])
+            print('In LMS...')
+            print(lms_course_lms_ids)
 
-            new_course_ids = lms_course_lms_ids.difference(db_course_lms_ids)
+            new_course_ids = lms_course_lms_ids - db_course_lms_ids
             new_courses = [c for c in courses_resp if c['lms_id'] in new_course_ids]
-            old_course_ids = db_course_lms_ids.difference(lms_course_lms_ids)
+            old_course_ids = db_course_lms_ids - lms_course_lms_ids
             old_courses = [c for c in courses_resp if c['lms_id'] in old_course_ids]
 
             # Add any that are not...
@@ -68,6 +72,9 @@ def index():
             print([c.short_name for c in courses_to_remove])
             for c in courses_to_remove:
                 db.session.remove(c)
+
+            # Get courses again (to reflect changes)
+            courses = Courses.query.filter_by(instructor_id=current_user.id).all()
 
     # Fill in the appropriate values for monitored and auto email
     for i, c in enumerate(courses):
