@@ -2,13 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, BooleanField, StringField, HiddenField
 
 
-# class CourseFlaskForm(FlaskForm):
-#     lms_id = HiddenField()
-#     short_name = StringField()
-#     is_monitored = BooleanField()
-#     auto_email = BooleanField()
-
-
 class EditCoursesFlaskForm(FlaskForm):
     submit_changes = SubmitField('Submit changes')
     refresh_courses = SubmitField('Refresh courses')
