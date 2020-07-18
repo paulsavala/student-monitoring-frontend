@@ -22,14 +22,14 @@ def edit_courses_flask_form_builder(course_list):
     for i, course in enumerate(course_list):
         print(f'Creating course {i} forms')
         setattr(ClassesFlaskForm, f'is_monitored_course_{i}', BooleanField(label='Is monitored'))
-        setattr(ClassesFlaskForm, f'auto_email_course_{i}', BooleanField(label='Auto email'))
         setattr(ClassesFlaskForm, f'short_name_course_{i}', StringField(label='Short name',
                                                                         default=course,
                                                                         render_kw={'readonly': True}))
-        ClassesFlaskForm.courses.append(
-            {f'is_monitored_course_{i}': getattr(ClassesFlaskForm, f'is_monitored_course_{i}'),
-             f'auto_email_course_{i}': getattr(ClassesFlaskForm, f'auto_email_course_{i}'),
-             f'short_name_course_{i}': getattr(ClassesFlaskForm, f'short_name_course_{i}')})
+        setattr(ClassesFlaskForm, f'auto_email_course_{i}', BooleanField(label='Auto email'))
+
+        ClassesFlaskForm.courses.append([getattr(ClassesFlaskForm, f'is_monitored_course_{i}'),
+                                         getattr(ClassesFlaskForm, f'short_name_course_{i}'),
+                                         getattr(ClassesFlaskForm, f'auto_email_course_{i}')])
 
     print('Returning course form')
     return ClassesFlaskForm()

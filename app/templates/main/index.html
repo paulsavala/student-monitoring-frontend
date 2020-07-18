@@ -22,9 +22,8 @@
     <tbody>
     {% for c in form.courses %}
         <tr>
-          <td>{{ c['is_monitored']() }}</td>
-          <td>{{ c['short_name']() }}</td>
-          <td>{{ c['auto_email']() }}</td>
+        {% for f in c %}
+          <td>{{ f() }}</td>
         </tr>
     {% endfor %}
     </tbody>
