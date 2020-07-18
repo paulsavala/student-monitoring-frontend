@@ -35,10 +35,13 @@ def index():
                 if form_is_monitored != c.is_monitored:
                     c.is_monitored = form_is_monitored
                     commit = True
+                    print(f'Changing course {c.short_name} to is_monitored={form_is_monitored}')
                 if form_auto_email != c.auto_email:
                     c.auto_email = form_auto_email
                     commit = True
+                    print(f'Changing course {c.short_name} to auto_email={form_auto_email}')
             if commit:
+                print('Commiting submissions to db...')
                 db.session.commit()
         # Get courses again (to reflect changes)
         courses = Courses.query.filter_by(instructor_id=current_user.id).all()
