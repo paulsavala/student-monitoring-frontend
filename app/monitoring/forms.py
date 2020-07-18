@@ -10,6 +10,7 @@ from wtforms import SubmitField, BooleanField, StringField, FieldList, FormField
 
 
 class EditCoursesFlaskForm(FlaskForm):
+    courses = []
     submit_changes = SubmitField('Submit changes')
     refresh_courses = SubmitField('Refresh courses')
 
@@ -24,6 +25,9 @@ def edit_courses_flask_form_builder(courses):
         setattr(ClassesFlaskForm, f'short_name_course_{i}', StringField(label='Short name',
                                                                         default=course,
                                                                         render_kw={'readonly': True}))
+        courses.append({f'is_monitored_course_{i}': getattr(ClassesFlaskForm, f'is_monitored_course_{i}'),
+                        f'auto_email_course_{i}': getattr(ClassesFlaskForm, f'auto_email_course_{i}'),
+                        f'short_name_course_{i}': getattr(ClassesFlaskForm, f'short_name_course_{i}')})
 
     return ClassesFlaskForm()
 
