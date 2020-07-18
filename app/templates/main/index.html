@@ -21,7 +21,6 @@
       </thead>
     <tbody>
     {% for c in form.courses %}
-        {{ c.hidden_tag() }}
         <tr>
           <td>{{ c.is_monitored() }}</td>
           <td>{{ c.short_name() }}</td>
