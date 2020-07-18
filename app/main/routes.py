@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from app import db
 from app.main import bp
 from app.auth.decorators import registration_required
-from app.monitoring.forms import EditCoursesFlaskForm
+from app.monitoring.forms import EditCoursesFlaskForm, edit_courses_flask_form_builder
 from app.models import Courses
 from app.utils.api import resource_url
 
@@ -17,8 +17,13 @@ from app.utils.api import resource_url
 def index():
     # Get courses which are in the db
     courses = Courses.query.filter_by(instructor_id=current_user.id).all()
+    # If they don't have any saved courses, just send them back
+    if not courses:
+        render_template('main/index.html')
 
-    form = EditCoursesFlaskForm()
+    print(courses)
+    form = edit_courses_flask_form_builder([c.short_name for c in courses])
+
     if form.validate_on_submit():
         # If submit button was clicked
         if form.submit_changes.data:
@@ -60,15 +65,6 @@ def index():
                 db.session.remove(c)
 
             # todo: Still need to craft the form for the view
-    # Show the courses listed for this instructor in the db
-    elif courses:
-        # Recreate the form with the courses included
-        courses_dict = [{'lms_id': c.lms_id,
-                         'short_name': c.short_name,
-                         'is_monitored': c.is_monitored,
-                         'auto_email': c.auto_email} for c in courses]
-        print(courses_dict)
-        form = EditCoursesFlaskForm(courses=courses_dict)
 
     return render_template('main/index.html', form=form)
 
