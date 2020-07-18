@@ -22,10 +22,11 @@
     <tbody>
     {% for c in form.courses %}
         <tr>
-        {% for f in c %}
-          <td>{{ f() }}</td>
+        {% for r in c %}
+          <td>{{ r() }}</td>
         {% endfor %}
         </tr>
+
     {% endfor %}
     </tbody>
     </table>
