@@ -49,9 +49,9 @@ def index():
     # Fill in the appropriate values for monitored and auto email
     for i, c in enumerate(courses):
         # Submit values (totally separate from display values)
-        getattr(form, f'is_monitored_{i}').default = c.is_monitored
+        getattr(form, f'is_monitored_{i}').checked = c.is_monitored
         print(f'is_monitored_{i} = {c.is_monitored}')
-        getattr(form, f'auto_email_{i}').default = c.auto_email
+        getattr(form, f'auto_email_{i}').checked = c.auto_email
         print(f'auto_email_{i} = {c.auto_email}')
 
     return render_template('main/index.html', form=form)
