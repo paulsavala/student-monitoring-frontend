@@ -19,7 +19,7 @@
         </tr>
       </thead>
     <tbody>
-    {% for c in range(form.courses) %}
+    {% for c in form.courses %}
         {% set is_monitored_key = "is_monitored_%s"|format(c) %}
         {% set short_name_key = "short_name_%s"|format(c) %}
         {% set auto_email_key = "auto_email_%s"|format(c) %}
