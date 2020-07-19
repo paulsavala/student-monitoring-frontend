@@ -12,10 +12,10 @@
     <h1 class="mb-2">Courses</h1>
     <table class="table table-hover">
       <thead>
-        <tr>
-          <th scope="col" class="col-2 text-center">Monitored</th>
-          <th scope="col" class="col-7 ">Course</th>
-          <th scope="col" class="col-3 text-center">Auto Email</th>
+        <tr class="d-flex">
+          <th scope="col" class="col-lg-1 text-center">Monitored</th>
+          <th scope="col" class="col-lg-10 ">Course</th>
+          <th scope="col" class="col-lg-1 text-center">Auto Email</th>
         </tr>
       </thead>
     <tbody>
@@ -23,15 +23,17 @@
         {% set is_monitored = "is_monitored_%s"|format(i) %}
         {% set short_name = "short_name_%s"|format(i) %}
         {% set auto_email = "auto_email_%s"|format(i) %}
-        <tr>
-            <td class="col-2 text-center">{{ form[is_monitored]() }}</td>
-            <td class="col-7 ">{{ form[short_name].label }}</td>
-            <td class="col-3 text-center">{{ form[auto_email]() }}</td>
+        <tr class="d-flex">
+            <td class="col-lg-1 text-center align-middle">{{ form[is_monitored](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
+            <td class="col-lg-10 align-middle">{{ form[short_name].label }}</td>
+            <td class="col-lg-1 text-center align-middle">{{ form[auto_email](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
-    {{ form.submit_changes(class_='btn btn-primary') }} {{ form.refresh_courses(class_='btn btn-secondary') }}
+    {{ form.submit_changes(class_='btn btn-primary') }}
+    {{ form.refresh_courses(class_='btn btn-secondary') }}
+    {{ form.send_test_email(class_='btn btn-danger') }}
     </form>
 {% endif %}
 

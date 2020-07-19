@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<html lang="en"><head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,71 +7,105 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <!-- Personal CSS -->
-  	<link rel="stylesheet" type="text/css" href="app/static/style.css">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-
-    <!-- Title -->
-  </head>
+</head>
   <body>
-    <!-- Navbar -->
+
     <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore ">
         <div class="container ">
-            <a class="navbar-brand display-1" href="">Student Monitoring</a>
+            <a class="navbar-brand display-1" href="/">Student Monitoring</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarResponsive">
                 <ul class="navbar-nav ml-auto ">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary" href="/logout">Logout</a></li>
+
+                      <li class="nav-item"><a class="btn btn-outline-danger" href="/admin">Admin</a></li>
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Content -->
     <div class="container ">
-        <!-- Flashed messages code -->
+<div class="container mt-3">
 
-        <!-- App content -->
-        <div class="container">
 
-            <h1>Welcome</h1>
+    <form action="" method="post" novalidate="">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="IjgyMmM5MzBmNDMyNmIxZDliMTgwYzVhYTY5YzM2ZGQwYmM2MWZkZWIi.XxNeCQ.If2sqX6QMluk-bJSfKllXNceoFI">
+    <h1 class="mb-2">Courses</h1>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr class="d-flex">
+          <th scope="col" class="col-1 text-center">Monitored</th>
+          <th scope="col" class="col-10 ">Course</th>
+          <th scope="col" class="col-1 text-center">Auto Email</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr class="d-flex">
+            <td class="col-1 text-center ">
+                <input checked="False" id="is_monitored_0" name="is_monitored_0" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
+            </td>
+            <td class="col-10 align-middle">MATH-3320-02</td>
+            <td class="col-1 text-center">
+                <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
+            </td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-1 text-center">
+                <input checked id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
+            </td>
+            <td class="col-10 "><label for="short_name_1">MATH-3334-01</label></td>
+            <td class="col-1 text-center">
+                <input  id="auto_email_1" name="auto_email_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
+            </td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-1 text-center">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-success active btn-block">
+                        <input checked="" id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y">Yes
+                    </label>
+                </div>
+            </td>
+            <td class="col-10 "><label for="short_name_1">MATH-3320-01</label></td>
+            <td class="col-1 text-center">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-info active btn-block">
+                        <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y">Yes
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-1 text-center">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-success btn-block">
+                        <input checked="" id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y">No
+                    </label>
+                </div>
+            </td>
+            <td class="col-10 "><label for="short_name_1">MATH-4157-01</label></td>
+            <td class="col-1 text-center">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-info btn-block disabled">
+                        <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y">No
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+    <input class="btn btn-primary" id="submit_changes" name="submit_changes" type="submit" value="Submit changes"> <input class="btn btn-secondary" id="refresh_courses" name="refresh_courses" type="submit" value="Refresh courses">
+    </form>
 
-            <h2>Courses</h2>
-            <form action="" method="post">
-                <div class="table-response">
-            <table class="table table-hover">
-              <thead>
-                <tr class="d-flex">
-                  <th scope="col" class="col-2 text-center">Monitored</th>
-                  <th scope="col" class="col-7">Course</th>
-                  <th scope="col" class="col-3 text-center">Auto email</th>
-                </tr>
-              </thead>
-            <tbody>
-                <tr class="d-flex">
-                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
-                  <td class="col-7">MATH 3439</td>
-                  <td class="col-3 text-center">1</td>
-                </tr>
-                <tr class="d-flex">
-                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
-                  <td class="col-7">MATH 3320</td>
-                  <td class="col-3 text-center">1</td>
-                </tr>
-                <tr class="d-flex">
-                  <td class="col-2 text-center"><input type="checkbox" class="form-check-input" id="exampleCheck1"></td>
-                  <td class="col-7">MATH 3320</td>
-                  <td class="col-3 text-center">2</td>
-                </tr>
-            </tbody>
-            </table>
-                    </div>
-            </form>
-        </div>
+
+</div>
+
     </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -81,8 +113,47 @@
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <!-- MathJax -->
-  	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-  </body>
-</html>
+  	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js" integrity="sha384-WxkyfzCCre+H1hXpoMH2JOqSotIuNoiH5KQ4zCQxIxOSHo49PeKFlgftAkREuLTR" crossorigin="anonymous"></script>
+<script>
+moment.locale("en");
+function flask_moment_render(elem) {
+    timestamp = moment($(elem).data('timestamp'));
+    func = $(elem).data('function');
+    format = $(elem).data('format');
+    timestamp2 = $(elem).data('timestamp2');
+    no_suffix = $(elem).data('nosuffix');
+    args = [];
+    if (format)
+        args.push(format);
+    if (timestamp2)
+        args.push(moment(timestamp2));
+    if (no_suffix)
+        args.push(no_suffix);
+    $(elem).text(timestamp[func].apply(timestamp, args));
+    $(elem).removeClass('flask-moment').show();
+}
+function flask_moment_render_all() {
+    $('.flask-moment').each(function() {
+        flask_moment_render(this);
+        if ($(this).data('refresh')) {
+            (function(elem, interval) { setInterval(function() { flask_moment_render(elem) }, interval); })(this, $(this).data('refresh'));
+        }
+    })
+}
+$(document).ready(function() {
+    flask_moment_render_all();
+});
+</script>
+    <script>
+moment.locale("");
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+
+
+</body></html>

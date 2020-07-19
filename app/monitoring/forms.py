@@ -5,6 +5,7 @@ from wtforms import SubmitField, BooleanField, StringField, HiddenField
 class EditCoursesFlaskForm(FlaskForm):
     submit_changes = SubmitField('Submit changes')
     refresh_courses = SubmitField('Refresh courses')
+    test_email = SubmitField('Send test email')
 
 
 def edit_courses_flask_form_builder(course_list):

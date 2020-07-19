@@ -26,7 +26,7 @@ def index():
     if form.validate_on_submit():
         # If submit button was clicked
         if form.submit_changes.data:
-            print('Changes submitted')
+            print('Submitting changes...')
             # Grab the values from the submitted form, compare to db, determine if we need to commit to db
             commit = False
             for i, c in enumerate(courses):
