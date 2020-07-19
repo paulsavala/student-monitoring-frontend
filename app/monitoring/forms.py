@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, BooleanField, StringField, HiddenField
+from wtforms import SubmitField, BooleanField, StringField
 
 
+# Update course monitoring/auto email
 class EditCoursesFlaskForm(FlaskForm):
     submit_changes = SubmitField('Submit changes')
-    refresh_courses = SubmitField('Refresh courses')
     test_email = SubmitField('Send test email')
 
 
+# Helper function to dynamically build the form
 def edit_courses_flask_form_builder(course_list):
     class ClassesFlaskForm(EditCoursesFlaskForm):
         num_courses = len(course_list)
@@ -21,4 +22,6 @@ def edit_courses_flask_form_builder(course_list):
     return ClassesFlaskForm()
 
 
-
+# Refresh courses from LMS
+class RefreshCoursesFlaskForm(FlaskForm):
+    refresh_courses = SubmitField('Refresh courses')
