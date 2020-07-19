@@ -27,9 +27,9 @@ def index():
         print('Submitting changes...')
         # Grab the values from the submitted form, compare to db, determine if we need to commit to db
         commit = False
-        for i, c in enumerate(courses):
-            form_is_monitored = getattr(form, f'is_monitored_{i}').data
-            form_auto_email = getattr(form, f'auto_email_{i}').data
+        for c in courses:
+            form_is_monitored = getattr(form, f'is_monitored_{c.short_name}').checked
+            form_auto_email = getattr(form, f'auto_email_{c.short_name}').checked
             if form_is_monitored != c.is_monitored:
                 c.is_monitored = form_is_monitored
                 commit = True
@@ -47,12 +47,12 @@ def index():
     form.num_courses = len(courses)
 
     # Fill in the appropriate values for monitored and auto email
-    for i, c in enumerate(courses):
+    for c in courses:
         # Submit values (totally separate from display values)
-        getattr(form, f'is_monitored_{i}').checked = c.is_monitored
-        print(f'is_monitored_{i} = {c.is_monitored}')
-        getattr(form, f'auto_email_{i}').checked = c.auto_email
-        print(f'auto_email_{i} = {c.auto_email}')
+        getattr(form, f'is_monitored_{c.short_name}').checked = c.is_monitored
+        print(f'is_monitored_{c.short_name} = {c.is_monitored}')
+        getattr(form, f'auto_email_{c.short_name}').checked = c.auto_email
+        print(f'auto_email_{c.short_name} = {c.auto_email}')
 
     return render_template('main/index.html', form=form)
 

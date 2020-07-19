@@ -10,7 +10,7 @@ class EditCoursesFlaskForm(FlaskForm):
 # Helper function to dynamically build the form
 def edit_courses_flask_form_builder(course_list):
     class ClassesFlaskForm(EditCoursesFlaskForm):
-        num_courses = len(course_list)
+        courses = course_list
 
     for i, course in enumerate(course_list):
         setattr(ClassesFlaskForm, f'is_monitored_{i}', BooleanField(label='Is monitored'))
