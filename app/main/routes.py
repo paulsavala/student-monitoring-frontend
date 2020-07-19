@@ -24,34 +24,35 @@ def index():
     form = edit_courses_flask_form_builder([c.short_name for c in courses])
 
     if form.validate_on_submit():
-        # If submit button was clicked
-        if form.submit_changes.data:
-            print('Submitting changes...')
-            # Grab the values from the submitted form, compare to db, determine if we need to commit to db
-            commit = False
-            for i, c in enumerate(courses):
-                form_is_monitored = getattr(form, f'is_monitored_{i}').data
-                form_auto_email = getattr(form, f'auto_email_{i}').data
-                if form_is_monitored != c.is_monitored:
-                    c.is_monitored = form_is_monitored
-                    commit = True
-                    print(f'Changing course {c.short_name} to is_monitored={form_is_monitored}')
-                if form_auto_email != c.auto_email:
-                    c.auto_email = form_auto_email
-                    commit = True
-                    print(f'Changing course {c.short_name} to auto_email={form_auto_email}')
-            if commit:
-                print('Commiting submissions to db...')
-                db.session.commit()
-        # Get courses again (to reflect changes)
-        courses = Courses.query.filter_by(instructor_id=current_user.id).all()
-        form.num_courses = len(courses)
+        print('Submitting changes...')
+        # Grab the values from the submitted form, compare to db, determine if we need to commit to db
+        commit = False
+        for i, c in enumerate(courses):
+            form_is_monitored = getattr(form, f'is_monitored_{i}').data
+            form_auto_email = getattr(form, f'auto_email_{i}').data
+            if form_is_monitored != c.is_monitored:
+                c.is_monitored = form_is_monitored
+                commit = True
+                print(f'Changing course {c.short_name} to is_monitored={form_is_monitored}')
+            if form_auto_email != c.auto_email:
+                c.auto_email = form_auto_email
+                commit = True
+                print(f'Changing course {c.short_name} to auto_email={form_auto_email}')
+        if commit:
+            print('Commiting submissions to db...')
+            db.session.commit()
+
+    # Get courses again (to reflect changes)
+    courses = Courses.query.filter_by(instructor_id=current_user.id).all()
+    form.num_courses = len(courses)
 
     # Fill in the appropriate values for monitored and auto email
     for i, c in enumerate(courses):
         # Submit values (totally separate from display values)
         getattr(form, f'is_monitored_{i}').default = c.is_monitored
+        print(f'is_monitored_{i} = {c.is_monitored}')
         getattr(form, f'auto_email_{i}').default = c.auto_email
+        print(f'auto_email_{i} = {c.auto_email}')
 
     return render_template('main/index.html', form=form)
 
