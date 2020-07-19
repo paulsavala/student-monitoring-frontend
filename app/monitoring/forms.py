@@ -5,7 +5,6 @@ from wtforms import SubmitField, BooleanField, StringField
 # Update course monitoring/auto email
 class EditCoursesFlaskForm(FlaskForm):
     submit_changes = SubmitField('Submit changes')
-    test_email = SubmitField('Send test email')
 
 
 # Helper function to dynamically build the form

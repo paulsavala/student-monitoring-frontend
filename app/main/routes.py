@@ -144,7 +144,4 @@ def settings():
         for c in courses_to_remove:
             db.session.remove(c)
 
-        # Get courses again (to reflect changes)
-        courses = Courses.query.filter_by(instructor_id=current_user.id).all()
-        refresh_courses_form.num_courses = len(courses)
-    return render_template('main/settings.html', form=refresh_courses_form)
+    return render_template('main/settings.html', refresh_courses_form=refresh_courses_form)

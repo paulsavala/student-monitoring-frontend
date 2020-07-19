@@ -2,16 +2,17 @@
 
 {% block app_content %}
 
-<div class="container">
-
-<h1>Settings</h1>
-
-{% if form %}
-    <form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    {{ form.refresh_courses(class_='btn btn-primary') }}
-    </form>
-{% endif %}
-
-</div>
+    <div class="container">
+        <h1>Settings</h1>
+        <div class="row">
+            <div class="col-sm"><h3>Refresh courses</h3></div>
+            <div class="col"></div>
+            {% if refresh_courses_form %}
+                <form action="" method="post" novalidate>
+                    {{ refresh_courses_form.hidden_tag() }}
+                    {{ refresh_courses_form.refresh_courses(class_='btn btn-secondary') }}
+                </form>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
