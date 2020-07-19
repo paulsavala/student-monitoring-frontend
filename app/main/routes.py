@@ -99,3 +99,8 @@ def index():
 @bp.route('/about')
 def about():
     return render_template('main/about.html')
+
+
+@bp.route('/settings')
+def settings():
+    return render_template('main/settings.html')
