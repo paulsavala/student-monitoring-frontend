@@ -20,13 +20,13 @@
       </thead>
     <tbody>
     {% for i in range(form.num_courses) %}
-        {% set is_monitored = "is_monitored_%s"|format(i) %}
-        {% set short_name = "short_name_%s"|format(i) %}
-        {% set auto_email = "auto_email_%s"|format(i) %}
+        {% set is_monitored_key = "is_monitored_%s"|format(i) %}
+        {% set short_name_key = "short_name_%s"|format(i) %}
+        {% set auto_email_key = "auto_email_%s"|format(i) %}
         <tr class="d-flex">
-            <td class="col-lg-1 text-center align-middle">{{ form[is_monitored](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
-            <td class="col-lg-10 align-middle">{{ form[short_name].label }}</td>
-            <td class="col-lg-1 text-center align-middle">{{ form[auto_email](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
+            <td class="col-lg-1 text-center align-middle">{{ form[is_monitored_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
+            <td class="col-lg-10 align-middle">{{ form[short_name_key].label }}</td>
+            <td class="col-lg-1 text-center align-middle">{{ form[auto_email_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
         </tr>
     {% endfor %}
     </tbody>
