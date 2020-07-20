@@ -25,8 +25,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container " id="flash_messages">
+    <div class="container ">
         {% with messages = get_flashed_messages() %}
+            <div id="flash_messages">
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-info" role="alert">{{ message }}
@@ -36,6 +37,7 @@
             </div>
             {% endfor %}
         {% endif %}
+            </div>
         {% endwith %}
 
         {# application content needs to be provided in the app_content block #}
