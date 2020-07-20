@@ -24,7 +24,7 @@
         {% set short_name_key = "short_name_%s"|format(c) %}
         {% set auto_email_key = "auto_email_%s"|format(c) %}
         <tr class="d-flex">
-            <td class="col-lg-1 d-flex text-center align-middle">{{ form[is_monitored_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
+            <td class="col-lg-1 mt-auto mb-auto text-center align-middle">{{ form[is_monitored_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
             <td class="col-lg-9 d-flex align-middle">{{ form[short_name_key].label }}</td>
             <td class="col-lg-2 d-flex text-center align-middle">{{ form[auto_email_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
         </tr>
