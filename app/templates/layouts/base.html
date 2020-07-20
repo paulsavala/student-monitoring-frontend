@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container ">
+    <div class="container " id="flash_messages">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -46,5 +46,10 @@
 {% block scripts %}
     {{ moment.include_moment() }}
     {{ moment.lang(g.locale) }}
+    <script>
+    $(document).ready(function(){
+        $(".flash_messages").delay(5000).slideUp(300);
+    });
+        </script>
     {{ super() }}
 {% endblock %}
