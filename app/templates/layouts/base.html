@@ -10,9 +10,9 @@
             <div class="collapse navbar-collapse " id="navbarResponsive">
                 <ul class="navbar-nav mr-auto ">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.settings') }}">{{ _('Settings') }}</a></li>
-                    <li class="nav-item"><a class="nav=link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     {% if current_user.is_authenticated and current_user.is_admin %}
-                      <li class="nav-item"><a class="btn btn-outline-danger" href="/admin">{{ _('Admin') }}</a></li>
+                      <li class="nav-item"><a class="nav-link" href="/admin">{{ _('Admin') }}</a></li>
                     {% endif %}
                 </ul>
             </div>
