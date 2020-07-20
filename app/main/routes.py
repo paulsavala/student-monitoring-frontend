@@ -28,8 +28,8 @@ def index():
         # Grab the values from the submitted form, compare to db, determine if we need to commit to db
         commit = False
         for c in courses:
-            form_is_monitored = getattr(form, f'is_monitored_{c.short_name}').checked
-            form_auto_email = getattr(form, f'auto_email_{c.short_name}').checked
+            form_is_monitored = getattr(form, f'is_monitored_{c.short_name}').data
+            form_auto_email = getattr(form, f'auto_email_{c.short_name}').data
             if form_is_monitored != c.is_monitored:
                 c.is_monitored = form_is_monitored
                 commit = True
