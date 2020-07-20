@@ -16,7 +16,7 @@ from app.utils.api import resource_url
 @registration_required
 def index():
     # Get courses which are in the db
-    courses = Courses.query.filter_by(instructor_id=current_user.id).all()
+    courses = Courses.query.filter_by(instructor_id=current_user.id).order_by(Courses.short_name).all()
     # If they don't have any saved courses, just send them back
     if not courses:
         render_template('main/index.html')
