@@ -41,6 +41,7 @@ def index():
         if commit:
             print('Commiting submissions to db...')
             db.session.commit()
+        flash('Changes saved')
 
     # Get courses again (to reflect changes)
     courses = Courses.query.filter_by(instructor_id=current_user.id).all()
