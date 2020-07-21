@@ -10,6 +10,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask_babel import _
 
 import requests
+import json
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -72,7 +73,7 @@ def register():
         # Try to fetch the instructor from the LMS using the provided api token, otherwise raise an error
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
         data = {'lms_token': form.lms_token.data}
-        instructor_resp = requests.post(get_instructor_url, json=data).json()
+        instructor_resp = requests.post(get_instructor_url, json=json.dumps(data)).json()
         # Send them back if it fails
         if 'lms_id' not in instructor_resp:
             flash(_('Your API Token is incorrect, please try again'))
@@ -83,7 +84,7 @@ def register():
         data = {'lms_token': form.lms_token.data,
                 'semester': current_app.config['SEMESTER'],
                 'instructor_lms_id': instructor_resp['lms_id']}
-        courses_resp = requests.post(get_courses_url, json=data).json()
+        courses_resp = requests.post(get_courses_url, json=json.dumps(data)).json()
         # Save these courses to the db
         courses = [Courses(lms_id=c['lms_id'],
                            season=current_app.config['SEASON'],

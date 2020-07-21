@@ -2,8 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>{{ _('Register') }}</h1>
+    <div class="mt-3">
     {% if form %}
         {{ wtf.quick_form(form, button_map={"submit": "primary"}) }}
     {% endif %}
+    </div>
 {% endblock %}
