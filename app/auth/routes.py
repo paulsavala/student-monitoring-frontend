@@ -63,7 +63,7 @@ def register():
     form = RegisterFlaskForm()
     # Set the departments from the db
     # Note that this must occur before form.validate_on_submit, otherwise validation will fail for empty choices
-    departments = Departments.query.all()
+    departments = Departments.query.all(order_by=Departments.long_name)
     form.department.choices = [(row.id, row.long_name) for row in departments]
     # If they just submitted the form, then update and save their data
     if form.validate_on_submit():
