@@ -108,10 +108,8 @@ def settings():
         flash('Courses updated')
 
     if delete_account_form.validate_on_submit():
-        instructor = Instructors.query.filter_by(id=current_user.id)
-        courses = Courses.query.filter_by(instructor_id=current_user.id)
-        db.session.delete(instructor)
-        db.session.delete(courses)
+        Courses.query.filter_by(instructor_id=current_user.id).delete()
+        Instructors.query.filter_by(id=current_user.id).delete()
         db.session.commit()
         print(f'Deleting account for user {current_user.id}')
         flash('Your account has been deleted')
