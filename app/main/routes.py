@@ -1,4 +1,5 @@
 import requests
+import json
 
 from flask import render_template, current_app, flash
 from flask_login import current_user, login_required
@@ -75,7 +76,7 @@ def settings():
         data = {'lms_token': current_user.lms_token,
                 'semester': current_app.config['SEMESTER'],
                 'instructor_lms_id': current_user.lms_id}
-        courses_resp = requests.post(get_courses_url, json=data).json()
+        courses_resp = requests.post(get_courses_url, json=json.dumps(data)).json()
 
         # Check to see if they're already in the db
         db_course_lms_ids = set([str(c.lms_id) for c in local_courses])
