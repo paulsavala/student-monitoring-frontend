@@ -109,7 +109,7 @@ def settings():
 
     if delete_account_form.validate_on_submit():
         instructor = Instructors.query.filter_by(id=current_user.id)
-        courses = Courses.query.filter_by(isntructor_id=current_user.id)
+        courses = Courses.query.filter_by(instructor_id=current_user.id)
         db.session.delete(instructor)
         db.session.delete(courses)
         db.session.commit()
