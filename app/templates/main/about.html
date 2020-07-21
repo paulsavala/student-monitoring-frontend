@@ -4,7 +4,7 @@
 
 <div class="container mt-5">
 
- <div class=" d-flex p-3 justify-content-center">
+ <div class=" d-flex flex-column p-3 justify-content-center">
 
     <p class="lead align-text-middle">
         We connect with your learning management system (LMS) to automatically identify students who are struggling
@@ -14,7 +14,8 @@
     <p class="lead">
       <a href="#" class="btn btn-lg btn-primary">Get started!</a>
     </p>
-     <img src="{{ url_for('static', filename= 'example_email.png') }}" class="img-thumbnail" style="width: 300px; height: auto;" alt="Example email">
-
+    <div style="display: block;">
+     <img src="{{ url_for('static', filename= 'example_email.png') }}" class="img-thumbnail" style="width: 500px; height: auto;" alt="Example email">
+    </div>
 </div>
 {% endblock %}
