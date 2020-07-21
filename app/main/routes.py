@@ -6,8 +6,8 @@ from flask_login import current_user, login_required
 from app import db
 from app.main import bp
 from app.auth.decorators import registration_required
-from app.monitoring.forms import edit_courses_flask_form_builder, RefreshCoursesFlaskForm
-from app.models import Courses
+from app.monitoring.forms import edit_courses_flask_form_builder, RefreshCoursesFlaskForm, DeleteAccountFlaskForm
+from app.models import Courses, Instructors
 from app.utils.api import resource_url
 
 
@@ -64,6 +64,7 @@ def about():
 @bp.route('/settings', methods=['GET', 'POST'])
 def settings():
     refresh_courses_form = RefreshCoursesFlaskForm()
+    delete_account_form = DeleteAccountFlaskForm()
     if refresh_courses_form.validate_on_submit():
         # Talk to the API to get the courses from the LMs
         print('Refresh courses')
@@ -105,4 +106,14 @@ def settings():
             db.session.remove(c)
         flash('Courses updated')
 
-    return render_template('main/settings.html', refresh_courses_form=refresh_courses_form)
+    if delete_account_form.validate_on_submit():
+        instructor = Instructors.query.filter_by(id=current_user.id)
+        db.session.delete(instructor)
+        db.session.commit()
+        print(f'Deleting account for user {current_user.id}')
+        flash('Your account has been deleted')
+        return render_template('main/about.html')
+
+    return render_template('main/settings.html',
+                           refresh_courses_form=refresh_courses_form,
+                           delete_account_form=delete_account_form)

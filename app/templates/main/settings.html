@@ -2,17 +2,36 @@
 
 {% block app_content %}
 
-    <div class="container">
-        <h1>Settings</h1>
+    <div class="container mt-5">
+        <hr />
         <div class="row">
-            <div class="col-sm"><h3>Refresh courses</h3></div>
-            <div class="col"></div>
+            <div class="col-lg-9 align-middle"></div>
             {% if refresh_courses_form %}
                 <form action="" method="post" novalidate>
                     {{ refresh_courses_form.hidden_tag() }}
                     {{ refresh_courses_form.refresh_courses(class_='btn btn-secondary') }}
                 </form>
             {% endif %}
+            <div class="col-lg-3 align-middle">
+                <p>Connect to the LMS to fetch new courses. This is useful when beginning a new semester
+                and your courses have changed. Your old courses will be removed and your new courses will
+                show up.</p>
+            </div>
         </div>
+        <hr />
+        <div class="row">
+            <div class="col-lg-9 align-middle"></div>
+            {% if delete_account_form %}
+                <form action="" method="post" novalidate>
+                    {{ delete_account_form.hidden_tag() }}
+                    {{ delete_account_form.refresh_courses(class_='btn btn-danger') }}
+                </form>
+            {% endif %}
+            <div class="col-lg-3 align-middle">
+                <p>Delete your account. All your data will be deleted from the database and you
+                will no longer receive any student monitoring emails.</p>
+            </div>
+        </div>
+        <hr />
     </div>
 {% endblock %}

@@ -24,3 +24,8 @@ def edit_courses_flask_form_builder(course_list):
 # Refresh courses from LMS
 class RefreshCoursesFlaskForm(FlaskForm):
     refresh_courses = SubmitField('Refresh courses')
+
+
+# Delete account
+class DeleteAccountFlaskForm(FlaskForm):
+    delete_account = SubmitField('Delete account')
