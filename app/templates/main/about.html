@@ -11,8 +11,10 @@
         or excelling. Receive weekly emails showing who needs extra help, and who deserves a high five! One email per
         week, nothing else. No spam, no clunky apps.
     </p>
-    <p class="lead">
+     {% if not current_user.is_authenticated %}
+    <p>
       <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-primary">Get started!</a>
     </p>
+     {% endif %}
 </div>
 {% endblock %}
