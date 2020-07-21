@@ -7,102 +7,107 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Bootstrap toggle buttons -->
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-</head>
+
+
+  </head>
   <body>
 
-    <nav class="navbar navbar-light bg-light static-top navbar-expand-sm tex2jax_ignore ">
+    <nav class="navbar navbar-dark bg-dark static-top navbar-expand-sm ">
         <div class="container ">
-            <a class="navbar-brand display-1" href="/">Student Monitoring</a>
+            <a class="navbar-brand " href="/">Student Monitoring</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarResponsive">
+                <ul class="navbar-nav ">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                </ul>
                 <ul class="navbar-nav ml-auto ">
-                    <li class="nav-item"><a class="btn btn-outline-primary" href="/logout">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 
-                      <li class="nav-item"><a class="btn btn-outline-danger" href="/admin">Admin</a></li>
+                      <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
 
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container ">
-<div class="container mt-3">
 
+
+    <div class="container ">
+
+            <div id="flash_messages" style="display: none;">
+
+
+            <div class="alert alert-info" role="alert">Changes saved
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            </div>
+
+
+
+
+
+<div class="container mt-3">
+    <div class="row">
+<div class="col-6">
 
     <form action="" method="post" novalidate="">
-    <input id="csrf_token" name="csrf_token" type="hidden" value="IjgyMmM5MzBmNDMyNmIxZDliMTgwYzVhYTY5YzM2ZGQwYmM2MWZkZWIi.XxNeCQ.If2sqX6QMluk-bJSfKllXNceoFI">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="IjgyMmM5MzBmNDMyNmIxZDliMTgwYzVhYTY5YzM2ZGQwYmM2MWZkZWIi.XxXFQQ.nhHf5vofEEXQhVi06jIoIkbDVUE">
     <h1 class="mb-2">Courses</h1>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
       <thead>
         <tr class="d-flex">
-          <th scope="col" class="col-1 text-center">Monitored</th>
-          <th scope="col" class="col-10 ">Course</th>
-          <th scope="col" class="col-1 text-center">Auto Email</th>
+          <th scope="col" class="col-2 ">Monitored</th>
+          <th scope="col" class="col-10 text-center ">Course</th>
         </tr>
       </thead>
     <tbody>
+
+
+
+
         <tr class="d-flex">
-            <td class="col-1 text-center ">
-                <input id="is_monitored_0" name="is_monitored_0" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
-            </td>
-            <td class="col-10 align-middle">MATH-3320-02</td>
-            <td class="col-1 text-center">
-                <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
-            </td>
+            <td class="col-2 text-center "><div class="toggle btn btn-primary" data-toggle="toggle" role="button" style="width: 61.9844px; height: 38px;"><input checked="" data-onstyle="primary" data-toggle="toggle" id="is_monitored_MATH-3320-01" name="is_monitored_MATH-3320-01" type="checkbox" value="y"><div class="toggle-group"><label for="is_monitored_MATH-3320-01" class="btn btn-primary toggle-on">On</label><label for="is_monitored_MATH-3320-01" class="btn btn-light toggle-off">Off</label><span class="toggle-handle btn btn-light"></span></div></div></td>
+            <td class="col-10 align-middle text-center "><label for="short_name_MATH-3320-01" >MATH-3320-01</label></td>
         </tr>
+
+
+
+
         <tr class="d-flex">
-            <td class="col-1 text-center">
-                <input checked id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
-            </td>
-            <td class="col-10 "><label for="short_name_1">MATH-3334-01</label></td>
-            <td class="col-1 text-center">
-                <input  id="auto_email_1" name="auto_email_1" type="checkbox" value="y" data-toggle="toggle" data-onstyle="primary">
-            </td>
+            <td class="col-2 text-center "><div class="toggle btn btn-primary" data-toggle="toggle" role="button" style="width: 61.9844px; height: 38px;"><input checked="" data-onstyle="primary" data-toggle="toggle" id="is_monitored_MATH-3320-02" name="is_monitored_MATH-3320-02" type="checkbox" value="y"><div class="toggle-group"><label for="is_monitored_MATH-3320-02" class="btn btn-primary toggle-on">On</label><label for="is_monitored_MATH-3320-02" class="btn btn-light toggle-off">Off</label><span class="toggle-handle btn btn-light"></span></div></div></td>
+            <td class="col-10 text-center "><p><label for="short_name_MATH-3320-02">MATH-3320-02</label></p></td>
         </tr>
+
+
+
+
         <tr class="d-flex">
-            <td class="col-1 text-center">
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-success active btn-block">
-                        <input checked="" id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y">Yes
-                    </label>
-                </div>
-            </td>
-            <td class="col-10 "><label for="short_name_1">MATH-3320-01</label></td>
-            <td class="col-1 text-center">
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-info active btn-block">
-                        <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y">Yes
-                    </label>
-                </div>
-            </td>
+            <td class="col-2 text-center "><div class="toggle btn btn-primary" data-toggle="toggle" role="button" style="width: 61.9844px; height: 38px;"><input checked="" data-onstyle="primary" data-toggle="toggle" id="is_monitored_MATH-3334-01" name="is_monitored_MATH-3334-01" type="checkbox" value="y"><div class="toggle-group"><label for="is_monitored_MATH-3334-01" class="btn btn-primary toggle-on">On</label><label for="is_monitored_MATH-3334-01" class="btn btn-light toggle-off">Off</label><span class="toggle-handle btn btn-light"></span></div></div></td>
+            <td class="col-10 text-center "><p><label for="short_name_MATH-3334-01">MATH-3334-01</label></p></td>
         </tr>
-        <tr class="d-flex">
-            <td class="col-1 text-center">
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-success btn-block">
-                        <input checked="" id="is_monitored_1" name="is_monitored_1" type="checkbox" value="y">No
-                    </label>
-                </div>
-            </td>
-            <td class="col-10 "><label for="short_name_1">MATH-4157-01</label></td>
-            <td class="col-1 text-center">
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-info btn-block disabled">
-                        <input checked="" id="auto_email_1" name="auto_email_1" type="checkbox" value="y">No
-                    </label>
-                </div>
-            </td>
-        </tr>
+
+
     </tbody>
     </table>
-    <input class="btn btn-primary" id="submit_changes" name="submit_changes" type="submit" value="Submit changes"> <input class="btn btn-secondary" id="refresh_courses" name="refresh_courses" type="submit" value="Refresh courses">
+    <input class="btn btn-primary" id="submit_changes" name="submit_changes" type="submit" value="Submit changes">
     </form>
 
-
 </div>
+    <div class="col-6">
+        Other stuff
+    </div>
+</div>
+    </div>
 
     </div>
 
@@ -113,9 +118,8 @@
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!-- MathJax -->
-  	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-
+    <!-- Bootstrap toggle buttons -->
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js" integrity="sha384-WxkyfzCCre+H1hXpoMH2JOqSotIuNoiH5KQ4zCQxIxOSHo49PeKFlgftAkREuLTR" crossorigin="anonymous"></script>
 <script>
@@ -151,8 +155,12 @@ $(document).ready(function() {
     <script>
 moment.locale("");
 </script>
+    <script>
+    $(document).ready(function(){
+        $("#flash_messages").delay(5000).slideUp(300);
+    });
+        </script>
 
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
 

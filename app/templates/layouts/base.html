@@ -49,8 +49,9 @@
     {{ moment.include_moment() }}
     {{ moment.lang(g.locale) }}
     <script>
+    /* Auto-hide flash messages */
     $(document).ready(function(){
-        $("#flash_messages").delay(5000).slideUp(300);
+        $("#flash_messages").delay(4000).slideUp(1000);
     });
         </script>
     {{ super() }}
