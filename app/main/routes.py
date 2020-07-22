@@ -61,6 +61,7 @@ def index():
 def about():
     return render_template('main/about.html')
 
+
 @bp.route('/getting_started')
 def getting_started():
     return render_template('main/getting_started.html')
