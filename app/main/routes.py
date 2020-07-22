@@ -13,7 +13,6 @@ from app.utils.api import resource_url
 
 
 @bp.route('/', methods=['GET', 'POST'])
-@bp.route('/stedwards', methods=['GET', 'POST'])
 @login_required
 @registration_required
 def index():
@@ -59,6 +58,7 @@ def index():
 
 
 @bp.route('/about')
+@bp.route('/stedwards')
 def about():
     return render_template('main/about.html')
 
