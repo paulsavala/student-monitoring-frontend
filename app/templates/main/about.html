@@ -16,5 +16,11 @@
       <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-primary">Get started!</a>
     </p>
      {% endif %}
+
+    <hr />
+  <p style="width: 40%; height: auto;" class="lead">Receive a weekly email showing a snapshot of how your students
+      are doing. Instantly see students who are struggling or excelling.</p>
+ <div><img style="max-width: 60%; height: auto;" src="{{ url_for('static', filename='example_email.png') }}"></div>
+
 </div>
 {% endblock %}
