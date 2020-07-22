@@ -83,10 +83,10 @@ def settings():
                 'semester': current_app.config['SEMESTER'],
                 'instructor_lms_id': current_user.lms_id}
         courses_resp = requests.post(get_courses_url, json=json.dumps(data))
-        if courses_resp is not None:
+        try:
             courses_resp = courses_resp.json()
             lms_course_lms_ids = set([str(c['lms_id']) for c in courses_resp])
-        else:
+        except json.JSONDecodeError:
             lms_course_lms_ids = set()
 
         # Check to see if they're already in the db

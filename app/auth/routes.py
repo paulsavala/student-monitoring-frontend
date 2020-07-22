@@ -74,9 +74,9 @@ def register():
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
         data = {'lms_token': form.lms_token.data}
         instructor_resp = requests.post(get_instructor_url, json=json.dumps(data))
-        if instructor_resp is not None:
+        try:
             instructor_resp = instructor_resp.json()
-        else:
+        except json.JSONDecodeError:
             flash('Your API Token is incorrect, please double-check it and try again')
             return redirect(url_for('main.index'))
         # Send them back if it fails
@@ -90,7 +90,7 @@ def register():
                 'semester': current_app.config['SEMESTER'],
                 'instructor_lms_id': instructor_resp['lms_id']}
         courses_resp = requests.post(get_courses_url, json=json.dumps(data))
-        if courses_resp is not None:
+        try:
             courses_resp = courses_resp.json()
 
             # Save these courses to the db
@@ -105,6 +105,8 @@ def register():
             for course in courses:
                 print(f'Adding {len(courses)} courses to db for instructor {current_user.id}')
                 db.session.add(course)
+        except json.JSONDecodeError:
+            pass
 
         # Finish filling in remaining info in db on instructor
         instructor.lms_id = instructor_resp['lms_id']
