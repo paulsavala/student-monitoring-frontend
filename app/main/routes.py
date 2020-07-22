@@ -72,7 +72,7 @@ def getting_started():
 def settings():
     refresh_courses_form = RefreshCoursesFlaskForm()
     delete_account_form = DeleteAccountFlaskForm()
-    if refresh_courses_form.validate_on_submit():
+    if refresh_courses_form.validate_on_submit() and refresh_courses_form.refresh_courses.data:
         # Talk to the API to get the courses from the LMs
         print('Refresh courses')
         # Get courses from the db
@@ -113,7 +113,7 @@ def settings():
             db.session.remove(c)
         flash('Courses updated')
 
-    if delete_account_form.validate_on_submit():
+    if delete_account_form.validate_on_submit() and delete_account_form.delete_account.data:
         Courses.query.filter_by(instructor_id=current_user.id).delete()
         Instructors.query.filter_by(id=current_user.id).delete()
         db.session.commit()
