@@ -82,11 +82,15 @@ def settings():
         data = {'lms_token': current_user.lms_token,
                 'semester': current_app.config['SEMESTER'],
                 'instructor_lms_id': current_user.lms_id}
-        courses_resp = requests.post(get_courses_url, json=json.dumps(data)).json()
+        courses_resp = requests.post(get_courses_url, json=json.dumps(data))
+        if courses_resp is not None:
+            courses_resp = courses_resp.json()
+            lms_course_lms_ids = set([str(c['lms_id']) for c in courses_resp])
+        else:
+            lms_course_lms_ids = set()
 
         # Check to see if they're already in the db
         db_course_lms_ids = set([str(c.lms_id) for c in local_courses])
-        lms_course_lms_ids = set([str(c['lms_id']) for c in courses_resp])
 
         new_course_ids = lms_course_lms_ids - db_course_lms_ids
         new_courses = [c for c in courses_resp if c['lms_id'] in new_course_ids]
