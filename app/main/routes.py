@@ -13,6 +13,7 @@ from app.utils.api import resource_url
 
 
 @bp.route('/', methods=['GET', 'POST'])
+@bp.route('/stedwards', methods=['GET', 'POST'])
 @login_required
 @registration_required
 def index():
