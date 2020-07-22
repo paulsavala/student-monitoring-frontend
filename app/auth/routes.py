@@ -22,7 +22,7 @@ def login():
 @bp.route('/login/callback')
 def callback():
     callback_result = process_google_login_callback()
-    if callback is None:
+    if callback_result is None:
         flash(_('Verify your Google email address before proceeding'))
         return redirect(url_for('main.about'))
 
@@ -69,6 +69,8 @@ def register():
     if form.validate_on_submit():
         # Fill in remaining data and save to db
         instructor = Instructors.query.filter_by(email=current_user.email).one()
+        if instructor.is_registered:
+            return redirect(url_for('main.index'))
 
         # Try to fetch the instructor from the LMS using the provided api token, otherwise raise an error
         get_instructor_url = resource_url(current_app.config['API_URL'], 'get_instructor')
