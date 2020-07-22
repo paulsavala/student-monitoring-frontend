@@ -9,7 +9,7 @@
         </p>
 
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
+            <ol class="carousel-indicators " style="margin-bottom: -50px;">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -19,24 +19,24 @@
                 <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
             </ol>
-            <div class="carousel-inner text-center">
+            <div class="carousel-inner text-center mb-50">
                 <div class="carousel-item active">
                     <img class="d-block w-100" src="{{ url_for('static', filename='canvas_landing.png') }}" alt="First slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Login to Canvas</h5>
                         <p>Start by logging into Canvas</p>
                     </div>
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='canvas_account.png') }}" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Go to Account settings</h5>
                         <p>Click on "Account" in the top-left corner, then click "Settings"</p>
                     </div>
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='canvas_api.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Approved integrations</h5>
                         <p>Scroll down until you see "Approved Integrations", then click "New Access Token"</p>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="carousel-item text-center">
 
                     <img class="d-block w-100" src="{{ url_for('static', filename='canvas_gen_token.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Generate an access token</h5>
                         <p>For "Purpose" type "Student monitoring" (or whatever name you would like to
                             give it, the name is just for your reference). Leave "Expires" blank.</p>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='canvas_token.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Copy the token</h5>
                         <p>Copy the value show in "Token". This is the "API Key" you will be asked for
                             when registering with Student Monitoring.</p>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='app_landing.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Register with Student Monitoring</h5>
                         <p>Now you're ready to get registered. Click on "Login/Register" in the top-right corner of this page. Or,
                             click on <a href="{{ url_for('auth.login') }}">this link.</a></p>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='app_google.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Login with your @stedwards.edu account</h5>
                         <p>You will be redirected to login using Google. Just click on your
                             St. Edward's email address.</p>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="carousel-item text-center">
                     <img class="d-block w-100" src="{{ url_for('static', filename='app_register.png') }}" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block text-dark">
                         <h5>Complete your registration</h5>
                         <p>Type in your name and select your department. Then, in the "API Token" field,
                             paste the "Access Token" you just copied from Canvas. Click "Register" and you're done!</p>
