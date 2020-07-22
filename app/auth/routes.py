@@ -78,7 +78,7 @@ def register():
             instructor_resp = instructor_resp.json()
         except json.JSONDecodeError:
             flash('Your API Token is incorrect, please double-check it and try again')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('auth.register'))
         # Send them back if it fails
         if 'lms_id' not in instructor_resp:
             flash(_('Your API Token is incorrect, please double-check it and try again'))
