@@ -43,13 +43,14 @@ def create_app():
         ],
         'style-src': ['stackpath.bootstrapcdn.com',
                       'cdn.jsdelivr.net',
-                      'use.fontawesome.com'
+                      'student-monitoring-frontend.herokuapp.com'
                       ],
         'script-src': ['code.jquery.com',
                        'cdnjs.cloudflare.com',
                        'stackpath.bootstrapcdn.com',
                        'cdn.jsdelivr.net'
-                       ]
+                       ],
+        'font-src': ['use.fontawesome.com']
     }
     talisman.init_app(app, content_security_policy=csp)
 
