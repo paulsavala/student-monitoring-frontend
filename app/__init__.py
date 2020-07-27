@@ -45,13 +45,14 @@ def create_app():
     # Talisman CSP settings
     csp = {
         'default-src': [
-            '\'self\'',
-            'code.jquery.com',
-            'cdnjs.cloudflare.com',
-            'stackpath.bootstrapcdn.com',
-            'cdn.jsdelivr.net',
-            'use.fontawesome.com'
-        ]
+            '\'self\''
+        ],
+        'script-src': ['code.jquery.com',
+                       'cdnjs.cloudflare.com',
+                       'stackpath.bootstrapcdn.com',
+                       'cdn.jsdelivr.net',
+                       'use.fontawesome.com'
+                       ]
     }
     talisman.init_app(app, content_security_policy=csp)
 
