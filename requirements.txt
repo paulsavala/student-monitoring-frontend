@@ -14,9 +14,6 @@ click==7.1.2
 colorama==0.4.3
 coverage==5.1
 cryptography==2.9.2
-docker==4.2.1
-docker-compose==1.25.5
-dockerpty==0.4.1
 docopt==0.6.2
 docutils==0.15.2
 dominate==2.5.1

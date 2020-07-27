@@ -41,7 +41,19 @@ def create_app():
     moment.init_app(app)
     babel.init_app(app)
     admin.init_app(app)
-    talisman.init_app(app)
+
+    # Talisman CSP settings
+    csp = {
+        'default-src': [
+            '\'self\'',
+            'code.jquery.com',
+            'cdnjs.cloudflare.com',
+            'stackpath.bootstrapcdn.com',
+            'cdn.jsdelivr.net',
+            'use.fontawesome.com'
+        ]
+    }
+    talisman.init_app(app, content_security_policy=csp)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
