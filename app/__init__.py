@@ -43,7 +43,8 @@ def create_app():
         ],
         'style-src': ['stackpath.bootstrapcdn.com',
                       'cdn.jsdelivr.net',
-                      'student-monitoring-frontend.herokuapp.com'
+                      'student-monitoring-frontend.herokuapp.com',
+                      'use.fontawesome.com'
                       ],
         'script-src': ['code.jquery.com',
                        'cdnjs.cloudflare.com',
