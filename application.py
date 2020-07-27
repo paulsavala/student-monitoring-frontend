@@ -11,7 +11,6 @@ def make_shell_context():
             'CollegeOf': CollegeOf,
             'Department': Departments,
             'Course': Courses,
-            'CourseInstance': CourseInstances,
             'Instructor': Instructors}
 
 

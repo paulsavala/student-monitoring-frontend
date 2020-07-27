@@ -10,8 +10,6 @@ from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
-from flask_moment import Moment
-from flask_babel import Babel, lazy_gettext as _l
 from flask_talisman import Talisman
 from config import StEdwardsConfig as config_class
 
@@ -21,8 +19,6 @@ login = LoginManager()
 login.login_view = 'main.about'
 mail = Mail()
 bootstrap = Bootstrap()
-moment = Moment()
-babel = Babel()
 admin = Admin()
 talisman = Talisman()
 
@@ -38,8 +34,6 @@ def create_app():
     login.init_app(app)
     mail.init_app(app)
     bootstrap.init_app(app)
-    moment.init_app(app)
-    babel.init_app(app)
     admin.init_app(app)
 
     # Talisman CSP settings
@@ -47,11 +41,14 @@ def create_app():
         'default-src': [
             '\'self\''
         ],
+        'style-src': ['stackpath.bootstrapcdn.com',
+                      'cdn.jsdelivr.net',
+                      'use.fontawesome.com'
+                      ],
         'script-src': ['code.jquery.com',
                        'cdnjs.cloudflare.com',
                        'stackpath.bootstrapcdn.com',
-                       'cdn.jsdelivr.net',
-                       'use.fontawesome.com'
+                       'cdn.jsdelivr.net'
                        ]
     }
     talisman.init_app(app, content_security_policy=csp)
@@ -104,11 +101,6 @@ def create_app():
     print('app created')
 
     return app
-
-
-@babel.localeselector
-def get_locale():
-    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
 
 # Flask-Admin setup

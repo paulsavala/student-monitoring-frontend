@@ -7,7 +7,6 @@ from app.utils.api import resource_url
 
 from flask import render_template, redirect, flash, url_for, current_app
 from flask_login import login_required, login_user, logout_user, current_user
-from flask_babel import _
 
 import requests
 import json
@@ -23,7 +22,7 @@ def login():
 def callback():
     callback_result = process_google_login_callback()
     if callback_result is None:
-        flash(_('Verify your Google email address before proceeding'))
+        flash('Verify your Google email address before proceeding')
         return redirect(url_for('main.about'))
 
     email = callback_result['email']
@@ -83,7 +82,7 @@ def register():
             return redirect(url_for('auth.register'))
         # Send them back if it fails
         if 'lms_id' not in instructor_resp:
-            flash(_('Your API Token is incorrect, please double-check it and try again'))
+            flash('Your API Token is incorrect, please double-check it and try again')
             return redirect(url_for('auth.register'))
 
         # Get all current courses from LMS
