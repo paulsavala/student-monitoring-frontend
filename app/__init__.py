@@ -41,7 +41,7 @@ def create_app():
     moment.init_app(app)
     babel.init_app(app)
     admin.init_app(app)
-    # talisman.init_app(app)
+    talisman.init_app(app)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)

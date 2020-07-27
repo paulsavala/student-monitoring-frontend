@@ -4,7 +4,6 @@
 
 <div class="container mt-5">
 <h1 class="display-3 mt-3 mb-3">Student grade monitoring</h1>
- <div class=" d-flex flex-column justify-content-center">
 
     <p class="lead align-text-middle">
         We connect with your learning management system (LMS) to automatically identify students who are struggling
@@ -18,9 +17,32 @@
      {% endif %}
 
     <hr />
-  <p style="width: 40%; height: auto;" class="lead">Receive a weekly email showing a snapshot of how your students
-      are doing. Instantly see students who are struggling or excelling.</p>
- <img style="max-width: 60%; height: auto;" src="{{ url_for('static', filename='example_email.png') }}"></div>
+    <div class="row align-items-center">
+        <div class="col-5">
+            <p class="lead">Receive a weekly email showing a snapshot of how your students
+                are doing. Instantly see students who are struggling or excelling.</p>
+        </div>
+        <div class="col-7">
+            <img style="max-width: 100%; height: auto;" src="{{ url_for('static', filename='example_email.png') }}"></div>
+    </div>
+    <hr />
+    <div class="row align-items-center">
+        <div class="col-5">
+            <p class="lead">Choose exactly which courses you do and do not want monitored.
+                It's as simple as a click.</p>
+        </div>
+        <div class="col-7">
+            <img style="max-width: 100%; height: auto;" src="{{ url_for('static', filename='example_email.png') }}"></div>
+    </div>
+    <hr />
+    <div class="row align-items-center">
+        <div class="col-5">
+            <p class="lead">Delete your account at any time with just one click. No need
+            to unsubscribe, no need to contact support.</p>
+        </div>
+        <div class="col-7">
+            <img style="max-width: 100%; height: auto;" src="{{ url_for('static', filename='example_delete.png') }}"></div>
+    </div>
 
 </div>
 {% endblock %}
