@@ -1,6 +1,6 @@
 .img-about {
-    max-width: 100%;
+    max-width: 60%;
     height: auto;
     padding: 2px;
-    border: solid 1px #3b3b3b;
+    border: solid 2px #3b3b3b;
 }
