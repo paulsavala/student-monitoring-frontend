@@ -129,7 +129,7 @@ def settings():
 
     if color_blind_form.validate_on_submit() and color_blind_form.color_blind_mode.data:
         current_instructor = Instructors.query.filter_by(id=current_user.id).one()
-        current_instructor.color_blind_mode = ~current_instructor.color_blind_mode
+        current_instructor.color_blind_mode = not bool(current_instructor.color_blind_mode)
         db.session.commit()
 
     if current_user.color_blind_mode:
