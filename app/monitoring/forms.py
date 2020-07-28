@@ -34,4 +34,4 @@ class DeleteAccountFlaskForm(FlaskForm):
 
 # Color blind mode
 class ColorBlindModeFlaskForm(FlaskForm):
-    color_blind_mode = SubmitField(label='Color blind mode')
+    color_blind_mode = SubmitField(label='Color blind mode', )

@@ -25,7 +25,7 @@
         <tr class="d-flex">
             <td class="col-lg-2 text-center ">{{ form[is_monitored_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
             <td class="col-lg-5 text-center "><p>{{ form[short_name_key].label }}</p></td>
-            <td class="col-lg-5 text-center "><p>{{ form[alias_key].label }}</p></td>
+            <td class="col-lg-5 text-center ">{{ form[alias_key] }}</td>
          </tr>
     {% endfor %}
     </tbody>
