@@ -12,6 +12,7 @@ class Instructors(db.Model, UserMixin):
     lms_token = db.Column(db.String(256), index=True, unique=True)
     is_admin = db.Column(db.Boolean, index=True, default=False)
     is_registered = db.Column(db.Boolean, default=False)
+    color_blind_mode = db.Column(db.Boolean, default=False)
 
     # Parents
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))

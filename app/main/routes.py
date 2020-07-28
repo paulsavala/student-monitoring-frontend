@@ -7,7 +7,8 @@ from flask_login import current_user, login_required
 from app import db
 from app.main import bp
 from app.auth.decorators import registration_required
-from app.monitoring.forms import edit_courses_flask_form_builder, RefreshCoursesFlaskForm, DeleteAccountFlaskForm
+from app.monitoring.forms import edit_courses_flask_form_builder, RefreshCoursesFlaskForm, DeleteAccountFlaskForm, \
+    ColorBlindModeFlaskForm
 from app.models import Courses, Instructors
 from app.utils.api import resource_url
 
@@ -72,6 +73,7 @@ def getting_started():
 def settings():
     refresh_courses_form = RefreshCoursesFlaskForm()
     delete_account_form = DeleteAccountFlaskForm()
+    color_blind_form = ColorBlindModeFlaskForm()
     if refresh_courses_form.validate_on_submit() and refresh_courses_form.refresh_courses.data:
         # Talk to the API to get the courses from the LMs
         print('Refresh courses')
@@ -125,6 +127,16 @@ def settings():
         flash('Your account has been deleted')
         return render_template('main/about.html')
 
+    if color_blind_form.validate_on_submit() and color_blind_form.color_blind_mode.data:
+        current_user.color_blind_mode = ~current_user.color_blind_mode
+
+    if current_user.color_blind_mode:
+        label = 'On'
+    else:
+        label = 'Off'
+    color_blind_form.color_blind_mode.label = label
+
     return render_template('main/settings.html',
                            refresh_courses_form=refresh_courses_form,
-                           delete_account_form=delete_account_form)
+                           delete_account_form=delete_account_form,
+                           color_blind_form=color_blind_form)

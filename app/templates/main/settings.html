@@ -22,6 +22,24 @@
         <hr />
         <div class="row">
             <div class="col-3 align-middle">
+            {% if color_blind_form %}
+                <form action="" method="post" novalidate>
+                    {{ color_blind_form.hidden_tag() }}
+                    {% if current_user.color_blind_mode %}
+                        {{ color_blind_form.color_blind_mode(class_='btn btn-primary') }}
+                    {% else %}
+                        {{ color_blind_form.color_blind_mode(class_='btn btn-outline-primary') }}
+                    {% endif %}
+                </form>
+            {% endif %}
+            </div>
+            <div class="col-9 align-middle">
+                <p>Replace red and green text in email with blue and yellow. Useful for red-green color blind users.</p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-3 align-middle">
             {% if delete_account_form %}
                 <form action="" method="post" novalidate>
                     {{ delete_account_form.hidden_tag() }}
