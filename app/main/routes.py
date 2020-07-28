@@ -128,12 +128,14 @@ def settings():
         return render_template('main/about.html')
 
     if color_blind_form.validate_on_submit() and color_blind_form.color_blind_mode.data:
-        current_user.color_blind_mode = ~current_user.color_blind_mode
+        current_instructor = Instructors.query.filter_by(id=current_user.id)
+        current_instructor.color_blind_mode = ~current_instructor.color_blind_mode
+        db.session.commit()
 
     if current_user.color_blind_mode:
-        label = 'On'
+        label = 'Color blind: On'
     else:
-        label = 'Off'
+        label = 'Color blind: Off'
     color_blind_form.color_blind_mode.label.text = label
 
     return render_template('main/settings.html',
