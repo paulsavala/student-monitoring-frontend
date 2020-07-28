@@ -130,11 +130,11 @@ def settings():
     if color_blind_form.validate_on_submit() and color_blind_form.color_blind_mode.data:
         current_user.color_blind_mode = ~current_user.color_blind_mode
 
-    # if current_user.color_blind_mode:
-    #     label = 'On'
-    # else:
-    #     label = 'Off'
-    # color_blind_form.color_blind_mode.label = label
+    if current_user.color_blind_mode:
+        label = 'On'
+    else:
+        label = 'Off'
+    color_blind_form.color_blind_mode.label.text = label
 
     return render_template('main/settings.html',
                            refresh_courses_form=refresh_courses_form,
