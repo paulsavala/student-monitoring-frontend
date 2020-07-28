@@ -1,5 +1,5 @@
-.img-about {
-    max-width: 60%;
+img.img-about {
+    max-width: 100%;
     height: auto;
     padding: 2px;
     border: solid 2px #3b3b3b;
