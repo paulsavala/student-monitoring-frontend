@@ -13,16 +13,19 @@
       <thead>
         <tr class="d-flex">
           <th scope="col" class="col-lg-2 text-center">Monitored</th>
-          <th scope="col" class="col-lg-10 text-center">Course</th>
+          <th scope="col" class="col-lg-5 text-center">Course</th>
+          <th scope="col" class="col-lg-5 text-center">Alias</th>
         </tr>
       </thead>
     <tbody>
     {% for c in form.courses %}
         {% set is_monitored_key = "is_monitored_%s"|format(c) %}
         {% set short_name_key = "short_name_%s"|format(c) %}
+        {% set alias_key = "alias_%s"|format(c) %}
         <tr class="d-flex">
             <td class="col-lg-2 text-center ">{{ form[is_monitored_key](**{'data-toggle': 'toggle', 'data-onstyle': 'primary'}) }}</td>
-            <td class="col-lg-10 text-center "><p>{{ form[short_name_key].label }}</p></td>
+            <td class="col-lg-5 text-center "><p>{{ form[short_name_key].label }}</p></td>
+            <td class="col-lg-5 text-center "><p>{{ form[alias_key].label }}</p></td>
          </tr>
     {% endfor %}
     </tbody>

@@ -32,6 +32,7 @@ def index():
         for c in courses:
             form_is_monitored = getattr(form, f'is_monitored_{c.short_name}').data
             form_auto_email = getattr(form, f'auto_email_{c.short_name}').data
+            form_alias = getattr(form, f'alias_{c.short_name}').data
             if form_is_monitored != c.is_monitored:
                 c.is_monitored = form_is_monitored
                 commit = True
@@ -40,6 +41,10 @@ def index():
                 c.auto_email = form_auto_email
                 commit = True
                 print(f'Changing course {c.short_name} to auto_email={form_auto_email}')
+            if form_alias != c.alias:
+                c.alias = form_alias
+                commit = True
+                print(f'Changing course {c.short_name} to auto_email={form_alias}')
         if commit:
             print('Commiting submissions to db...')
             db.session.commit()

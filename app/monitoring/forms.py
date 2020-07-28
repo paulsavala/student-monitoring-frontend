@@ -16,6 +16,7 @@ def edit_courses_flask_form_builder(course_list):
         setattr(ClassesFlaskForm, f'is_monitored_{c}', BooleanField(label='Is monitored'))
         setattr(ClassesFlaskForm, f'short_name_{c}', StringField(label=c,
                                                                  render_kw={'readonly': True}))
+        setattr(ClassesFlaskForm, f'alias_{c}', StringField(label='Alias'))
         setattr(ClassesFlaskForm, f'auto_email_{c}', BooleanField(label='Auto email'))
 
     return ClassesFlaskForm()

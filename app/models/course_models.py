@@ -11,6 +11,7 @@ class Courses(db.Model):
     long_name = db.Column(db.String(256))
     is_monitored = db.Column(db.Boolean, default=False)
     auto_email = db.Column(db.Boolean, default=False)
+    alias = db.Column(db.String(128))
 
     # Parents
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
