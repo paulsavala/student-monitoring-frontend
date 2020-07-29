@@ -59,6 +59,7 @@ def index():
         # Submit values (totally separate from display values)
         getattr(form, f'is_monitored_{c.short_name}').checked = c.is_monitored
         getattr(form, f'auto_email_{c.short_name}').checked = c.auto_email
+        getattr(form, f'alias_{c.short_name}').data = c.alias
 
     return render_template('main/index.html', form=form)
 
