@@ -42,6 +42,8 @@ def index():
                 commit = True
                 print(f'Changing course {c.short_name} to auto_email={form_auto_email}')
             if form_alias != c.alias:
+                if form_alias.strip() == '':
+                    form_alias = None
                 c.alias = form_alias
                 commit = True
                 print(f'Changing course {c.short_name} to auto_email={form_alias}')
