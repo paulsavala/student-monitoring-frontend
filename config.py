@@ -27,6 +27,12 @@ class StEdwardsConfig(GenericConfig):
     # URL for the LMS
     API_URL = 'https://student-monitoring-lms-api.herokuapp.com/v1.0'
 
-    SEASON = 'Spring'
+    SEASON = 'Fall'
     YEAR = 2020
     SEMESTER = f'{SEASON} {YEAR}'
+
+
+class StEdwardsTestConfig(StEdwardsConfig):
+    TESTING = True
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://' + os.path.join(basedir, 'app.db')
