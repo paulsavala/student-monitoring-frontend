@@ -19,8 +19,7 @@ docutils==0.15.2
 dominate==2.5.1
 fabric==2.5.0
 Flask==1.1.2
-Flask-Admin==1.5.6
-Flask-Babel==1.0.0
+Flask-Admin==1.5.3
 Flask-Bootstrap==3.3.7.1
 Flask-Login==0.5.0
 Flask-Mail==0.9.1
